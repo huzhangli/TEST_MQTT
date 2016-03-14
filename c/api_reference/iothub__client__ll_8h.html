@@ -24,7 +24,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Microsoft Azure IoT Device SDK for C
-   &#160;<span id="projectnumber">1.0.1</span>
+   &#160;<span id="projectnumber">1.0.2</span>
    </div>
    <div id="projectbrief">The Microsoft Azure IoT device libraries for C contain code that facilitates building devices and applications that connect to and are managed by Azure IoT Hub services.</div>
   </td>
@@ -109,6 +109,9 @@ Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_i_o_t_h_u_b___c_l_i_e_n_t___c_o_n_f_i_g___t_a_g.html">IOTHUB_CLIENT_CONFIG_TAG</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct captures IoTHub client configuration.  <a href="struct_i_o_t_h_u_b___c_l_i_e_n_t___c_o_n_f_i_g___t_a_g.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_i_o_t_h_u_b___c_l_i_e_n_t___d_e_v_i_c_e___c_o_n_f_i_g___t_a_g.html">IOTHUB_CLIENT_DEVICE_CONFIG_TAG</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct captures IoTHub client device configuration.  <a href="struct_i_o_t_h_u_b___c_l_i_e_n_t___d_e_v_i_c_e___c_o_n_f_i_g___t_a_g.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -116,6 +119,10 @@ Typedefs</h2></td></tr>
 typedef struct <a class="el" href="struct_i_o_t_h_u_b___c_l_i_e_n_t___c_o_n_f_i_g___t_a_g.html">IOTHUB_CLIENT_CONFIG_TAG</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iothub__client__ll_8h.html#ac14a59dcc227623976d044d1805b5e22">IOTHUB_CLIENT_CONFIG</a></td></tr>
 <tr class="memdesc:ac14a59dcc227623976d044d1805b5e22"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct captures IoTHub client configuration. <br /></td></tr>
 <tr class="separator:ac14a59dcc227623976d044d1805b5e22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9b304ecf293102cb855bee1b8d2cdf7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab9b304ecf293102cb855bee1b8d2cdf7"></a>
+typedef struct <a class="el" href="struct_i_o_t_h_u_b___c_l_i_e_n_t___d_e_v_i_c_e___c_o_n_f_i_g___t_a_g.html">IOTHUB_CLIENT_DEVICE_CONFIG_TAG</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iothub__client__ll_8h.html#ab9b304ecf293102cb855bee1b8d2cdf7">IOTHUB_CLIENT_DEVICE_CONFIG</a></td></tr>
+<tr class="memdesc:ab9b304ecf293102cb855bee1b8d2cdf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct captures IoTHub client device configuration. <br /></td></tr>
+<tr class="separator:ab9b304ecf293102cb855bee1b8d2cdf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -141,6 +148,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ad236a781c7fb988216b98be099125447"><td class="memItemLeft" align="right" valign="top">IOTHUB_CLIENT_LL_HANDLE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iothub__client__ll_8h.html#ad236a781c7fb988216b98be099125447">IoTHubClient_LL_Create</a> (const <a class="el" href="iothub__client__ll_8h.html#ac14a59dcc227623976d044d1805b5e22">IOTHUB_CLIENT_CONFIG</a> *config)</td></tr>
 <tr class="memdesc:ad236a781c7fb988216b98be099125447"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a IoT Hub client for communication with an existing IoT Hub using the specified parameters.  <a href="#ad236a781c7fb988216b98be099125447">More...</a><br /></td></tr>
 <tr class="separator:ad236a781c7fb988216b98be099125447"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f2ea7dfbb5eeb2510e39a43c92fe61e"><td class="memItemLeft" align="right" valign="top">IOTHUB_CLIENT_LL_HANDLE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iothub__client__ll_8h.html#a5f2ea7dfbb5eeb2510e39a43c92fe61e">IoTHubClient_LL_CreateWithTransport</a> (const <a class="el" href="iothub__client__ll_8h.html#ab9b304ecf293102cb855bee1b8d2cdf7">IOTHUB_CLIENT_DEVICE_CONFIG</a> *config)</td></tr>
+<tr class="memdesc:a5f2ea7dfbb5eeb2510e39a43c92fe61e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a IoT Hub client for communication with an existing IoT Hub using an existing transport.  <a href="#a5f2ea7dfbb5eeb2510e39a43c92fe61e">More...</a><br /></td></tr>
+<tr class="separator:a5f2ea7dfbb5eeb2510e39a43c92fe61e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc3049dc24e311713ab4735873989a4a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iothub__client__ll_8h.html#afc3049dc24e311713ab4735873989a4a">IoTHubClient_LL_Destroy</a> (IOTHUB_CLIENT_LL_HANDLE iotHubClientHandle)</td></tr>
 <tr class="memdesc:afc3049dc24e311713ab4735873989a4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disposes of resources allocated by the IoT Hub client. This is a blocking call.  <a href="#afc3049dc24e311713ab4735873989a4a">More...</a><br /></td></tr>
 <tr class="separator:afc3049dc24e311713ab4735873989a4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -228,6 +238,32 @@ Functions</h2></td></tr>
 </dl>
 <p>Sample connection string: </p><blockquote class="doxtable">
 <pre>HostName=[IoT Hub name goes here].[IoT Hub suffix goes here, e.g., private.azure-devices-int.net];DeviceId=[Device ID goes here];SharedAccessKey=[Device key goes here];</pre> </blockquote>
+<dl class="section return"><dt>Returns</dt><dd>A non-NULL <code>IOTHUB_CLIENT_LL_HANDLE</code> value that is used when invoking other functions for IoT Hub client and <code>NULL</code> on failure. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a5f2ea7dfbb5eeb2510e39a43c92fe61e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IOTHUB_CLIENT_LL_HANDLE IoTHubClient_LL_CreateWithTransport </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="iothub__client__ll_8h.html#ab9b304ecf293102cb855bee1b8d2cdf7">IOTHUB_CLIENT_DEVICE_CONFIG</a> *&#160;</td>
+          <td class="paramname"><em>config</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a IoT Hub client for communication with an existing IoT Hub using an existing transport. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">config</td><td>Pointer to an <code>IOTHUB_CLIENT_DEVICE_CONFIG</code> structure</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>The API *allows* sharing of a connection across multiple devices. This is a blocking call.</p>
 <dl class="section return"><dt>Returns</dt><dd>A non-NULL <code>IOTHUB_CLIENT_LL_HANDLE</code> value that is used when invoking other functions for IoT Hub client and <code>NULL</code> on failure. </dd></dl>
 
 </div>
@@ -493,7 +529,11 @@ Functions</h2></td></tr>
 <li><b>CURLOPT_LOW_SPEED_TIME</b> - only available for HTTP protocol and only when CURL is used. It has the same meaning as CURL's option with the same name. <code>value</code> is pointer to a long.</li>
 <li><b>CURLOPT_FORBID_REUSE</b> - only available for HTTP protocol and only when CURL is used. It has the same meaning as CURL's option with the same name. <code>value</code> is pointer to a long.</li>
 <li><b>CURLOPT_FRESH_CONNECT</b> - only available for HTTP protocol and only when CURL is used. It has the same meaning as CURL's option with the same name. <code>value</code> is pointer to a long.</li>
-<li><b>CURLOPT_VERBOSE</b> - only available for HTTP protocol and only when CURL is used. It has the same meaning as CURL's option with the same name. <code>value</code> is pointer to a long.</li>
+<li><b>CURLOPT_VERBOSE</b> - only available for HTTP protocol and only when CURL is used. It has the same meaning as CURL's option with the same name. <code>value</code> is pointer to a long.<ul>
+<li><b>keepalive</b> - available for MQTT protocol. Integer value that sets the interval in seconds when pings are sent to the server.</li>
+<li><b>logtrace</b> - available for MQTT protocol. Boolean value that turns on and off the diagnostic logging.</li>
+</ul>
+</li>
 </ul>
 <dl class="section return"><dt>Returns</dt><dd>IOTHUB_CLIENT_OK upon success or an error code upon failure. </dd></dl>
 
