@@ -9,6 +9,7 @@ var searchData=
   ['iothub_5fmessage_2eh',['iothub_message.h',['../iothub__message_8h.html',1,'']]],
   ['iothubclient_5fcreate',['IoTHubClient_Create',['../iothub__client_8h.html#a7e4253f4df8cdef79cbe44d33c73547d',1,'iothub_client.h']]],
   ['iothubclient_5fcreatefromconnectionstring',['IoTHubClient_CreateFromConnectionString',['../iothub__client_8h.html#a190e08e1201046fda675517070d63e83',1,'iothub_client.h']]],
+  ['iothubclient_5fcreatewithtransport',['IoTHubClient_CreateWithTransport',['../iothub__client_8h.html#a2eb95b5592c8c1c5e1fed5cef60ba0ff',1,'iothub_client.h']]],
   ['iothubclient_5fdestroy',['IoTHubClient_Destroy',['../iothub__client_8h.html#a47fce212d1c5026e02ccd670242e1d83',1,'iothub_client.h']]],
   ['iothubclient_5fgetlastmessagereceivetime',['IoTHubClient_GetLastMessageReceiveTime',['../iothub__client_8h.html#a4484e3db3c295c66d379b44fc53cfd79',1,'iothub_client.h']]],
   ['iothubclient_5fgetsendstatus',['IoTHubClient_GetSendStatus',['../iothub__client_8h.html#a692ed29a02e5842a60db1b3c0ce1b186',1,'iothub_client.h']]],
@@ -38,5 +39,7 @@ var searchData=
   ['iothubmessage_5fsetcorrelationid',['IoTHubMessage_SetCorrelationId',['../iothub__message_8h.html#afcc4a3e4e8ac287b0a9a3850c5a72248',1,'iothub_message.h']]],
   ['iothubmessage_5fsetmessageid',['IoTHubMessage_SetMessageId',['../iothub__message_8h.html#a3d5f3d8a6da59b259f170de613c61cc0',1,'iothub_message.h']]],
   ['iothubname',['iotHubName',['../struct_i_o_t_h_u_b___c_l_i_e_n_t___c_o_n_f_i_g___t_a_g.html#a6b559edc71ff3b0e8d9f9840cb36b27c',1,'IOTHUB_CLIENT_CONFIG_TAG']]],
-  ['iothubsuffix',['iotHubSuffix',['../struct_i_o_t_h_u_b___c_l_i_e_n_t___c_o_n_f_i_g___t_a_g.html#ae54e74d8db92b20f796df76f01d5dd68',1,'IOTHUB_CLIENT_CONFIG_TAG']]]
+  ['iothubsuffix',['iotHubSuffix',['../struct_i_o_t_h_u_b___c_l_i_e_n_t___c_o_n_f_i_g___t_a_g.html#ae54e74d8db92b20f796df76f01d5dd68',1,'IOTHUB_CLIENT_CONFIG_TAG']]],
+  ['iothubtransport_5fconfig',['IOTHUBTRANSPORT_CONFIG',['../iothub__client__ll_8h.html#a0596fc5cfafe84c6b2a64c338973adb4',1,'iothub_client_ll.h']]],
+  ['iothubtransport_5fconfig_5ftag',['IOTHUBTRANSPORT_CONFIG_TAG',['../struct_i_o_t_h_u_b_t_r_a_n_s_p_o_r_t___c_o_n_f_i_g___t_a_g.html',1,'']]]
 ];
