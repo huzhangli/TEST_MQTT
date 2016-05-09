@@ -24,7 +24,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Microsoft Azure IoT Device SDK for C
-   &#160;<span id="projectnumber">1.0.5</span>
+   &#160;<span id="projectnumber">1.0.6</span>
    </div>
    <div id="projectbrief">The Microsoft Azure IoT device libraries for C contain code that facilitates building devices and applications that connect to and are managed by Azure IoT Hub services.</div>
   </td>
@@ -196,7 +196,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <p>Sample connection string: </p><blockquote class="doxtable">
-<pre>HostName=[IoT Hub name goes here].[IoT Hub suffix goes here, e.g., private.azure-devices-int.net];DeviceId=[Device ID goes here];SharedAccessKey=[Device key goes here];</pre> </blockquote>
+<pre>HostName=[IoT Hub name goes here].[IoT Hub suffix goes here, e.g., private.azure-devices-int.net];DeviceId=[Device ID goes here];SharedAccessKey=[Device key goes here];</pre> <pre>HostName=[IoT Hub name goes here].[IoT Hub suffix goes here, e.g., private.azure-devices-int.net];DeviceId=[Device ID goes here];SharedAccessSignature=SharedAccessSignature sr=[IoT Hub name goes here].[IoT Hub suffix goes here, e.g., private.azure-devices-int.net]/devices/[Device ID goes here]&amp;sig=[SAS Token goes here]&amp;se=[Expiry Time goes here];</pre> </blockquote>
 <dl class="section return"><dt>Returns</dt><dd>A non-NULL <code>IOTHUB_CLIENT_HANDLE</code> value that is used when invoking other functions for IoT Hub client and <code>NULL</code> on failure. </dd></dl>
 
 </div>

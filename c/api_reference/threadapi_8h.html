@@ -24,7 +24,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Microsoft Azure IoT Device SDK for C
-   &#160;<span id="projectnumber">1.0.5</span>
+   &#160;<span id="projectnumber">1.0.6</span>
    </div>
    <div id="projectbrief">The Microsoft Azure IoT device libraries for C contain code that facilitates building devices and applications that connect to and are managed by Azure IoT Hub services.</div>
   </td>
@@ -98,6 +98,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>This module implements support for creating new threads, terminating threads and sleeping threads.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;azure_c_shared_utility/macro_utils.h&quot;</code><br />
+<code>#include &quot;azure_c_shared_utility/umock_c_prod.h&quot;</code><br />
 </div>
 <p><a href="threadapi_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -116,43 +117,73 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aed50c815f4090261c06968bb90644b50"><td class="memItemLeft" align="right" valign="top"><a class="el" href="threadapi_8h.html#aa3ec4389c15a7208ff9dfe12533781cd">THREADAPI_RESULT</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="threadapi_8h.html#aed50c815f4090261c06968bb90644b50">ThreadAPI_Create</a> (THREAD_HANDLE *threadHandle, THREAD_START_FUNC func, void *arg)</td></tr>
-<tr class="memdesc:aed50c815f4090261c06968bb90644b50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a thread with the entry point specified by the <code>func</code> argument.  <a href="#aed50c815f4090261c06968bb90644b50">More...</a><br /></td></tr>
-<tr class="separator:aed50c815f4090261c06968bb90644b50"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa80bce4748cbe10f4b726f2ea3168609"><td class="memItemLeft" align="right" valign="top"><a class="el" href="threadapi_8h.html#aa3ec4389c15a7208ff9dfe12533781cd">THREADAPI_RESULT</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="threadapi_8h.html#aa80bce4748cbe10f4b726f2ea3168609">ThreadAPI_Join</a> (THREAD_HANDLE threadHandle, int *res)</td></tr>
-<tr class="memdesc:aa80bce4748cbe10f4b726f2ea3168609"><td class="mdescLeft">&#160;</td><td class="mdescRight">Blocks the calling thread by waiting on the thread identified by the <code>threadHandle</code> argument to complete.  <a href="#aa80bce4748cbe10f4b726f2ea3168609">More...</a><br /></td></tr>
-<tr class="separator:aa80bce4748cbe10f4b726f2ea3168609"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a304fd6867f922d6321f36569d1769d04"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="threadapi_8h.html#a304fd6867f922d6321f36569d1769d04">ThreadAPI_Exit</a> (int res)</td></tr>
-<tr class="memdesc:a304fd6867f922d6321f36569d1769d04"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function is called by a thread when the thread exits.  <a href="#a304fd6867f922d6321f36569d1769d04">More...</a><br /></td></tr>
-<tr class="separator:a304fd6867f922d6321f36569d1769d04"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ce3ec671e3aa3ca28a3e93c514dac56"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="threadapi_8h.html#a9ce3ec671e3aa3ca28a3e93c514dac56">ThreadAPI_Sleep</a> (unsigned int milliseconds)</td></tr>
-<tr class="memdesc:a9ce3ec671e3aa3ca28a3e93c514dac56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sleeps the current thread for the given number of milliseconds.  <a href="#a9ce3ec671e3aa3ca28a3e93c514dac56">More...</a><br /></td></tr>
-<tr class="separator:a9ce3ec671e3aa3ca28a3e93c514dac56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af62fd0a9a5fe5700ce5f7962abfea35b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="threadapi_8h.html#af62fd0a9a5fe5700ce5f7962abfea35b">MOCKABLE_FUNCTION</a> (, <a class="el" href="threadapi_8h.html#aa3ec4389c15a7208ff9dfe12533781cd">THREADAPI_RESULT</a>, ThreadAPI_Create, THREAD_HANDLE *, threadHandle, THREAD_START_FUNC, func, void *, arg)</td></tr>
+<tr class="memdesc:af62fd0a9a5fe5700ce5f7962abfea35b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a thread with the entry point specified by the <code>func</code> argument.  <a href="#af62fd0a9a5fe5700ce5f7962abfea35b">More...</a><br /></td></tr>
+<tr class="separator:af62fd0a9a5fe5700ce5f7962abfea35b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65dbd471aa8478967732da374ed564b7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="threadapi_8h.html#a65dbd471aa8478967732da374ed564b7">MOCKABLE_FUNCTION</a> (, <a class="el" href="threadapi_8h.html#aa3ec4389c15a7208ff9dfe12533781cd">THREADAPI_RESULT</a>, ThreadAPI_Join, THREAD_HANDLE, threadHandle, int *, res)</td></tr>
+<tr class="memdesc:a65dbd471aa8478967732da374ed564b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Blocks the calling thread by waiting on the thread identified by the <code>threadHandle</code> argument to complete.  <a href="#a65dbd471aa8478967732da374ed564b7">More...</a><br /></td></tr>
+<tr class="separator:a65dbd471aa8478967732da374ed564b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50ff88d917fe5cd31e944a8e760a9cc1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="threadapi_8h.html#a50ff88d917fe5cd31e944a8e760a9cc1">MOCKABLE_FUNCTION</a> (, void, ThreadAPI_Exit, int, res)</td></tr>
+<tr class="memdesc:a50ff88d917fe5cd31e944a8e760a9cc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function is called by a thread when the thread exits.  <a href="#a50ff88d917fe5cd31e944a8e760a9cc1">More...</a><br /></td></tr>
+<tr class="separator:a50ff88d917fe5cd31e944a8e760a9cc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90bbaeab63f5918c54f1ec3dd4e55e97"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="threadapi_8h.html#a90bbaeab63f5918c54f1ec3dd4e55e97">MOCKABLE_FUNCTION</a> (, void, ThreadAPI_Sleep, unsigned int, milliseconds)</td></tr>
+<tr class="memdesc:a90bbaeab63f5918c54f1ec3dd4e55e97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sleeps the current thread for the given number of milliseconds.  <a href="#a90bbaeab63f5918c54f1ec3dd4e55e97">More...</a><br /></td></tr>
+<tr class="separator:a90bbaeab63f5918c54f1ec3dd4e55e97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This module implements support for creating new threads, terminating threads and sleeping threads. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="aed50c815f4090261c06968bb90644b50"></a>
+<a class="anchor" id="af62fd0a9a5fe5700ce5f7962abfea35b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="threadapi_8h.html#aa3ec4389c15a7208ff9dfe12533781cd">THREADAPI_RESULT</a> ThreadAPI_Create </td>
+          <td class="memname">MOCKABLE_FUNCTION </td>
           <td>(</td>
+          <td class="paramtype"><a class="el" href="threadapi_8h.html#aa3ec4389c15a7208ff9dfe12533781cd">THREADAPI_RESULT</a>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ThreadAPI_Create&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">THREAD_HANDLE *&#160;</td>
-          <td class="paramname"><em>threadHandle</em>, </td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">threadHandle&#160;</td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">THREAD_START_FUNC&#160;</td>
-          <td class="paramname"><em>func</em>, </td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">func&#160;</td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>arg</em>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">arg&#160;</td>
+          <td class="paramname">&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -175,46 +206,45 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a304fd6867f922d6321f36569d1769d04"></a>
+<a class="anchor" id="a65dbd471aa8478967732da374ed564b7"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void ThreadAPI_Exit </td>
+          <td class="memname">MOCKABLE_FUNCTION </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>res</em></td><td>)</td>
-          <td></td>
+          <td class="paramtype"><a class="el" href="threadapi_8h.html#aa3ec4389c15a7208ff9dfe12533781cd">THREADAPI_RESULT</a>&#160;</td>
+          <td class="paramname">, </td>
         </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This function is called by a thread when the thread exits. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">res</td><td>An integer that represents the exit status of the thread.</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>This function is called by a thread when the thread exits in order to return a result value to the caller of the <a class="el" href="threadapi_8h.html#aa80bce4748cbe10f4b726f2ea3168609" title="Blocks the calling thread by waiting on the thread identified by the threadHandle argument to complet...">ThreadAPI_Join</a> function. The <code>res</code> value must be copied into the <code>res</code> out argument passed to the <a class="el" href="threadapi_8h.html#aa80bce4748cbe10f4b726f2ea3168609" title="Blocks the calling thread by waiting on the thread identified by the threadHandle argument to complet...">ThreadAPI_Join</a> function. </p>
-
-</div>
-</div>
-<a class="anchor" id="aa80bce4748cbe10f4b726f2ea3168609"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="threadapi_8h.html#aa3ec4389c15a7208ff9dfe12533781cd">THREADAPI_RESULT</a> ThreadAPI_Join </td>
-          <td>(</td>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ThreadAPI_Join&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">THREAD_HANDLE&#160;</td>
-          <td class="paramname"><em>threadHandle</em>, </td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">threadHandle&#160;</td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int *&#160;</td>
-          <td class="paramname"><em>res</em>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">res&#160;</td>
+          <td class="paramname">&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -228,7 +258,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">threadHandle</td><td>The handle of the thread to wait for completion. </td></tr>
-    <tr><td class="paramname">res</td><td>The result returned by the thread which is passed to the <a class="el" href="threadapi_8h.html#a304fd6867f922d6321f36569d1769d04" title="This function is called by a thread when the thread exits. ">ThreadAPI_Exit</a> function.</td></tr>
+    <tr><td class="paramname">res</td><td>The result returned by the thread which is passed to the ::ThreadAPI_Exit function.</td></tr>
   </table>
   </dd>
 </dl>
@@ -237,16 +267,85 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a9ce3ec671e3aa3ca28a3e93c514dac56"></a>
+<a class="anchor" id="a50ff88d917fe5cd31e944a8e760a9cc1"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void ThreadAPI_Sleep </td>
+          <td class="memname">MOCKABLE_FUNCTION </td>
           <td>(</td>
-          <td class="paramtype">unsigned int&#160;</td>
-          <td class="paramname"><em>milliseconds</em></td><td>)</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">ThreadAPI_Exit&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">res&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function is called by a thread when the thread exits. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">res</td><td>An integer that represents the exit status of the thread.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This function is called by a thread when the thread exits in order to return a result value to the caller of the ::ThreadAPI_Join function. The <code>res</code> value must be copied into the <code>res</code> out argument passed to the ::ThreadAPI_Join function. </p>
+
+</div>
+</div>
+<a class="anchor" id="a90bbaeab63f5918c54f1ec3dd4e55e97"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">MOCKABLE_FUNCTION </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ThreadAPI_Sleep&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned&#160;</td>
+          <td class="paramname"><em>int</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">milliseconds&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">

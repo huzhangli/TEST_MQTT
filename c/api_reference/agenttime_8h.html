@@ -24,7 +24,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Microsoft Azure IoT Device SDK for C
-   &#160;<span id="projectnumber">1.0.5</span>
+   &#160;<span id="projectnumber">1.0.6</span>
    </div>
    <div id="projectbrief">The Microsoft Azure IoT device libraries for C contain code that facilitates building devices and applications that connect to and are managed by Azure IoT Hub services.</div>
   </td>
@@ -96,38 +96,143 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>Function prototypes for time related functions.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;time.h&gt;</code><br />
+<code>#include &quot;azure_c_shared_utility/umock_c_prod.h&quot;</code><br />
 </div>
 <p><a href="agenttime_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:acc6a1b36113a04d34377d9b7901202dd"><td class="memItemLeft" align="right" valign="top">time_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="agenttime_8h.html#acc6a1b36113a04d34377d9b7901202dd">get_time</a> (time_t *currentTime)</td></tr>
-<tr class="memdesc:acc6a1b36113a04d34377d9b7901202dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get current calendar time.  <a href="#acc6a1b36113a04d34377d9b7901202dd">More...</a><br /></td></tr>
-<tr class="separator:acc6a1b36113a04d34377d9b7901202dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8cbed35d6d2183a257e91b5bc4122669"><td class="memItemLeft" align="right" valign="top">struct tm *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="agenttime_8h.html#a8cbed35d6d2183a257e91b5bc4122669">get_gmtime</a> (time_t *currentTime)</td></tr>
-<tr class="memdesc:a8cbed35d6d2183a257e91b5bc4122669"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get UTC in <code>tm</code> struct.  <a href="#a8cbed35d6d2183a257e91b5bc4122669">More...</a><br /></td></tr>
-<tr class="separator:a8cbed35d6d2183a257e91b5bc4122669"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d6a35518723789d23906b028da65636"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="agenttime_8h.html#a0d6a35518723789d23906b028da65636">get_ctime</a> (time_t *timeToGet)</td></tr>
-<tr class="memdesc:a0d6a35518723789d23906b028da65636"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a C-string representation of the given time.  <a href="#a0d6a35518723789d23906b028da65636">More...</a><br /></td></tr>
-<tr class="separator:a0d6a35518723789d23906b028da65636"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a321a069486f837a3c3d048d7a5f8d8be"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="agenttime_8h.html#a321a069486f837a3c3d048d7a5f8d8be">get_difftime</a> (time_t stopTime, time_t startTime)</td></tr>
-<tr class="memdesc:a321a069486f837a3c3d048d7a5f8d8be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the difference in seconds between <code>stopTime</code> and <code>startTime</code>.  <a href="#a321a069486f837a3c3d048d7a5f8d8be">More...</a><br /></td></tr>
-<tr class="separator:a321a069486f837a3c3d048d7a5f8d8be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8533464cece9e9acd6cac00b8490153e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="agenttime_8h.html#a8533464cece9e9acd6cac00b8490153e">MOCKABLE_FUNCTION</a> (, time_t, get_time, time_t *, currentTime)</td></tr>
+<tr class="memdesc:a8533464cece9e9acd6cac00b8490153e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get current calendar time.  <a href="#a8533464cece9e9acd6cac00b8490153e">More...</a><br /></td></tr>
+<tr class="separator:a8533464cece9e9acd6cac00b8490153e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3eb7df5bca243640d9755b0cfd8dcb29"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="agenttime_8h.html#a3eb7df5bca243640d9755b0cfd8dcb29">MOCKABLE_FUNCTION</a> (, struct tm *, get_gmtime, time_t *, currentTime)</td></tr>
+<tr class="memdesc:a3eb7df5bca243640d9755b0cfd8dcb29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get UTC in <code>tm</code> struct.  <a href="#a3eb7df5bca243640d9755b0cfd8dcb29">More...</a><br /></td></tr>
+<tr class="separator:a3eb7df5bca243640d9755b0cfd8dcb29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11e90a7d99b5cffe65a67f16f5b398e0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="agenttime_8h.html#a11e90a7d99b5cffe65a67f16f5b398e0">MOCKABLE_FUNCTION</a> (, char *, get_ctime, time_t *, timeToGet)</td></tr>
+<tr class="memdesc:a11e90a7d99b5cffe65a67f16f5b398e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a C-string representation of the given time.  <a href="#a11e90a7d99b5cffe65a67f16f5b398e0">More...</a><br /></td></tr>
+<tr class="separator:a11e90a7d99b5cffe65a67f16f5b398e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73cf9e38c6900665de4a7b540f9b25fc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="agenttime_8h.html#a73cf9e38c6900665de4a7b540f9b25fc">MOCKABLE_FUNCTION</a> (, double, get_difftime, time_t, stopTime, time_t, startTime)</td></tr>
+<tr class="memdesc:a73cf9e38c6900665de4a7b540f9b25fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the difference in seconds between <code>stopTime</code> and <code>startTime</code>.  <a href="#a73cf9e38c6900665de4a7b540f9b25fc">More...</a><br /></td></tr>
+<tr class="separator:a73cf9e38c6900665de4a7b540f9b25fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Function prototypes for time related functions. </p>
 <p>These functions are implemented with C standard functions, and therefore they are platform independent. But then a platform can replace these functions with its own implementation as necessary. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a0d6a35518723789d23906b028da65636"></a>
+<a class="anchor" id="a8533464cece9e9acd6cac00b8490153e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">char* get_ctime </td>
+          <td class="memname">MOCKABLE_FUNCTION </td>
           <td>(</td>
-          <td class="paramtype">time_t *&#160;</td>
-          <td class="paramname"><em>timeToGet</em></td><td>)</td>
+          <td class="paramtype">time_t&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">get_time&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">time_t *&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">currentTime&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get current calendar time. </p>
+<p>This function provides the same functionality as the standard C <code>time()</code> function. </p>
+
+</div>
+</div>
+<a class="anchor" id="a3eb7df5bca243640d9755b0cfd8dcb29"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">MOCKABLE_FUNCTION </td>
+          <td>(</td>
+          <td class="paramtype">struct tm *&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">get_gmtime&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">time_t *&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">currentTime&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get UTC in <code>tm</code> struct. </p>
+<p>This function provides the same functionality as the standard C <code>gmtime()</code> function. </p>
+
+</div>
+</div>
+<a class="anchor" id="a11e90a7d99b5cffe65a67f16f5b398e0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">MOCKABLE_FUNCTION </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">get_ctime&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">time_t *&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">timeToGet&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -137,21 +242,45 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a321a069486f837a3c3d048d7a5f8d8be"></a>
+<a class="anchor" id="a73cf9e38c6900665de4a7b540f9b25fc"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">double get_difftime </td>
+          <td class="memname">MOCKABLE_FUNCTION </td>
           <td>(</td>
-          <td class="paramtype">time_t&#160;</td>
-          <td class="paramname"><em>stopTime</em>, </td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">get_difftime&#160;</td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">time_t&#160;</td>
-          <td class="paramname"><em>startTime</em>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">stopTime&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">time_t&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">startTime&#160;</td>
+          <td class="paramname">&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -163,44 +292,6 @@ Functions</h2></td></tr>
 
 <p>Gets the difference in seconds between <code>stopTime</code> and <code>startTime</code>. </p>
 <p>This function provides the same functionality as the standard C <code>difftime()</code> function. </p>
-
-</div>
-</div>
-<a class="anchor" id="a8cbed35d6d2183a257e91b5bc4122669"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct tm* get_gmtime </td>
-          <td>(</td>
-          <td class="paramtype">time_t *&#160;</td>
-          <td class="paramname"><em>currentTime</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get UTC in <code>tm</code> struct. </p>
-<p>This function provides the same functionality as the standard C <code>gmtime()</code> function. </p>
-
-</div>
-</div>
-<a class="anchor" id="acc6a1b36113a04d34377d9b7901202dd"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">time_t get_time </td>
-          <td>(</td>
-          <td class="paramtype">time_t *&#160;</td>
-          <td class="paramname"><em>currentTime</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get current calendar time. </p>
-<p>This function provides the same functionality as the standard C <code>time()</code> function. </p>
 
 </div>
 </div>

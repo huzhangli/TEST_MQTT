@@ -24,7 +24,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Microsoft Azure IoT Device SDK for C
-   &#160;<span id="projectnumber">1.0.5</span>
+   &#160;<span id="projectnumber">1.0.6</span>
    </div>
    <div id="projectbrief">The Microsoft Azure IoT device libraries for C contain code that facilitates building devices and applications that connect to and are managed by Azure IoT Hub services.</div>
   </td>
@@ -98,60 +98,57 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock"><code>#include &quot;azure_c_shared_utility/strings.h&quot;</code><br />
 <code>#include &quot;azure_c_shared_utility/buffer_.h&quot;</code><br />
 <code>#include &lt;stddef.h&gt;</code><br />
+<code>#include &quot;azure_c_shared_utility/umock_c_prod.h&quot;</code><br />
 </div>
 <p><a href="base64_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a3fc0095d207b2916b9af7e3b9bf25dbb"><td class="memItemLeft" align="right" valign="top">STRING_HANDLE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="base64_8h.html#a3fc0095d207b2916b9af7e3b9bf25dbb">Base64_Encode</a> (BUFFER_HANDLE input)</td></tr>
-<tr class="memdesc:a3fc0095d207b2916b9af7e3b9bf25dbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base64 encodes a buffer and returns the resulting string.  <a href="#a3fc0095d207b2916b9af7e3b9bf25dbb">More...</a><br /></td></tr>
-<tr class="separator:a3fc0095d207b2916b9af7e3b9bf25dbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e30a20c2abb2bf5e826426c953d12ed"><td class="memItemLeft" align="right" valign="top">STRING_HANDLE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="base64_8h.html#a9e30a20c2abb2bf5e826426c953d12ed">Base64_Encode_Bytes</a> (const unsigned char *source, size_t size)</td></tr>
-<tr class="memdesc:a9e30a20c2abb2bf5e826426c953d12ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base64 encodes the buffer pointed to by <code>source</code> and returns the resulting string.  <a href="#a9e30a20c2abb2bf5e826426c953d12ed">More...</a><br /></td></tr>
-<tr class="separator:a9e30a20c2abb2bf5e826426c953d12ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af53129a184d122641b31220cbd401402"><td class="memItemLeft" align="right" valign="top">BUFFER_HANDLE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="base64_8h.html#af53129a184d122641b31220cbd401402">Base64_Decoder</a> (const char *source)</td></tr>
-<tr class="memdesc:af53129a184d122641b31220cbd401402"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base64 decodes the buffer pointed to by <code>source</code> and returns the resulting buffer.  <a href="#af53129a184d122641b31220cbd401402">More...</a><br /></td></tr>
-<tr class="separator:af53129a184d122641b31220cbd401402"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6deaacd51609968c53a57c6d0ea24455"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="base64_8h.html#a6deaacd51609968c53a57c6d0ea24455">MOCKABLE_FUNCTION</a> (, STRING_HANDLE, Base64_Encode, BUFFER_HANDLE, input)</td></tr>
+<tr class="memdesc:a6deaacd51609968c53a57c6d0ea24455"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base64 encodes a buffer and returns the resulting string.  <a href="#a6deaacd51609968c53a57c6d0ea24455">More...</a><br /></td></tr>
+<tr class="separator:a6deaacd51609968c53a57c6d0ea24455"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15f414ce0656aa774ae45f44ecfd088a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="base64_8h.html#a15f414ce0656aa774ae45f44ecfd088a">MOCKABLE_FUNCTION</a> (, STRING_HANDLE, Base64_Encode_Bytes, const unsigned char *, source, size_t, size)</td></tr>
+<tr class="memdesc:a15f414ce0656aa774ae45f44ecfd088a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base64 encodes the buffer pointed to by <code>source</code> and returns the resulting string.  <a href="#a15f414ce0656aa774ae45f44ecfd088a">More...</a><br /></td></tr>
+<tr class="separator:a15f414ce0656aa774ae45f44ecfd088a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a210ad19d92bb7897699d985b3ffb9f3a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="base64_8h.html#a210ad19d92bb7897699d985b3ffb9f3a">MOCKABLE_FUNCTION</a> (, BUFFER_HANDLE, Base64_Decoder, const char *, source)</td></tr>
+<tr class="memdesc:a210ad19d92bb7897699d985b3ffb9f3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base64 decodes the buffer pointed to by <code>source</code> and returns the resulting buffer.  <a href="#a210ad19d92bb7897699d985b3ffb9f3a">More...</a><br /></td></tr>
+<tr class="separator:a210ad19d92bb7897699d985b3ffb9f3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Prototypes for functions related to encoding/decoding a <code>buffer</code> using standard base64 encoding. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="af53129a184d122641b31220cbd401402"></a>
+<a class="anchor" id="a6deaacd51609968c53a57c6d0ea24455"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">BUFFER_HANDLE Base64_Decoder </td>
+          <td class="memname">MOCKABLE_FUNCTION </td>
           <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>source</em></td><td>)</td>
-          <td></td>
+          <td class="paramtype">STRING_HANDLE&#160;</td>
+          <td class="paramname">, </td>
         </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Base64 decodes the buffer pointed to by <code>source</code> and returns the resulting buffer. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">source</td><td>A base64 encoded string buffer.</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>This function decodes the string pointed at by <code>source</code> using base64 decoding and returns the resulting buffer. If <code>source</code> is <code>NULL</code> then <code>Base64_Decoder</code> returns NULL. If the string pointed to by <code>source</code> is zero length then the handle returned refers to a zero length buffer. If there is any memory allocation failure during the decode or if the source string has an invalid length for a base 64 encoded string then <code>Base64_Decoder</code> returns <code>NULL</code>.</p>
-<dl class="section return"><dt>Returns</dt><dd>A <code>BUFFER_HANDLE</code> pointing to a buffer containing the result of base64 decoding <code>source</code>. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a3fc0095d207b2916b9af7e3b9bf25dbb"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
         <tr>
-          <td class="memname">STRING_HANDLE Base64_Encode </td>
-          <td>(</td>
-          <td class="paramtype">BUFFER_HANDLE&#160;</td>
-          <td class="paramname"><em>input</em></td><td>)</td>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">Base64_Encode&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">BUFFER_HANDLE&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">input&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -168,21 +165,45 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a9e30a20c2abb2bf5e826426c953d12ed"></a>
+<a class="anchor" id="a15f414ce0656aa774ae45f44ecfd088a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">STRING_HANDLE Base64_Encode_Bytes </td>
+          <td class="memname">MOCKABLE_FUNCTION </td>
           <td>(</td>
+          <td class="paramtype">STRING_HANDLE&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Base64_Encode_Bytes&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">const unsigned char *&#160;</td>
-          <td class="paramname"><em>source</em>, </td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">source&#160;</td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>size</em>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size&#160;</td>
+          <td class="paramname">&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -202,6 +223,54 @@ Functions</h2></td></tr>
 </dl>
 <p>This function produces a <code>STRING_HANDLE</code> containing the base64 encoding of the buffer pointed to by <code>source</code>, having the size as given by <code>size</code>. If <code>source</code> is <code>NULL</code> then <code>Base64_Encode_Bytes</code> returns <code>NULL</code> If <code>source</code> is not <code>NULL</code> and <code>size</code> is zero, then <code>Base64_Encode_Bytes</code> produces an empty <code>STRING_HANDLE</code>. Otherwise, <code>Base64_Encode_Bytes</code> produces a <code>STRING_HANDLE</code> containing the Base64 representation of the buffer. In case of any errors, <code>Base64_Encode_Bytes</code> returns <code>NULL</code>.].</p>
 <dl class="section return"><dt>Returns</dt><dd><code>NULL</code> in case an error occurs or a <code>STRING_HANDLE</code> containing the base64 encoding of <code>input</code>. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a210ad19d92bb7897699d985b3ffb9f3a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">MOCKABLE_FUNCTION </td>
+          <td>(</td>
+          <td class="paramtype">BUFFER_HANDLE&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Base64_Decoder&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">source&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Base64 decodes the buffer pointed to by <code>source</code> and returns the resulting buffer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">source</td><td>A base64 encoded string buffer.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This function decodes the string pointed at by <code>source</code> using base64 decoding and returns the resulting buffer. If <code>source</code> is <code>NULL</code> then <code>Base64_Decoder</code> returns NULL. If the string pointed to by <code>source</code> is zero length then the handle returned refers to a zero length buffer. If there is any memory allocation failure during the decode or if the source string has an invalid length for a base 64 encoded string then <code>Base64_Decoder</code> returns <code>NULL</code>.</p>
+<dl class="section return"><dt>Returns</dt><dd>A <code>BUFFER_HANDLE</code> pointing to a buffer containing the result of base64 decoding <code>source</code>. </dd></dl>
 
 </div>
 </div>
