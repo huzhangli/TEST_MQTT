@@ -24,7 +24,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Microsoft Azure IoT Device SDK for C
-   &#160;<span id="projectnumber">1.0.7</span>
+   &#160;<span id="projectnumber">1.0.8</span>
    </div>
    <div id="projectbrief">The Microsoft Azure IoT device libraries for C contain code that facilitates building devices and applications that connect to and are managed by Azure IoT Hub services.</div>
   </td>
@@ -129,6 +129,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a7a0ff66340551d6748b13e9ca74f3197"><td class="memItemLeft" align="right" valign="top"><a class="el" href="iothub__client__ll_8h.html#acab188935ec8a12092ab518112268bfd">IOTHUB_CLIENT_RESULT</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iothub__client_8h.html#a7a0ff66340551d6748b13e9ca74f3197">IoTHubClient_SetOption</a> (IOTHUB_CLIENT_HANDLE iotHubClientHandle, const char *optionName, const void *value)</td></tr>
 <tr class="memdesc:a7a0ff66340551d6748b13e9ca74f3197"><td class="mdescLeft">&#160;</td><td class="mdescRight">This API sets a runtime option identified by parameter <code>optionName</code> to a value pointed to by <code>value</code>. <code>optionName</code> and the data type <code>value</code> is pointing to are specific for every option.  <a href="#a7a0ff66340551d6748b13e9ca74f3197">More...</a><br /></td></tr>
 <tr class="separator:a7a0ff66340551d6748b13e9ca74f3197"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a969f7957eb536d89e35e6fac2e5c7d99"><td class="memItemLeft" align="right" valign="top"><a class="el" href="iothub__client__ll_8h.html#acab188935ec8a12092ab518112268bfd">IOTHUB_CLIENT_RESULT</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iothub__client_8h.html#a969f7957eb536d89e35e6fac2e5c7d99">IoTHubClient_UploadToBlobAsync</a> (IOTHUB_CLIENT_HANDLE iotHubClientHandle, const char *destinationFileName, const unsigned char *source, size_t size, IOTHUB_CLIENT_FILE_UPLOAD_CALLBACK iotHubClientFileUploadCallback, void *context)</td></tr>
+<tr class="memdesc:a969f7957eb536d89e35e6fac2e5c7d99"><td class="mdescLeft">&#160;</td><td class="mdescRight">IoTHubClient_UploadToBlobAsync uploads data from memory to a file in Azure Blob Storage.  <a href="#a969f7957eb536d89e35e6fac2e5c7d99">More...</a><br /></td></tr>
+<tr class="separator:a969f7957eb536d89e35e6fac2e5c7d99"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Extends the IoTHubCLient_LL module with additional features. </p>
@@ -475,9 +478,73 @@ Functions</h2></td></tr>
 <li><b>CURLOPT_FORBID_REUSE</b> - only available for HTTP protocol and only when CURL is used. It has the same meaning as CURL's option with the same name. <code>value</code> is pointer to a long.</li>
 <li><b>CURLOPT_FRESH_CONNECT</b> - only available for HTTP protocol and only when CURL is used. It has the same meaning as CURL's option with the same name. <code>value</code> is pointer to a long.</li>
 <li><b>CURLOPT_VERBOSE</b> - only available for HTTP protocol and only when CURL is used. It has the same meaning as CURL's option with the same name. <code>value</code> is pointer to a long.</li>
-<li><b>messageTimeout</b> - the maximum time in milliseconds until a message is timeouted. The time starts at IoTHubClient_SendEventAsync. By default, messages do not expire. <dl class="section return"><dt>Returns</dt><dd>IOTHUB_CLIENT_OK upon success or an error code upon failure. </dd></dl>
+<li><b>messageTimeout</b> - the maximum time in milliseconds until a message is timeouted. The time starts at IoTHubClient_SendEventAsync. By default, messages do not expire. <code>is</code> a pointer to a uint64_t <dl class="section return"><dt>Returns</dt><dd>IOTHUB_CLIENT_OK upon success or an error code upon failure. </dd></dl>
 </li>
 </ul>
+
+</div>
+</div>
+<a class="anchor" id="a969f7957eb536d89e35e6fac2e5c7d99"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="iothub__client__ll_8h.html#acab188935ec8a12092ab518112268bfd">IOTHUB_CLIENT_RESULT</a> IoTHubClient_UploadToBlobAsync </td>
+          <td>(</td>
+          <td class="paramtype">IOTHUB_CLIENT_HANDLE&#160;</td>
+          <td class="paramname"><em>iotHubClientHandle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>destinationFileName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const unsigned char *&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IOTHUB_CLIENT_FILE_UPLOAD_CALLBACK&#160;</td>
+          <td class="paramname"><em>iotHubClientFileUploadCallback</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>context</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>IoTHubClient_UploadToBlobAsync uploads data from memory to a file in Azure Blob Storage. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">iotHubClientHandle</td><td>The handle created by a call to the IoTHubClient_Create function. </td></tr>
+    <tr><td class="paramname">destinationFileName</td><td>The name of the file to be created in Azure Blob Storage. </td></tr>
+    <tr><td class="paramname">source</td><td>The source of data. </td></tr>
+    <tr><td class="paramname">size</td><td>The size of data. </td></tr>
+    <tr><td class="paramname">iotHubClientFileUploadCallback</td><td>A callback to be invoked when the file upload operation has finished. </td></tr>
+    <tr><td class="paramname">context</td><td>A user-provided context to be passed to the file upload callback.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>IOTHUB_CLIENT_OK upon success or an error code upon failure. </dd></dl>
 
 </div>
 </div>

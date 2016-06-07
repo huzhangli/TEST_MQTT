@@ -24,7 +24,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Microsoft Azure IoT Device SDK for C
-   &#160;<span id="projectnumber">1.0.7</span>
+   &#160;<span id="projectnumber">1.0.8</span>
    </div>
    <div id="projectbrief">The Microsoft Azure IoT device libraries for C contain code that facilitates building devices and applications that connect to and are managed by Azure IoT Hub services.</div>
   </td>
@@ -208,11 +208,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;</div>
 <div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;    <span class="keyword">extern</span> <a class="code" href="iothub__client__ll_8h.html#acab188935ec8a12092ab518112268bfd">IOTHUB_CLIENT_RESULT</a> <a class="code" href="iothub__client__ll_8h.html#a70eb58c7ede92f75001104ff4745faa2">IoTHubClient_LL_SetOption</a>(IOTHUB_CLIENT_LL_HANDLE iotHubClientHandle, <span class="keyword">const</span> <span class="keywordtype">char</span>* optionName, <span class="keyword">const</span> <span class="keywordtype">void</span>* value);</div>
 <div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;}</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* IOTHUB_CLIENT_LL_H */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;    <span class="keyword">extern</span> <a class="code" href="iothub__client__ll_8h.html#acab188935ec8a12092ab518112268bfd">IOTHUB_CLIENT_RESULT</a> IoTHubClient_LL_UploadToBlob(IOTHUB_CLIENT_LL_HANDLE iotHubClientHandle, <span class="keyword">const</span> <span class="keywordtype">char</span>* destinationFileName, <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* source, <span class="keywordtype">size_t</span> size);</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;}</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* IOTHUB_CLIENT_LL_H */</span><span class="preprocessor"></span></div>
 <div class="ttc" id="iothub__client__ll_8h_html_ab47deec96944dd3f1bf0e747ab565277"><div class="ttname"><a href="iothub__client__ll_8h.html#ab47deec96944dd3f1bf0e747ab565277">IoTHubClient_LL_SendEventAsync</a></div><div class="ttdeci">IOTHUB_CLIENT_RESULT IoTHubClient_LL_SendEventAsync(IOTHUB_CLIENT_LL_HANDLE iotHubClientHandle, IOTHUB_MESSAGE_HANDLE eventMessageHandle, IOTHUB_CLIENT_EVENT_CONFIRMATION_CALLBACK eventConfirmationCallback, void *userContextCallback)</div><div class="ttdoc">Asynchronous call to send the message specified by eventMessageHandle. </div></div>
 <div class="ttc" id="iothub__client__ll_8h_html_ab9b304ecf293102cb855bee1b8d2cdf7"><div class="ttname"><a href="iothub__client__ll_8h.html#ab9b304ecf293102cb855bee1b8d2cdf7">IOTHUB_CLIENT_DEVICE_CONFIG</a></div><div class="ttdeci">struct IOTHUB_CLIENT_DEVICE_CONFIG_TAG IOTHUB_CLIENT_DEVICE_CONFIG</div><div class="ttdoc">This struct captures IoTHub client device configuration. </div></div>
 <div class="ttc" id="iothub__client__ll_8h_html_a06bec2310f92a54329a1f39b0804ee88"><div class="ttname"><a href="iothub__client__ll_8h.html#a06bec2310f92a54329a1f39b0804ee88">IOTHUB_CLIENT_STATUS</a></div><div class="ttdeci">enum IOTHUB_CLIENT_STATUS_TAG IOTHUB_CLIENT_STATUS</div><div class="ttdoc">Enumeration returned by the IoTHubClient_LL_GetSendStatus API to indicate the current sending status ...</div></div>

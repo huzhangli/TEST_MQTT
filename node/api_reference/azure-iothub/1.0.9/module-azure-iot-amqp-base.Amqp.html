@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Class: Amqp</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    <h1 class="page-title">Class: Amqp</h1>
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+            <span class="ancestors"><a href="module-azure-iot-amqp-base.html">azure-iot-amqp-base</a>.</span>
+        
+        Amqp
+        </h2>
+        
+            <div class="class-description"><p>Basic AMQP functionality used by higher-level IoT Hub libraries.
+           Usually you'll want to avoid using this class and instead rely on higher-level implementations
+           of the AMQP transport (see azure-iot-device-amqp.Amqp for example).</p></div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+    <h2>Constructor</h2>
+    
+
+    <h4 class="name" id="Amqp"><span class="type-signature"></span>new Amqp<span class="signature">(saslPlainUri, autoSettleMessages, sdkVersionString)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>saslPlainUri</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>URL to the IoT Hub instance including SASL-Plain credentials.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>autoSettleMessages</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Boolean indicating whether messages should be settled automatically or if the calling code will handle it.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>sdkVersionString</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>String identifying the SDK used (device or service).</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="common_transport_amqp_lib_amqp.js.html">common/transport/amqp/lib/amqp.js</a>, <a href="common_transport_amqp_lib_amqp.js.html#line13">line 13</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="connect"><span class="type-signature"></span>connect<span class="signature">(done)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Establishes a connection with the IoT Hub instance.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>done</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Called when the connection is established of if an error happened.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="common_transport_amqp_lib_amqp.js.html">common/transport/amqp/lib/amqp.js</a>, <a href="common_transport_amqp_lib_amqp.js.html#line92">line 92</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="disconnect"><span class="type-signature"></span>disconnect<span class="signature">(done)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Disconnects the link to the IoT Hub instance.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>done</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Called when disconnected of if an error happened.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="common_transport_amqp_lib_amqp.js.html">common/transport/amqp/lib/amqp.js</a>, <a href="common_transport_amqp_lib_amqp.js.html#line131">line 131</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="getReceiver"><span class="type-signature"></span>getReceiver<span class="signature">(endpoint, done)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Gets the <code>AmqpReceiver</code> object that can be used to receive messages from the IoT Hub instance and accept/reject/release them.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>endpoint</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Endpoint used for the receiving link.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>done</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Callback used to return the <code>AmqpReceiver</code> object.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="common_transport_amqp_lib_amqp.js.html">common/transport/amqp/lib/amqp.js</a>, <a href="common_transport_amqp_lib_amqp.js.html#line200">line 200</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="send"><span class="type-signature"></span>send<span class="signature">(message, endpoint, to, done)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Sends a message to the IoT Hub instance.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>message</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Message</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The message to send.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>endpoint</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The endpoint to use when sending the message.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The destination of the message.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>done</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Called when the message is sent or if an error happened.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="common_transport_amqp_lib_amqp.js.html">common/transport/amqp/lib/amqp.js</a>, <a href="common_transport_amqp_lib_amqp.js.html#line150">line 150</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="setDisconnectCallback"><span class="type-signature"></span>setDisconnectCallback<span class="signature">(disconnectCallback)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Sets the callback that should be called in case of disconnection.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>disconnectCallback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Called when the connection disconnected.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="common_transport_amqp_lib_amqp.js.html">common/transport/amqp/lib/amqp.js</a>, <a href="common_transport_amqp_lib_amqp.js.html#line118">line 118</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-azure-iot-amqp-base.html">azure-iot-amqp-base</a></li><li><a href="module-azure-iot-common.html">azure-iot-common</a></li><li><a href="module-azure-iot-http-base.html">azure-iot-http-base</a></li><li><a href="module-azure-iothub.html">azure-iothub</a></li></ul><h3>Classes</h3><ul><li><a href="module-azure-iot-amqp-base.Amqp.html">azure-iot-amqp-base.Amqp</a></li><li><a href="module-azure-iot-amqp-base.AmqpMessage.html">azure-iot-amqp-base.AmqpMessage</a></li><li><a href="module-azure-iot-amqp-base.AmqpReceiver.html">azure-iot-amqp-base.AmqpReceiver</a></li><li><a href="module-azure-iot-common.ArgumentError.html">azure-iot-common.ArgumentError</a></li><li><a href="module-azure-iot-common.DeviceMaximumQueueDepthExceededError.html">azure-iot-common.DeviceMaximumQueueDepthExceededError</a></li><li><a href="module-azure-iot-common.DeviceNotFoundError.html">azure-iot-common.DeviceNotFoundError</a></li><li><a href="module-azure-iot-common.FormatError.html">azure-iot-common.FormatError</a></li><li><a href="module-azure-iot-common.Message.html">azure-iot-common.Message</a></li><li><a href="module-azure-iot-common.SharedAccessSignature.html">azure-iot-common.SharedAccessSignature</a></li><li><a href="module-azure-iot-common.UnauthorizedError.html">azure-iot-common.UnauthorizedError</a></li><li><a href="module-azure-iot-http-base.Http.html">azure-iot-http-base.Http</a></li><li><a href="module-azure-iothub.Amqp.html">azure-iothub.Amqp</a></li><li><a href="module-azure-iothub.Client.html">azure-iothub.Client</a></li><li><a href="module-azure-iothub.Device.html">azure-iothub.Device</a></li><li><a href="module-azure-iothub.Registry.html">azure-iothub.Registry</a></li></ul><h3>Events</h3><ul><li><a href="module-azure-iot-amqp-base.AmqpReceiver.html#event:errorReceived">azure-iot-amqp-base.AmqpReceiver#errorReceived</a></li><li><a href="module-azure-iot-amqp-base.AmqpReceiver.html#event:message">azure-iot-amqp-base.AmqpReceiver#message</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Jun 07 2016 14:49:43 GMT-0700 (Pacific Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
