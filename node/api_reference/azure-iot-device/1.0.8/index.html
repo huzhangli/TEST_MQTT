@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Microsoft Azure IoT Device SDK for Node.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    <h1 class="page-title">Microsoft Azure IoT Device SDK for Node.js</h1>
+    
+
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+
+
+    <section>
+        <article><p>#azure-iot-device
+The core components of the Azure IoT device SDK.</p>
+<p><a href="https://badge.fury.io/js/azure-iot-device"><img src="https://badge.fury.io/js/azure-iot-device.svg" alt="npm version"></a></p>
+<h2>Install</h2><p><code>npm install -g azure-iot-device@latest</code> to get the latest (pre-release) version.</p>
+<h2>Getting Started</h2><p>This package contains the core components of the Azure IoT device SDK, but is lacking a transport over which to send events and receive messages. Your application must require a transport package in addition to the core package to do something useful.</p>
+<p>For example, if you want to send an event from your device to an IoT Hub <em>using the AMQP protocol</em>:</p>
+<pre class="prettyprint source lang-js"><code>var connectionString = '[IoT Hub device connection string]';
+
+// use factory function from AMQP-specific package
+var clientFromConnectionString = require('azure-iot-device-amqp').clientFromConnectionString;
+// AMQP-specific factory function returns Client object from core package
+var client = clientFromConnectionString(connectionString);
+
+// use Message object from core package
+var Message = require('azure-iot-device').Message;
+var msg = new Message('some data from my device');
+
+// send the event
+client.sendEvent(msg, function (err) {
+  if (err) console.log(err.toString());
+});</code></pre><p>See the <code>azure-iot-device-*</code> transport-specific packages for more information.</p></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-azure-iot-amqp-base.html">azure-iot-amqp-base</a></li><li><a href="module-azure-iot-common.html">azure-iot-common</a></li><li><a href="module-azure-iot-device.html">azure-iot-device</a></li><li><a href="module-azure-iot-device-amqp.html">azure-iot-device-amqp</a></li><li><a href="module-azure-iot-device-amqp-ws.html">azure-iot-device-amqp-ws</a></li><li><a href="module-azure-iot-device-http.html">azure-iot-device-http</a></li><li><a href="module-azure-iot-device-mqtt.html">azure-iot-device-mqtt</a></li><li><a href="module-azure-iot-http-base.html">azure-iot-http-base</a></li><li><a href="module-azure-iot-mqtt-base.html">azure-iot-mqtt-base</a></li></ul><h3>Classes</h3><ul><li><a href="module-azure-iot-amqp-base.Amqp.html">azure-iot-amqp-base.Amqp</a></li><li><a href="module-azure-iot-amqp-base.AmqpMessage.html">azure-iot-amqp-base.AmqpMessage</a></li><li><a href="module-azure-iot-amqp-base.AmqpReceiver.html">azure-iot-amqp-base.AmqpReceiver</a></li><li><a href="module-azure-iot-common.ArgumentError.html">azure-iot-common.ArgumentError</a></li><li><a href="module-azure-iot-common.DeviceMaximumQueueDepthExceededError.html">azure-iot-common.DeviceMaximumQueueDepthExceededError</a></li><li><a href="module-azure-iot-common.DeviceNotFoundError.html">azure-iot-common.DeviceNotFoundError</a></li><li><a href="module-azure-iot-common.FormatError.html">azure-iot-common.FormatError</a></li><li><a href="module-azure-iot-common.Message.html">azure-iot-common.Message</a></li><li><a href="module-azure-iot-common.SharedAccessSignature.html">azure-iot-common.SharedAccessSignature</a></li><li><a href="module-azure-iot-common.UnauthorizedError.html">azure-iot-common.UnauthorizedError</a></li><li><a href="module-azure-iot-device.Client.html">azure-iot-device.Client</a></li><li><a href="module-azure-iot-device-amqp.Amqp.html">azure-iot-device-amqp.Amqp</a></li><li><a href="module-azure-iot-device-amqp-ws.AmqpWs.html">azure-iot-device-amqp-ws.AmqpWs</a></li><li><a href="module-azure-iot-device-http.Http.html">azure-iot-device-http.Http</a></li><li><a href="module-azure-iot-device-http.HttpReceiver.html">azure-iot-device-http.HttpReceiver</a></li><li><a href="module-azure-iot-device-mqtt.Mqtt.html">azure-iot-device-mqtt.Mqtt</a></li><li><a href="module-azure-iot-http-base.Http.html">azure-iot-http-base.Http</a></li><li><a href="module-azure-iot-mqtt-base.Mqtt.html">azure-iot-mqtt-base.Mqtt</a></li></ul><h3>Events</h3><ul><li><a href="module-azure-iot-amqp-base.AmqpReceiver.html#event:errorReceived">azure-iot-amqp-base.AmqpReceiver#errorReceived</a></li><li><a href="module-azure-iot-amqp-base.AmqpReceiver.html#event:message">azure-iot-amqp-base.AmqpReceiver#message</a></li><li><a href="module-azure-iot-device-http.HttpReceiver.html#event:errorReceived">azure-iot-device-http.HttpReceiver#errorReceived</a></li><li><a href="module-azure-iot-device-http.HttpReceiver.html#event:message">azure-iot-device-http.HttpReceiver#message</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Jun 21 2016 08:51:07 GMT-0700 (Pacific Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

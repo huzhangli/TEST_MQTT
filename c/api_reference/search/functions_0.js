@@ -17,6 +17,7 @@ var searchData=
   ['iothubclient_5fll_5fsendeventasync',['IoTHubClient_LL_SendEventAsync',['../iothub__client__ll_8h.html#ab47deec96944dd3f1bf0e747ab565277',1,'iothub_client_ll.h']]],
   ['iothubclient_5fll_5fsetmessagecallback',['IoTHubClient_LL_SetMessageCallback',['../iothub__client__ll_8h.html#af8c8a00af8c2fac1ccf2111eb4e2016c',1,'iothub_client_ll.h']]],
   ['iothubclient_5fll_5fsetoption',['IoTHubClient_LL_SetOption',['../iothub__client__ll_8h.html#a70eb58c7ede92f75001104ff4745faa2',1,'iothub_client_ll.h']]],
+  ['iothubclient_5fll_5fuploadtoblob',['IoTHubClient_LL_UploadToBlob',['../iothub__client__ll_8h.html#a60f63e1839e2386233b7fee6d3a9f60a',1,'iothub_client_ll.h']]],
   ['iothubclient_5fsendeventasync',['IoTHubClient_SendEventAsync',['../iothub__client_8h.html#a3e60e953d03a503c1ae30dd6af7f390f',1,'iothub_client.h']]],
   ['iothubclient_5fsetmessagecallback',['IoTHubClient_SetMessageCallback',['../iothub__client_8h.html#a86d2a2ad2209f6e33bf59ee586abc042',1,'iothub_client.h']]],
   ['iothubclient_5fsetoption',['IoTHubClient_SetOption',['../iothub__client_8h.html#a7a0ff66340551d6748b13e9ca74f3197',1,'iothub_client.h']]],

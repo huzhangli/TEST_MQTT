@@ -24,7 +24,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Microsoft Azure IoT Device SDK for C
-   &#160;<span id="projectnumber">1.0.8</span>
+   &#160;<span id="projectnumber">1.0.9</span>
    </div>
    <div id="projectbrief">The Microsoft Azure IoT device libraries for C contain code that facilitates building devices and applications that connect to and are managed by Azure IoT Hub services.</div>
   </td>
@@ -98,11 +98,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p>APIs that allow a user (usually a device) to communicate with an Azure IoTHub.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="agenttime_8h_source.html">azure_c_shared_utility/agenttime.h</a>&quot;</code><br />
-<code>#include &quot;azure_c_shared_utility/macro_utils.h&quot;</code><br />
+<div class="textblock"><code>#include &quot;azure_c_shared_utility/macro_utils.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="agenttime_8h_source.html">azure_c_shared_utility/agenttime.h</a>&quot;</code><br />
 <code>#include &quot;azure_c_shared_utility/xio.h&quot;</code><br />
 <code>#include &quot;azure_c_shared_utility/doublylinkedlist.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="iothub__message_8h_source.html">iothub_message.h</a>&quot;</code><br />
+<code>#include &quot;iothub_transport_ll.h&quot;</code><br />
 </div>
 <p><a href="iothub__client__ll_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -124,14 +125,18 @@ Typedefs</h2></td></tr>
 typedef enum <a class="el" href="iothub__client__ll_8h.html#a1dcfcf0cc4f3d27d4fe24642929e0e05">IOTHUB_CLIENT_RESULT_TAG</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iothub__client__ll_8h.html#acab188935ec8a12092ab518112268bfd">IOTHUB_CLIENT_RESULT</a></td></tr>
 <tr class="memdesc:acab188935ec8a12092ab518112268bfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration specifying the status of calls to various APIs in this module. <br /></td></tr>
 <tr class="separator:acab188935ec8a12092ab518112268bfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4577382ad30d162f2b9cf461ead5639b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4577382ad30d162f2b9cf461ead5639b"></a>
-typedef enum <a class="el" href="iothub__client__ll_8h.html#af338feaaafa37bd3352967a1fe52c9e7">IOTHUB_CLIENT_CONFIRMATION_RESULT_TAG</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iothub__client__ll_8h.html#a4577382ad30d162f2b9cf461ead5639b">IOTHUB_CLIENT_CONFIRMATION_RESULT</a></td></tr>
-<tr class="memdesc:a4577382ad30d162f2b9cf461ead5639b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration passed in by the IoT Hub when the event confirmation callback is invoked to indicate status of the event processing in the hub. <br /></td></tr>
-<tr class="separator:a4577382ad30d162f2b9cf461ead5639b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0596fc5cfafe84c6b2a64c338973adb4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0596fc5cfafe84c6b2a64c338973adb4"></a>
+typedef struct <a class="el" href="struct_i_o_t_h_u_b_t_r_a_n_s_p_o_r_t___c_o_n_f_i_g___t_a_g.html">IOTHUBTRANSPORT_CONFIG_TAG</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iothub__client__ll_8h.html#a0596fc5cfafe84c6b2a64c338973adb4">IOTHUBTRANSPORT_CONFIG</a></td></tr>
+<tr class="memdesc:a0596fc5cfafe84c6b2a64c338973adb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct captures IoTHub transport configuration. <br /></td></tr>
+<tr class="separator:a0596fc5cfafe84c6b2a64c338973adb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06bec2310f92a54329a1f39b0804ee88"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a06bec2310f92a54329a1f39b0804ee88"></a>
 typedef enum <a class="el" href="iothub__client__ll_8h.html#aad29ba44eb4ad88bf10e7d3d43138bf7">IOTHUB_CLIENT_STATUS_TAG</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iothub__client__ll_8h.html#a06bec2310f92a54329a1f39b0804ee88">IOTHUB_CLIENT_STATUS</a></td></tr>
 <tr class="memdesc:a06bec2310f92a54329a1f39b0804ee88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration returned by the <a class="el" href="iothub__client__ll_8h.html#aa7773cdda101288cfd805c34f726eb84" title="This function returns the current sending status for IoTHubClient. ">IoTHubClient_LL_GetSendStatus</a> API to indicate the current sending status of the IoT Hub client. <br /></td></tr>
 <tr class="separator:a06bec2310f92a54329a1f39b0804ee88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4577382ad30d162f2b9cf461ead5639b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4577382ad30d162f2b9cf461ead5639b"></a>
+typedef enum <a class="el" href="iothub__client__ll_8h.html#af338feaaafa37bd3352967a1fe52c9e7">IOTHUB_CLIENT_CONFIRMATION_RESULT_TAG</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iothub__client__ll_8h.html#a4577382ad30d162f2b9cf461ead5639b">IOTHUB_CLIENT_CONFIRMATION_RESULT</a></td></tr>
+<tr class="memdesc:a4577382ad30d162f2b9cf461ead5639b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration passed in by the IoT Hub when the event confirmation callback is invoked to indicate status of the event processing in the hub. <br /></td></tr>
+<tr class="separator:a4577382ad30d162f2b9cf461ead5639b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a988b1c83b28d268c642d72dcab8228a4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a988b1c83b28d268c642d72dcab8228a4"></a>
 typedef enum <a class="el" href="iothub__client__ll_8h.html#ad6c1da5dbe6e1dd6746ab930b377d531">IOTHUBMESSAGE_DISPOSITION_RESULT_TAG</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iothub__client__ll_8h.html#a988b1c83b28d268c642d72dcab8228a4">IOTHUBMESSAGE_DISPOSITION_RESULT</a></td></tr>
 <tr class="memdesc:a988b1c83b28d268c642d72dcab8228a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration returned by the callback which is invoked whenever the IoT Hub sends a message to the device. <br /></td></tr>
@@ -144,21 +149,17 @@ typedef struct <a class="el" href="struct_i_o_t_h_u_b___c_l_i_e_n_t___c_o_n_f_i_
 typedef struct <a class="el" href="struct_i_o_t_h_u_b___c_l_i_e_n_t___d_e_v_i_c_e___c_o_n_f_i_g___t_a_g.html">IOTHUB_CLIENT_DEVICE_CONFIG_TAG</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iothub__client__ll_8h.html#ab9b304ecf293102cb855bee1b8d2cdf7">IOTHUB_CLIENT_DEVICE_CONFIG</a></td></tr>
 <tr class="memdesc:ab9b304ecf293102cb855bee1b8d2cdf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct captures IoTHub client device configuration. <br /></td></tr>
 <tr class="separator:ab9b304ecf293102cb855bee1b8d2cdf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0596fc5cfafe84c6b2a64c338973adb4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0596fc5cfafe84c6b2a64c338973adb4"></a>
-typedef struct <a class="el" href="struct_i_o_t_h_u_b_t_r_a_n_s_p_o_r_t___c_o_n_f_i_g___t_a_g.html">IOTHUBTRANSPORT_CONFIG_TAG</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iothub__client__ll_8h.html#a0596fc5cfafe84c6b2a64c338973adb4">IOTHUBTRANSPORT_CONFIG</a></td></tr>
-<tr class="memdesc:a0596fc5cfafe84c6b2a64c338973adb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct captures IoTHub transport configuration. <br /></td></tr>
-<tr class="separator:a0596fc5cfafe84c6b2a64c338973adb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:a1dcfcf0cc4f3d27d4fe24642929e0e05"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1dcfcf0cc4f3d27d4fe24642929e0e05"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iothub__client__ll_8h.html#a1dcfcf0cc4f3d27d4fe24642929e0e05">IOTHUB_CLIENT_RESULT_TAG</a> <tr class="memdesc:a1dcfcf0cc4f3d27d4fe24642929e0e05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration specifying the status of calls to various APIs in this module. <br /></td></tr>
 <tr class="separator:a1dcfcf0cc4f3d27d4fe24642929e0e05"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </td></tr>
-<tr class="memitem:af338feaaafa37bd3352967a1fe52c9e7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af338feaaafa37bd3352967a1fe52c9e7"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iothub__client__ll_8h.html#af338feaaafa37bd3352967a1fe52c9e7">IOTHUB_CLIENT_CONFIRMATION_RESULT_TAG</a> <tr class="memdesc:af338feaaafa37bd3352967a1fe52c9e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration passed in by the IoT Hub when the event confirmation callback is invoked to indicate status of the event processing in the hub. <br /></td></tr>
-<tr class="separator:af338feaaafa37bd3352967a1fe52c9e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</td></tr>
 <tr class="memitem:aad29ba44eb4ad88bf10e7d3d43138bf7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aad29ba44eb4ad88bf10e7d3d43138bf7"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iothub__client__ll_8h.html#aad29ba44eb4ad88bf10e7d3d43138bf7">IOTHUB_CLIENT_STATUS_TAG</a> <tr class="memdesc:aad29ba44eb4ad88bf10e7d3d43138bf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration returned by the <a class="el" href="iothub__client__ll_8h.html#aa7773cdda101288cfd805c34f726eb84" title="This function returns the current sending status for IoTHubClient. ">IoTHubClient_LL_GetSendStatus</a> API to indicate the current sending status of the IoT Hub client. <br /></td></tr>
 <tr class="separator:aad29ba44eb4ad88bf10e7d3d43138bf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</td></tr>
+<tr class="memitem:af338feaaafa37bd3352967a1fe52c9e7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af338feaaafa37bd3352967a1fe52c9e7"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iothub__client__ll_8h.html#af338feaaafa37bd3352967a1fe52c9e7">IOTHUB_CLIENT_CONFIRMATION_RESULT_TAG</a> <tr class="memdesc:af338feaaafa37bd3352967a1fe52c9e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration passed in by the IoT Hub when the event confirmation callback is invoked to indicate status of the event processing in the hub. <br /></td></tr>
+<tr class="separator:af338feaaafa37bd3352967a1fe52c9e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </td></tr>
 <tr class="memitem:ad6c1da5dbe6e1dd6746ab930b377d531"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad6c1da5dbe6e1dd6746ab930b377d531"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iothub__client__ll_8h.html#ad6c1da5dbe6e1dd6746ab930b377d531">IOTHUBMESSAGE_DISPOSITION_RESULT_TAG</a> <tr class="memdesc:ad6c1da5dbe6e1dd6746ab930b377d531"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration returned by the callback which is invoked whenever the IoT Hub sends a message to the device. <br /></td></tr>
 <tr class="separator:ad6c1da5dbe6e1dd6746ab930b377d531"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -196,6 +197,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a70eb58c7ede92f75001104ff4745faa2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="iothub__client__ll_8h.html#acab188935ec8a12092ab518112268bfd">IOTHUB_CLIENT_RESULT</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iothub__client__ll_8h.html#a70eb58c7ede92f75001104ff4745faa2">IoTHubClient_LL_SetOption</a> (IOTHUB_CLIENT_LL_HANDLE iotHubClientHandle, const char *optionName, const void *value)</td></tr>
 <tr class="memdesc:a70eb58c7ede92f75001104ff4745faa2"><td class="mdescLeft">&#160;</td><td class="mdescRight">This API sets a runtime option identified by parameter <code>optionName</code> to a value pointed to by <code>value</code>. <code>optionName</code> and the data type <code>value</code> is pointing to are specific for every option.  <a href="#a70eb58c7ede92f75001104ff4745faa2">More...</a><br /></td></tr>
 <tr class="separator:a70eb58c7ede92f75001104ff4745faa2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60f63e1839e2386233b7fee6d3a9f60a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="iothub__client__ll_8h.html#acab188935ec8a12092ab518112268bfd">IOTHUB_CLIENT_RESULT</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iothub__client__ll_8h.html#a60f63e1839e2386233b7fee6d3a9f60a">IoTHubClient_LL_UploadToBlob</a> (IOTHUB_CLIENT_LL_HANDLE iotHubClientHandle, const char *destinationFileName, const unsigned char *source, size_t size)</td></tr>
+<tr class="memdesc:a60f63e1839e2386233b7fee6d3a9f60a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This API uploads to Azure Storage the content pointed to by <code>source</code> having the size <code>size</code> under the blob name devicename/.  <a href="#a60f63e1839e2386233b7fee6d3a9f60a">More...</a><br /></td></tr>
+<tr class="separator:a60f63e1839e2386233b7fee6d3a9f60a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>APIs that allow a user (usually a device) to communicate with an Azure IoTHub. </p>
@@ -559,6 +563,56 @@ Functions</h2></td></tr>
 </ul>
 </li>
 </ul>
+<dl class="section return"><dt>Returns</dt><dd>IOTHUB_CLIENT_OK upon success or an error code upon failure. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a60f63e1839e2386233b7fee6d3a9f60a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="iothub__client__ll_8h.html#acab188935ec8a12092ab518112268bfd">IOTHUB_CLIENT_RESULT</a> IoTHubClient_LL_UploadToBlob </td>
+          <td>(</td>
+          <td class="paramtype">IOTHUB_CLIENT_LL_HANDLE&#160;</td>
+          <td class="paramname"><em>iotHubClientHandle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>destinationFileName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const unsigned char *&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This API uploads to Azure Storage the content pointed to by <code>source</code> having the size <code>size</code> under the blob name devicename/. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">iotHubClientHandle</td><td>The handle created by a call to the create function. </td></tr>
+    <tr><td class="paramname">destinationFileName</td><td>name of the file. </td></tr>
+    <tr><td class="paramname">source</td><td>pointer to the source for file content (can be NULL) </td></tr>
+    <tr><td class="paramname">size</td><td>the size of the source in memory (if <code>source</code> is NULL then size needs to be 0).</td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>IOTHUB_CLIENT_OK upon success or an error code upon failure. </dd></dl>
 
 </div>
