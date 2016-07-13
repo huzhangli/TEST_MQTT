@@ -5,35 +5,35 @@
 
 var Client = require('azure-iothub').Client;
 var Message = require('azure-iot-common').Message;
+var argv = require('yargs')
+             .usage('Usage: node $0 --connectionString <IOTHUB CONNECTION STRING> --to <DEVICE ID> --msg <MESSAGE>')
+             .demand(['connectionString', 'to'])
+             .alias('c', 'connectionString')
+             .describe('connectionString', 'IoT Hub service connection string.')
+             .alias('t', 'to')
+             .describe('to', 'ID of the device that shall receive the message')
+             .alias('m', 'msg')
+             .describe('msg', 'Message that shall be sent')
+             .argv;
 
-var connectionString = '[IoT Hub Connection String]';
-var targetDevice = '[Target device that will receive the message]';
+var messageBody = argv.msg ? argv.msg : 'Hello, World!';
+var message = new Message(messageBody);
 
-var client = Client.fromConnectionString(connectionString);
+var client = Client.fromConnectionString(argv.connectionString);
 
-client.open(function (err) {
-  if (err) {
-    console.error('Could not connect: ' + err.message);
-  } else {
-    console.log('Client connected');
+client.open(printResultFor('client.open', function(){
+  console.log('Sending message: ' + message.getData());
+  client.send(argv.to, message, printResultFor('send', function() { process.exit(0) }));
+}));
 
-    // Create a message and send it to the IoT Hub every second
-    setInterval(function () {
-      var data = JSON.stringify({ text : 'foo' });
-      var message = new Message(data);
-      console.log('Sending message: ' + message.getData());
-      client.send(targetDevice, message, printResultFor('send'));
-    }, 2000);
-  }
-});
-
-// Helper function to print results in the console
-function printResultFor(op) {
-  return function printResult(err, res) {
-    if (err) {
-      console.log(op + ' error: ' + err.toString());
+function printResultFor(operation, next) {
+  return function(err, result) {
+    if(err) {
+      console.error(operation + ' failed: ' + err.constructor.name + ': ' + err.message);
+      process.exit(1);
     } else {
-      console.log(op + ' status: ' + res.constructor.name);
+      console.log(operation + ' succeeded: ' + result.constructor.name);
+      if (next) next();
     }
   };
-}
+};

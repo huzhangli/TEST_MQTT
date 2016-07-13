@@ -3,9 +3,8 @@
 
 'use strict';
 
-var Http = require('azure-iot-device-http').Http;
-var Client = require('azure-iot-device').Client;
-var Message = require('azure-iot-device').Message;
+var Protocol = require('azure-iot-device-amqp').Amqp;
+var deviceSdk = require('azure-iot-device');
 var argv = require('yargs')
              .usage('Usage: \r\nnode $0 --connectionString <DEVICE CONNECTION STRING> [--amqp] [--mqtt] [--http] [--amqpws]\r\nnode $0 --sas <SHARED ACCESS SIGNATURE> [--amqp] [--mqtt] [--http] [--amqpws]')
              .check(function(argv, opts) { 
@@ -21,25 +20,26 @@ var argv = require('yargs')
              .describe('sas', 'Device-specific shared access signature.')
              .argv;
 
-// Create the client instance, either with a connection string or a shared access signature
-var client = argv.connectionString ? Client.fromConnectionString(argv.connectionString, Http)
-                                   : Client.fromSharedAccessSignature(argv.sas, Http);
+if (argv.mqtt) {
+  console.log('using MQTT');
+  Protocol = require('azure-iot-device-mqtt').Mqtt;
+} else if (argv.http) {
+  console.log('using HTTP');
+  Protocol = require('azure-iot-device-http').Http;
+} else if (argv.amqpws) {
+  console.log('using AMQP over Websockets');
+  Protocol = require('azure-iot-device-amqp-ws').AmqpWs;
+} else {
+  console.log('using AMQP');
+}
 
-// Create two messages and send them to the IoT hub as a batch.
-var data = [
-  { id: 1, message: 'hello' },
-  { id: 2, message: 'world' }
-];
+// fromConnectionString/fromSharedAccessSignature must specify a transport constructor, coming from any transport package.
+var client = argv.connectionString ? deviceSdk.Client.fromConnectionString(argv.connectionString, Protocol)
+                                   : deviceSdk.Client.fromSharedAccessSignature(argv.sas, Protocol);
 
-var messages = [];
-data.forEach(function (value) {
-  messages.push(new Message(JSON.stringify(value)));
-});
-
-console.log('sending ' + messages.length + ' events in a batch');
-
-client.open(printResultFor('open', function() {
-  client.sendEventBatch(messages, printResultFor('sendEventBatch', function() { process.exit(0); }));
+client.open(printResultFor('client.open', function() {
+  var message = new deviceSdk.Message('Hello, World!');
+  client.sendEvent(message, printResultFor('client.send', function() { process.exit(0); }));
 }));
 
 function printResultFor(operation, next) {

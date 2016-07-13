@@ -9,7 +9,8 @@
     "azure-iot-device": "1.0.9",
     "azure-iot-device-amqp": "1.0.9",
     "azure-iot-device-http": "1.0.10",
-    "azure-iot-device-mqtt": "1.0.9"
+    "azure-iot-device-mqtt": "1.0.9",
+    "yargs": "^4.7.1"
   },
   "devDependencies": {
     "jshint": "^2.8.0"

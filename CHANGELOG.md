@@ -1,3 +1,6 @@
+# Node Device and Service SDKs
+- Refactor samples into command line utilities
+
 Release for June 30, 2016
 
 # C Device SDK

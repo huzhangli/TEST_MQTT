@@ -4,33 +4,33 @@
 'use strict';
 
 var Client = require('azure-iothub').Client;
+var argv = require('yargs')
+             .usage('Usage: node $0 --connectionString <IOTHUB CONNECTION STRING>')
+             .demand(['connectionString'])
+             .alias('c', 'connectionString')
+             .describe('connectionString', 'IoT Hub service connection string.')
+             .argv
 
-var connectionString = '[IoT Hub connection string]';
+var client = Client.fromConnectionString(argv.connectionString);
 
-var client = Client.fromConnectionString(connectionString);
-
-client.open(function (err) {
-  if (err) {
-    console.error('Could not connect: ' + err.message);
-  } else {
-    console.log('Client connected');
-
-    client.getFileNotificationReceiver(function(err, receiver) {
-      if(err) {
-        console.error('Could not get file notification receiver: ' + err.message);
-      } else {
-        receiver.on('message', function(msg) {
-          console.log('File uploaded: ');
-          console.log(msg.data.toString());
-          receiver.complete(msg, function(err) {
-            if (err) {
-              console.error('Could not complete the message: ' + err.message);
-            } else {
-              console.log('Message completed');
-            }
-          });
-        });
-      }
+client.open(printResultFor('client.open', function() {
+  client.getFileNotificationReceiver(printResultFor('client.getFileNotificationReceiver', function(receiver) {
+    receiver.on('message', function(msg) {
+      console.log('File uploaded: ');
+      console.log(msg.data.toString());
+      receiver.complete(msg, printResultFor('receiver.complete', function() { process.exit(0); }));
     });
-  }
-});
+  }));
+}));
+
+function printResultFor(operation, next) {
+  return function(err, result) {
+    if(err) {
+      console.error(operation + ' failed: ' + err.constructor.name + ': ' + err.message);
+      process.exit(1);
+    } else {
+      console.log(operation + ' succeeded: ' + result.constructor.name);
+      if (next) next(result);
+    }
+  };
+};
