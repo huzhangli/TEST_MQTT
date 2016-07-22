@@ -39,6 +39,13 @@ namespace Microsoft.Azure.Devices.Client.Transport
             IDictionary<string, string> customHeaders, 
             CancellationToken cancellationToken);
 
+        Task<T2> PostAsync<T1, T2>(
+            Uri requestUri,
+            T1 entity,
+            IDictionary<HttpStatusCode, Func<HttpResponseMessage, Task<Exception>>> errorMappingOverrides,
+            IDictionary<string, string> customHeaders,
+            CancellationToken cancellationToken);
+
         Task DeleteAsync<T>(
             Uri requestUri,
             T entity,
