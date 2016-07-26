@@ -890,7 +890,7 @@ void on_event_sender_state_changed(void* context, MESSAGE_SENDER_STATE new_state
 	{
 		AMQP_TRANSPORT_INSTANCE* transport_state = (AMQP_TRANSPORT_INSTANCE*)context;
 
-		if (new_state == MESSAGE_SENDER_STATE_ERROR)
+		if (new_state != previous_state && new_state == MESSAGE_SENDER_STATE_ERROR)
 		{
 			transport_state->connection_state = AMQP_MANAGEMENT_STATE_ERROR;
 		}
