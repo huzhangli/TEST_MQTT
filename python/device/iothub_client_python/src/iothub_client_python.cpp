@@ -36,10 +36,12 @@
 // note: all new allocations throw a std::bad_alloc exception which trigger a MemoryError in Python
 //
 
+/*
 // helper to suppress AMQP console messages, comment function to get the output to console
 extern "C"
 void consolelogger_log(unsigned int options, char* format, ...)
 {}
+*/
 
 // helper classes for transitions between Python and C++ layer
 
