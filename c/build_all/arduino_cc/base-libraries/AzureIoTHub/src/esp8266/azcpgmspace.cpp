@@ -15,4 +15,19 @@ size_t az_c_strlen_P(PGM_P s) {
 
 const char *__ctype_ptr__ = NULL;
 
+unsigned long long strtoull(const char* nptr, char** endPtr, int base)
+{
+    return strtoull_s(nptr, endPtr, base);
+}
+
+float strtof(const char* nptr, char** endPtr)
+{
+    return strtof_s(nptr, endPtr);
+}
+
+long double strtold(const char* nptr, char** endPtr)
+{
+    return strtold_s(nptr, endPtr);
+}
+
 #endif

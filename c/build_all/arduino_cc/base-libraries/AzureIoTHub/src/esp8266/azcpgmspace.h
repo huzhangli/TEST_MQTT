@@ -12,6 +12,7 @@
 #define AZCPGMSPACE_H
 
 #include <pgmspace.h>
+#include "azure_c_shared_utility\crt_abstractions.h"
 
 
 #ifdef __cplusplus
@@ -22,6 +23,9 @@ extern "C" {
 #endif
 extern char* az_c_strncpy_P(char* dest, PGM_P src, size_t size);
 extern size_t az_c_strlen_P(PGM_P s);
+extern unsigned long long strtoull(const char* nptr, char** endPtr, int base);
+extern float strtof(const char* nptr, char** endPtr);
+extern long double strtold(const char* nptr, char** endPtr);
 #ifdef __cplusplus
 }
 #endif

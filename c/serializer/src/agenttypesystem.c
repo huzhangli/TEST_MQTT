@@ -32,6 +32,7 @@
 #include "multitree.h"
 
 #include "azure_c_shared_utility/xlogging.h"
+#include "azure_c_shared_utility/base64.h"
 
 #define NaN_STRING "NaN"
 #define MINUSINF_STRING "-INF"
@@ -83,26 +84,6 @@ static void NoFreeFunction(void* value)
 {
     (void)value;
 }
-
-
-static const char base64char[64] = { 
-    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 
-    'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 
-    'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 
-    'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 
-    'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 
-    'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', 
-    '8', '9', '-', '_'
-};
-
-static const char base64b16[16] = { 
-    'A', 'E', 'I', 'M', 'Q', 'U', 'Y', 'c', 'g', 'k', 
-    'o', 's', 'w', '0', '4', '8'
-};
-
-static const char base64b8[4] = {
-    'A' , 'Q' , 'g' , 'w'
-};
 
 #define IS_DIGIT(a) (('0'<=(a)) &&((a)<='9'))
 
@@ -2923,7 +2904,7 @@ AGENT_DATA_TYPES_RESULT Create_AGENT_DATA_TYPE_from_Members(AGENT_DATA_TYPE* age
 
 #define isLeapYear(y) ((((y) % 400) == 0) || (((y)%4==0)&&(!((y)%100==0))))
 
-const int daysInAllPreviousMonths[12] = {
+static const int daysInAllPreviousMonths[12] = {
     0,
     31,
     31 + 28,

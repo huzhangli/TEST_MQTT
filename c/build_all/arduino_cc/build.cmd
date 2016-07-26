@@ -33,6 +33,8 @@ set build_clean=OFF
 set build_test=OFF
 set run_test=OFF
 
+set /A return_error=0
+
 :args_loop
 if "%1" equ "" goto args_done
 if "%1" equ "-c" goto arg_build_clean
@@ -131,7 +133,7 @@ rem if %run_test%==ON (
 rem )
 
 popd
-goto :eof
+exit /B %return_error%
 
 
 rem -----------------------------------------------------------------------------
@@ -254,7 +256,24 @@ rem                     "F:\Azure\IoT\SDKs\iot-hub-c-huzzah-getstartedkit-master
     
     echo Build !RelativePath!:
     echo  !compiler_name! -compile !parameters!
-    call !compiler_name! -compile !parameters!
+    call !compiler_name! -compile !parameters! || (
+        echo.!!!! build fail for !projectName! !!!!
+        set /A return_error=1
+    )
 
+    for %%i in (%build_root%!RelativePath!) do set FullProjectName=%build_root%!RelativeWorkingDir!\%%~nxi.elf
+
+    if /I "!Hardware!"=="Adafruit_Huzzah" (
+        echo.
+        echo Memory information from !FullprojectName!:
+        call %user_packages_path%\esp8266\tools\xtensa-lx106-elf-gcc\1.20.0-26-gb404fb9-2\bin\xtensa-lx106-elf-size.exe !FullProjectName! -A
+    )
+    
+    if /I "!Hardware!"=="Adafruit_FeatherM0" (
+        echo.
+        echo Memory information from !FullprojectName!:
+        call %user_packages_path%\arduino\tools\arm-none-eabi-gcc\4.8.3-2014q1\bin\arm-none-eabi-size.exe !FullProjectName! -A
+    )
+    
 )
 goto :eof
