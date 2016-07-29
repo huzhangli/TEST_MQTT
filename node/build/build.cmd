@@ -87,6 +87,9 @@ if errorlevel 1 goto :cleanup
 call :lint-and-test %node-root%\service
 if errorlevel 1 goto :cleanup
 
+call :lint-and-test %node-root%\e2etests
+if errorlevel 1 goto :cleanup
+
 cd %node-root%\..\tools\iothub-explorer
 call npm -s test
 if errorlevel 1 goto :cleanup
@@ -113,6 +116,8 @@ call %npm-command%
 goto :eof
 
 :cleanup
+set EXITCODE=ERRORLEVEL
 call node %node-root%\..\tools\iothub-explorer\iothub-explorer.js %IOTHUB_CONNECTION_STRING% delete %IOTHUB_X509_DEVICE_ID%
 del %IOTHUB_X509_CERTIFICATE%
 del %IOTHUB_X509_KEY%
+exit /b %EXITCODE%

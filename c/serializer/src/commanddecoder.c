@@ -12,7 +12,7 @@
 #include "commanddecoder.h"
 #include "multitree.h"
 #include "azure_c_shared_utility/crt_abstractions.h"
-#include "azure_c_shared_utility/iot_logging.h"
+#include "azure_c_shared_utility/xlogging.h"
 #include "schema.h"
 #include "codefirst.h"
 #include "jsondecoder.h"
@@ -236,6 +236,7 @@ static EXECUTE_COMMAND_RESULT DecodeAndExecuteModelAction(COMMAND_DECODER_INSTAN
                 {
                     size_t i;
                     size_t j;
+                    result = EXECUTE_COMMAND_ERROR;
 
                     /* Codes_SRS_COMMAND_DECODER_99_011:[ CommandDecoder shall attempt to extract from the command text the value for each action argument.] */
                     for (i = 0; i < argCount; i++)

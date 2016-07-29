@@ -300,7 +300,7 @@ namespace Microsoft.Azure.Devices.Client.Transport.Mqtt
             }
             if (property.Key == MessageSystemPropertyNames.Ack)
             {
-                return (DeliveryAcknowledgement)Enum.Parse(typeof(DeliveryAcknowledgement), property.Value, true);
+                return Utils.ConvertDeliveryAckTypeFromString(property.Value);
             }
             return property.Value;
         }

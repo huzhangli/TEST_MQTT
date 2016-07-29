@@ -19,7 +19,7 @@ public final class DeviceClientConfig
      * SAS token. Use {@link #getTokenValidSecs()} instead in case the field becomes
      * configurable later on.
      */
-    public long TOKEN_VALID_SECS = 3600;
+    private long tokenValidSecs = 3600;
 
     /** The default value for readTimeoutMillis. */
     public static final int DEFAULT_READ_TIMEOUT_MILLIS = 240000;
@@ -30,6 +30,7 @@ public final class DeviceClientConfig
     protected final String iotHubName;
     protected final String deviceId;
     protected final String deviceKey;
+    protected String pathToCertificate;
 
     /**
      * The callback to be invoked if a message is received.
@@ -73,6 +74,18 @@ public final class DeviceClientConfig
         this.iotHubName = iotHubHostname.substring(0, iotHubNameEndIdx);
         this.deviceId = deviceId;
         this.deviceKey = deviceKey;
+        DefaultCertificate cert = new DefaultCertificate();
+        this.pathToCertificate = cert.getDefaultCertificate();
+    }
+
+    /**
+     * Setter for the providing trusted certificate.
+     *
+     * @param pathToCertificate path to the certificate for one way authentication.
+     */
+    public void setPathToCert(String pathToCertificate)
+    {
+        this.pathToCertificate = pathToCertificate;
     }
 
     /**
@@ -143,8 +156,22 @@ public final class DeviceClientConfig
      */
     public long getTokenValidSecs()
     {
-        // Codes_SRS_DEVICECLIENTCONFIG_11_005: [The function shall return the value of TOKEN_VALID_SECS.]
-        return TOKEN_VALID_SECS;
+        // Codes_SRS_DEVICECLIENTCONFIG_11_005: [The function shall return the value of tokenValidSecs.]
+        return this.tokenValidSecs;
+    }
+
+    /**
+     * Setter for the number of seconds a SAS token should be valid for. A
+     * message that arrives at an IoT Hub in time of length greater than this
+     * value will be rejected by the IoT Hub.
+     *
+     * @return the number of seconds a message in transit to an IoT Hub is valid
+     * for.
+     */
+    public void setTokenValidSecs(long expiryTime)
+    {
+        // Codes_SRS_DEVICECLIENTCONFIG_25_016: [The function shall set the value of tokenValidSecs.]
+        this.tokenValidSecs = expiryTime;
     }
 
     /**
@@ -194,11 +221,23 @@ public final class DeviceClientConfig
         return DEFAULT_MESSAGE_LOCK_TIMEOUT_SECS;
     }
 
+    /**
+     * Getter for the path to the certificate.
+     *
+     * @return the path to certificate.
+     */
+    public String getPathToCertificate()
+    {
+        return this.pathToCertificate;
+    }
+
     protected DeviceClientConfig()
     {
         this.iotHubHostname = null;
         this.iotHubName = null;
         this.deviceId = null;
         this.deviceKey = null;
+        this.pathToCertificate = null;
     }
+
 }

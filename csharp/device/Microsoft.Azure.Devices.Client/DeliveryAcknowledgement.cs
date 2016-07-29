@@ -6,7 +6,7 @@ namespace Microsoft.Azure.Devices.Client
     /// <summary>
     /// Specifies the different acknowledgement levels for message delivery.
     /// </summary>
-    enum DeliveryAcknowledgement
+    public enum DeliveryAcknowledgement
     {
         /// <summary>
         /// Acknowledgement is NOT sent on delivery or failure.

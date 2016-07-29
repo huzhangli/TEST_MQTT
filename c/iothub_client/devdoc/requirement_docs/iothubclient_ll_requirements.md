@@ -75,7 +75,7 @@ extern IOTHUB_CLIENT_RESULT IoTHubClient_LL_SetOption(IOTHUB_CLIENT_LL_HANDLE io
 extern IOTHUB_CLIENT_RESULT IoTHubClient_LL_UploadToBlob(IOTHUB_CLIENT_LL_HANDLE iotHubClientHandle, const char* destinationFileName, const unsigned char* source, size_t size);
 ```
 
-###IoTHubClient_LL_CreateFromConnectionString
+###IoTHubClient_LL_CreateFromConnectionString 
 ```c
 extern IOTHUB_CLIENT_HANDLE IoTHubClient_LL_CreateFromConnectionString(const char* connectionString, IOTHUB_CLIENT_TRANSPORT_PROVIDER protocol);
 ```
@@ -86,8 +86,8 @@ extern IOTHUB_CLIENT_HANDLE IoTHubClient_LL_CreateFromConnectionString(const cha
 **SRS_IOTHUBCLIENT_LL_12_012: [**If the allocation failed IoTHubClient_LL_CreateFromConnectionString  returns NULL.**]**  
 **SRS_IOTHUBCLIENT_LL_12_005: [**IoTHubClient_LL_CreateFromConnectionString shall try to parse the connectionString input parameter for the following structure: "Key1=value1;key2=value2;key3=value3..."**]** 
 **SRS_IOTHUBCLIENT_LL_12_013: [**If the parsing failed IoTHubClient_LL_CreateFromConnectionString returns NULL**]**  
-**SRS_IOTHUBCLIENT_LL_12_006: [**IoTHubClient_LL_CreateFromConnectionString shall verify the existence of the following Key/Value pairs in the connection string: HostName, DeviceId, SharedAccessKey or SharedAccessSignature.**]**
-**SRS_IOTHUBCLIENT_LL_12_014: [**If either of key is missing then IoTHubClient_LL_CreateFromConnectionString returns NULL **]**
+**SRS_IOTHUBCLIENT_LL_12_006: [**IoTHubClient_LL_CreateFromConnectionString shall verify the existence of the following Key/Value pairs in the connection string: HostName, DeviceId, SharedAccessKey, SharedAccessSignature or x509**]**
+**SRS_IOTHUBCLIENT_LL_12_014: [**If either of key is missing or x509 is not set to `"true"` then IoTHubClient_LL_CreateFromConnectionString returns NULL **]**
 **SRS_IOTHUBCLIENT_LL_02_092: [** `IoTHubClient_LL_CreateFromConnectionString` shall create a `IOTHUB_CLIENT_LL_UPLOADTOBLOB_HANDLE` from `IOTHUB_CLIENT_CONFIG`. **]**
 **SRS_IOTHUBCLIENT_LL_02_093: [** If creating the `IOTHUB_CLIENT_LL_UPLOADTOBLOB_HANDLE` fails then `IoTHubClient_LL_CreateFromConnectionString` shall fail and return NULL. **]**  
 **SRS_IOTHUBCLIENT_LL_12_009: [**IoTHubClient_LL_CreateFromConnectionString shall split the value of HostName to Name and Suffix using the first "." as a separator**]** 
@@ -120,6 +120,7 @@ extern IOTHUB_CLIENT_HANDLE IoTHubClient_LL_Create(const IOTHUB_CLIENT_CONFIG* c
 extern  IOTHUB_CLIENT_LL_HANDLE IoTHubClient_LL_CreateWithTransport(IOTHUB_CLIENT_DEVICE_CONFIG * config);
 ```
 **SRS_IOTHUBCLIENT_LL_17_001: [**IoTHubClient_LL_CreateWithTransport shall return NULL if config parameter is NULL, or protocol field is NULL or transportHandle is NULL.**]** 
+**SRS_IOTHUBCLIENT_LL_02_098: [** IoTHubClient_LL_CreateWithTransport shall fail and return NULL if both `config->deviceKey` AND `config->deviceSasToken` are NULL. **]**
 **SRS_IOTHUBCLIENT_LL_17_002: [**IoTHubClient_LL_CreateWithTransport shall allocate data for the IOTHUB_CLIENT_LL_HANDLE.**]**
 **SRS_IOTHUBCLIENT_LL_17_003: [**If allocation fails, the function shall fail and return NULL.**]** 
 **SRS_IOTHUBCLIENT_LL_02_096: [** `IoTHubClient_LL_CreateWithTransport` shall create the data structures needed to instantiate a `IOTHUB_CLIENT_LL_UPLOADTOBLOB_HANDLE`. **]**
@@ -225,7 +226,17 @@ Options that shall be handled by IoTHubClient_LL:
 -    **SRS_IOTHUBCLIENT_LL_02_043: [** Calling `IoTHubClient_LL_SetOption` with \*value set to "0" shall disable the timeout mechanism for all new messages. **]**
 -    **SRS_IOTHUBCLIENT_LL_02_044: [** Messages already delivered to IoTHubClient_LL shall not have their timeouts modified by a new call to IoTHubClient_LL_SetOption. **]**
 
-**SRS_IOTHUBCLIENT_LL_02_038: [**Otherwise, IoTHubClient_LL shall call the function _SetOption of the underlying transport and return what that function is returning.**]**
+ **SRS_IOTHUBCLIENT_LL_02_099: [** IoTHubClient_LL_SetOption shall return according to the table below **]**
+
+| IoTHubClient_UploadToBlob_SetOption   |    Transport_SetOption    |  Return value
+|---------------------------------------|---------------------------|
+| IOTHUB_CLIENT_OK                      |IOTHUB_CLIENT_OK           |IOTHUB_CLIENT_OK                                     
+| IOTHUB_CLIENT_OK                      |IOTHUB_CLIENT_ERROR        |IOTHUB_CLIENT_ERROR
+| IOTHUB_CLIENT_OK                      |IOTHUB_CLIENT_INVALID_ARG  |IOTHUB_CLIENT_OK
+| IOTHUB_CLIENT_ERROR                   |ANY value                  |IOTHUB_CLIENT_ERROR                                     
+| IOTHUB_CLIENT_ERRROR                  |IOTHUB_CLIENT_ERROR        |IOTHUB_CLIENT_ERROR
+| IOTHUB_CLIENT_INVALID_ARG             |value "X"                  |"X"                                     
+
 
 ###IoTHubClient_LL_UploadToBlob
 ```c
@@ -294,6 +305,20 @@ the following HTTP request headers: **]**
 **SRS_IOTHUBCLIENT_LL_02_079: [** If `HTTPAPIEX_SAS_ExecuteRequest` fails then `IoTHubClient_LL_UploadToBlob` shall fail and return `IOTHUB_CLIENT_ERROR`. **]**
 **SRS_IOTHUBCLIENT_LL_02_080: [** If status code is greater than or equal to 300 then `IoTHubClient_LL_UploadToBlob` shall fail and return `IOTHUB_CLIENT_ERROR`. **]**
 
+If the credentials used to create `iotHubClientHandle` do not have "deviceKey" or "deviceSasToken" then
+**SRS_IOTHUBCLIENT_LL_02_106: [** - `x509certificate` and `x509privatekey` saved options shall be passed on the HTTPAPIEX_SetOption **]**
+**SRS_IOTHUBCLIENT_LL_02_107: [** - "Authorization" header shall not be build. **]**
+
+**SRS_IOTHUBCLIENT_LL_02_108: [** `IoTHubClient_LL_UploadToBlob` shall execute HTTPAPIEX_ExecuteRequest passing the following information for arguments: **]**
+- HTTPAPIEX_HANDLE handle - the handle created at the beginning of `IoTHubClient_LL_UploadToBlob`
+- HTTPAPI_REQUEST_TYPE requestType - HTTPAPI_REQUEST_GET
+- const char* relativePath - the HTTP relative path
+- HTTP_HEADERS_HANDLE requestHttpHeadersHandle - request HTTP headers
+- BUFFER_HANDLE requestContent - NULL
+- unsigned int* statusCode - the address of an unsigned int that will contain the HTTP status code
+- HTTP_HEADERS_HANDLE responseHttpHeadersHandl - NULL
+- BUFFER_HANDLE responseContent - the HTTP response BUFFER_HANDLE
+
 **SRS_IOTHUBCLIENT_LL_02_081: [** Otherwise, `IoTHubClient_LL_UploadToBlob` shall use parson to extract and save the following information from the response buffer: correlationID and SasUri. **]**
 **SRS_IOTHUBCLIENT_LL_02_082: [** If extracting and saving the correlationId or SasUri fails then `IoTHubClient_LL_UploadToBlob` shall fail and return `IOTHUB_CLIENT_ERROR`. **]**
 
@@ -326,3 +351,25 @@ the following HTTP request headers: **]**
 **SRS_IOTHUBCLIENT_LL_02_086: [** If performing the HTTP request fails then `IoTHubClient_LL_UploadToBlob` shall fail and return `IOTHUB_CLIENT_ERROR`. **]**
 **SRS_IOTHUBCLIENT_LL_02_087: [** If the statusCode of the HTTP request is greater than or equal to 300 then `IoTHubClient_LL_UploadToBlob` shall fail and return `IOTHUB_CLIENT_ERROR` **]**
 **SRS_IOTHUBCLIENT_LL_02_088: [** Otherwise, `IoTHubClient_LL_UploadToBlob` shall succeed and return `IOTHUB_CLIENT_OK`. **]**
+
+###IoTHubClient_LL_UploadToBlob_SetOption
+```c
+IOTHUB_CLIENT_RESULT IoTHubClient_LL_UploadToBlob_SetOption(IOTHUB_CLIENT_LL_UPLOADTOBLOB_HANDLE handle, const char* optionName, const void* value)
+```
+
+IoTHubClient_LL_UploadToBlob_SetOption sets an option for UploadToBlob.
+
+**SRS_IOTHUBCLIENT_LL_02_110: [** If parameter `handle` is NULL then IoTHubClient_LL_UploadToBlob_SetOption shall fail and return IOTHUB_CLIENT_ERROR. **]**
+
+Handled options are
+
+**SRS_IOTHUBCLIENT_LL_02_100: [** `x509certificate` - then `value` then is a null terminated string that contains the x509 certificate. **]**
+**SRS_IOTHUBCLIENT_LL_02_101: [** `x509privatekey` - then `value` is a null terminated string that contains the x509 privatekey. **]**
+
+**SRS_IOTHUBCLIENT_LL_02_102: [** If an unknown option is presented then `IoTHubClient_LL_UploadToBlob_SetOption` shall return IOTHUB_CLIENT_INVALID_ARG. **]**
+
+**SRS_IOTHUBCLIENT_LL_02_109: [** If the authentication scheme is NOT x509 then `IoTHubClient_LL_UploadToBlob_SetOption` shall return IOTHUB_CLIENT_INVALID_ARG. **]**
+
+**SRS_IOTHUBCLIENT_LL_02_103: [** The options shall be saved. **]** 
+**SRS_IOTHUBCLIENT_LL_02_104: [** If saving fails, then `IoTHubClient_LL_UploadToBlob_SetOption` shall fail and return IOTHUB_CLIENT_ERROR. **]**
+**SRS_IOTHUBCLIENT_LL_02_105: [** Otherwise `IoTHubClient_LL_UploadToBlob_SetOption` shall succeed and return IOTHUB_CLIENT_OK. **]**

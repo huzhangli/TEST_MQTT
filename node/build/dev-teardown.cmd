@@ -16,6 +16,7 @@ call npm rm azure-iothub
 cd %node-root%\..\tools\iothub-explorer
 echo -- Removing links for %cd% --
 call npm rm azure-iothub
+call npm rm azure-iot-device
 call npm rm azure-iot-common
 
 cd %node-root%\e2etests
@@ -68,6 +69,7 @@ cd %node-root%\device\core
 echo -- Removing links for %cd% --
 call npm rm
 call npm rm azure-iot-common
+call npm rm azure-iot-http-base
 
 cd %node-root%\common\transport\mqtt
 echo -- Removing links for %cd% --

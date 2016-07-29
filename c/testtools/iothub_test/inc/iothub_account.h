@@ -12,11 +12,12 @@ extern "C"
 #include <stddef.h>
 #endif
 
+#include "iothub_messaging_ll.h"
 #include "azure_c_shared_utility/crt_abstractions.h"
 
 typedef struct IOTHUB_ACCOUNT_INFO_TAG* IOTHUB_ACCOUNT_INFO_HANDLE;
 
-extern IOTHUB_ACCOUNT_INFO_HANDLE IoTHubAccount_Init(bool createDevice, const char* callerName);
+extern IOTHUB_ACCOUNT_INFO_HANDLE IoTHubAccount_Init(bool createDevice);
 extern void IoTHubAccount_deinit(IOTHUB_ACCOUNT_INFO_HANDLE acctHandle);
 
 extern const char* IoTHubAccount_GetEventHubConnectionString(IOTHUB_ACCOUNT_INFO_HANDLE acctHandle);
@@ -30,6 +31,7 @@ extern const char* IoTHubAccount_GetSharedAccessSignature(IOTHUB_ACCOUNT_INFO_HA
 extern const char* IoTHubAccount_GetEventhubAccessKey(IOTHUB_ACCOUNT_INFO_HANDLE acctHandle);
 extern const size_t IoTHubAccount_GetIoTHubPartitionCount(IOTHUB_ACCOUNT_INFO_HANDLE acctHandle);
 extern const char* IoTHubAccount_GetEventhubConsumerGroup(IOTHUB_ACCOUNT_INFO_HANDLE acctHandle);
+extern const IOTHUB_MESSAGING_HANDLE IoTHubAccount_GetMessagingHandle(IOTHUB_ACCOUNT_INFO_HANDLE acctHandle);
 
 #ifdef __cplusplus
 }

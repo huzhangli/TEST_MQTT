@@ -11,11 +11,11 @@ That does not mean that MQTT only works with the _LL APIs.
 Simply changing the using the convenience layer (functions not having _LL)
 and removing calls to _DoWork will yield the same results. */
 
+#include "azure_c_shared_utility/threadapi.h"
+#include "azure_c_shared_utility/platform.h"
 #include "serializer.h"
 #include "iothub_client_ll.h"
 #include "iothubtransportmqtt.h"
-#include "azure_c_shared_utility/threadapi.h"
-#include "azure_c_shared_utility/platform.h"
 #ifdef MBED_BUILD_TIMESTAMP
 #include "certs.h"
 #endif // MBED_BUILD_TIMESTAMP
@@ -38,7 +38,6 @@ WITH_ACTION(SetAirResistance, int, Position)
 
 END_NAMESPACE(WeatherStation);
 
-DEFINE_ENUM_STRINGS(IOTHUB_CLIENT_CONFIRMATION_RESULT, IOTHUB_CLIENT_CONFIRMATION_RESULT_VALUES)
 
 EXECUTE_COMMAND_RESULT TurnFanOn(ContosoAnemometer* device)
 {
@@ -63,9 +62,9 @@ EXECUTE_COMMAND_RESULT SetAirResistance(ContosoAnemometer* device, int Position)
 
 void sendCallback(IOTHUB_CLIENT_CONFIRMATION_RESULT result, void* userContextCallback)
 {
-    int messageTrackingId = (intptr_t)userContextCallback;
+    unsigned int messageTrackingId = (unsigned int)(uintptr_t)userContextCallback;
 
-    (void)printf("Message Id: %d Received.\r\n", messageTrackingId);
+    (void)printf("Message Id: %u Received.\r\n", messageTrackingId);
 
     (void)printf("Result Call Back Called! Result is: %s \r\n", ENUM_TO_STRING(IOTHUB_CLIENT_CONFIRMATION_RESULT, result));
 }

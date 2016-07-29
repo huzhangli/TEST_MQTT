@@ -31,3 +31,5 @@ if(${use_amqp})
 		add_sample_directory(iothub_client_sample_amqp_websockets)
 	endif()
 endif()
+
+add_sample_directory(iothub_client_sample_x509)

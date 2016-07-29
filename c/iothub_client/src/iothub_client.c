@@ -16,7 +16,7 @@
 #include "iothubtransport.h"
 #include "azure_c_shared_utility/threadapi.h"
 #include "azure_c_shared_utility/lock.h"
-#include "azure_c_shared_utility/iot_logging.h"
+#include "azure_c_shared_utility/xlogging.h"
 #include "azure_c_shared_utility/list.h"
 
 typedef struct IOTHUB_CLIENT_INSTANCE_TAG
@@ -184,7 +184,7 @@ IOTHUB_CLIENT_HANDLE IoTHubClient_CreateFromConnectionString(const char* connect
     else
     {
         /* Codes_SRS_IOTHUBCLIENT_12_004: [IoTHubClient_CreateFromConnectionString shall allocate a new IoTHubClient instance.] */
-        result = malloc(sizeof(IOTHUB_CLIENT_INSTANCE));
+		result = (IOTHUB_CLIENT_INSTANCE *) malloc(sizeof(IOTHUB_CLIENT_INSTANCE));
 
         /* Codes_SRS_IOTHUBCLIENT_12_011: [If the allocation failed, IoTHubClient_CreateFromConnectionString returns NULL] */
         if (result == NULL)

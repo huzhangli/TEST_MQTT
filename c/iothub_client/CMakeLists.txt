@@ -14,6 +14,10 @@ set(iothub_client_ll_transport_c_files
 ../parson/parson.c
 )
 
+if(MSVC)
+set_source_files_properties(../parson/parson.c PROPERTIES COMPILE_FLAGS "/wd4244 /wd4232")
+endif()
+
 if(NOT ${dont_use_uploadtoblob})
 set(iothub_client_ll_transport_c_files 
     ${iothub_client_ll_transport_c_files}
@@ -50,6 +54,15 @@ set(iothub_client_h_files
 ./inc/iothubtransport.h
 )
 
+set(iothub_client_h_install_files
+	${iothub_client_ll_transport_h_files}
+	${iothub_client_h_files}
+)
+
+set(iothub_client_libs
+iothub_client
+)
+
 if(${use_http})
 	set(iothub_client_http_transport_c_files
 		${iothub_client_ll_transport_c_files}
@@ -61,6 +74,11 @@ if(${use_http})
 		./inc/iothubtransporthttp.h
 		./inc/iothub_transport_ll.h
 		./inc/iothub_client_private.h
+	)
+	
+	set(iothub_client_h_install_files
+		${iothub_client_h_install_files}
+		${iothub_client_http_transport_h_files}
 	)
 endif()
 
@@ -86,6 +104,11 @@ if(${use_amqp})
 			./inc/iothubtransportamqp.h
 		)	
 	endif()
+	
+	set(iothub_client_h_install_files
+		${iothub_client_h_install_files}
+		${iothub_client_amqp_transport_h_files}
+	)
 endif()
 
 if(${use_mqtt})
@@ -97,6 +120,11 @@ if(${use_mqtt})
 	set(iothub_client_mqtt_transport_h_files
 		${iothub_client_ll_transport_h_files}
 		./inc/iothubtransportmqtt.h
+	)
+	
+	set(iothub_client_h_install_files
+		${iothub_client_h_install_files}
+		${iothub_client_mqtt_transport_h_files}
 	)
 endif()
 
@@ -120,12 +148,24 @@ set(IOTHUB_CLIENT_INC_FOLDER ${CMAKE_CURRENT_LIST_DIR}/inc CACHE INTERNAL "this 
 include_directories(../parson)
 include_directories(${SHARED_UTIL_INC_FOLDER})
 
+if (WINCE)
+include_directories(${SHARED_UTIL_INC_FOLDER}/azure_c_shared_utility/windowsce) #windowsce SDK doesn't have stdbool.h
+ENDIF()
+
+
 include_directories(${IOTHUB_CLIENT_INC_FOLDER})
 
 IF(WIN32)
 	#windows needs this define
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 	add_definitions(-DGB_MEASURE_MEMORY_FOR_THIS -DGB_DEBUG_ALLOC)
+  
+  if (WINCE) # Be lax with WEC 2013 compiler
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W3")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /W3")
+  SET_SOURCE_FILES_PROPERTIES(src/iothub_client.c src/iothubtransport.c src/iothub_client_ll.c src/iothubtransporthttp.c src/blob.c PROPERTIES LANGUAGE CXX)
+  ENDIF(WINCE)
+
 ENDIF(WIN32)
 
 if(${use_http})
@@ -136,6 +176,10 @@ if(${use_http})
 	)
 	linkSharedUtil(iothub_client_http_transport)
     target_link_libraries(iothub_client_http_transport)
+	set(iothub_client_libs
+		${iothub_client_libs}
+		iothub_client_http_transport
+	)
 endif()
 
 if(${use_amqp})
@@ -146,6 +190,10 @@ if(${use_amqp})
 	)
 	linkSharedUtil(iothub_client_amqp_transport)
     target_link_libraries(iothub_client_amqp_transport)
+	set(iothub_client_libs
+		${iothub_client_libs}
+		iothub_client_amqp_transport
+	)
 endif()
 
 if(${use_mqtt})
@@ -157,6 +205,10 @@ if(${use_mqtt})
 	linkSharedUtil(iothub_client_mqtt_transport)
 	linkMqttLibrary(iothub_client_mqtt_transport)
     target_link_libraries(iothub_client_mqtt_transport)
+	set(iothub_client_libs
+		${iothub_client_libs}
+		iothub_client_mqtt_transport
+	)
 endif()
 
 include_directories(${IOTHUB_CLIENT_INC_FOLDER})
@@ -175,14 +227,31 @@ linkSharedUtil(iothub_client)
 
 # Don't build samples under Win32 ARM for now
 if(WIN32)
-	if (NOT ${ARCHITECTURE} STREQUAL "ARM")
-		add_subdirectory(samples)
-	endif()
+# Build samples for WEC 2013 for both ARM and x86 processsor types
+  if(WINCE) 
+	add_subdirectory(samples)
+  else()
+    if (NOT ${ARCHITECTURE} STREQUAL "ARM")
+	add_subdirectory(samples)
+    endif()
+  endif()
+	
 else()
 	add_subdirectory(samples)
 endif()
+
 
 if(NOT IN_OPENWRT)
 # Disable tests for OpenWRT
 add_subdirectory(tests)
 endif()
+
+if(WIN32)
+else()
+    install (TARGETS 
+		${iothub_client_libs} 
+		DESTINATION lib)
+    install (FILES 
+		${iothub_client_h_install_files} 
+		DESTINATION include/azureiot)
+endif (WIN32)
