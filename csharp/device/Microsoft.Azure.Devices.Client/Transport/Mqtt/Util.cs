@@ -25,6 +25,11 @@ namespace Microsoft.Azure.Devices.Client.Transport.Mqtt
             {
                 unchecked
                 {
+                    current++;
+                    if (current == 0 || (current & 0x7FFF) == 0)
+                    {
+                        current++;
+                    }
                     return current++;
                 }
             }
@@ -231,10 +236,8 @@ namespace Microsoft.Azure.Devices.Client.Transport.Mqtt
             }
             catch (Exception ex)
             {
-                if (!exceptionHandler(context, ex))
-                {
-                    throw;
-                }
+                exceptionHandler(context, ex);
+                throw;
             }
         }
 

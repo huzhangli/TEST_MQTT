@@ -35,7 +35,7 @@ namespace Microsoft.Azure.Devices.Client.Transport.Mqtt
 
         static readonly Action<object> PingServerCallback = PingServer;
         static readonly Action<object> CheckConnAckTimeoutCallback = ShutdownIfNotReady;
-        static readonly Func<IChannelHandlerContext, Exception, bool> ShutdownOnWriteErrorHandler = (ctx, ex) => { ShutdownOnError(ctx, ex); return false; };
+        static readonly Func<IChannelHandlerContext, Exception, bool> ShutdownOnWriteErrorHandler = (ctx, ex) => { ShutdownOnError(ctx, ex); return true; };
 
         readonly Action onConnected;
         readonly Action<Message> onMessageReceived;
@@ -82,7 +82,7 @@ namespace Microsoft.Azure.Devices.Client.Transport.Mqtt
             this.onConnected = onConnected;
             this.onError = onError;
             this.onMessageReceived = onMessageReceived;
-            this.pingRequestInterval = this.mqttTransportSettings.KeepAliveInSeconds > 0 ? TimeSpan.FromSeconds(this.mqttTransportSettings.KeepAliveInSeconds / 2d) : TimeSpan.MaxValue;
+            this.pingRequestInterval = this.mqttTransportSettings.KeepAliveInSeconds > 0 ? TimeSpan.FromSeconds(this.mqttTransportSettings.KeepAliveInSeconds / 4d) : TimeSpan.MaxValue;
 
             this.deviceBoundOneWayProcessor = new SimpleWorkQueue<PublishPacket>(this.AcceptMessageAsync);
             this.deviceBoundTwoWayProcessor = new OrderedTwoPhaseWorkQueue<int, PublishPacket>(this.AcceptMessageAsync, p => p.PacketId, this.SendAckAsync);
