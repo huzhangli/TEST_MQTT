@@ -34,6 +34,9 @@ static IOTHUB_ACCOUNT_INFO_HANDLE g_iothubAcctInfo = NULL;
 #define IOTHUB_TIMEOUT_SEC           1000
 #define MAX_CLOUD_TRAVEL_TIME        60.0
 
+#define DEFAULT_MESSAGE_ID "az-5671"
+#define DEFAULT_CORRELATION_ID "45456"
+
 DEFINE_MICROMOCK_ENUM_TO_STRING(IOTHUB_TEST_CLIENT_RESULT, IOTHUB_TEST_CLIENT_RESULT_VALUES);
 DEFINE_MICROMOCK_ENUM_TO_STRING(IOTHUB_CLIENT_RESULT, IOTHUB_CLIENT_RESULT_VALUES);
 DEFINE_MICROMOCK_ENUM_TO_STRING(MAP_RESULT, MAP_RESULT_VALUES);
@@ -41,6 +44,8 @@ DEFINE_MICROMOCK_ENUM_TO_STRING(MAP_RESULT, MAP_RESULT_VALUES);
 typedef struct EXPECTED_SEND_DATA_TAG
 {
     const char* expectedString;
+	const char* expectedMessageId;
+	const char* expectedCorrelationId;
     bool wasFound;
     bool dataWasRecv;
     LOCK_HANDLE lock;
@@ -58,9 +63,9 @@ typedef struct EXPECTED_RECEIVE_DATA_TAG
 
 BEGIN_TEST_SUITE(iothubclient_amqp_e2etests)
 
-    static int IoTHubCallback(void* context, const char* data, size_t size)
+    static int IoTHubCallback(void* context, const IOTHUB_MESSAGE_HANDLE message)
     {
-        size;
+		(void)message;
         int result = 0; // 0 means "keep processing"
 
         EXPECTED_SEND_DATA* expectedData = (EXPECTED_SEND_DATA*)context;
@@ -70,18 +75,41 @@ BEGIN_TEST_SUITE(iothubclient_amqp_e2etests)
             {
                 ASSERT_FAIL("unable to lock");
             }
-            else
-        {
-            if (
-                (strlen(expectedData->expectedString)== size) && 
-                (memcmp(expectedData->expectedString, data, size) == 0)
-                )
-            {
-                expectedData->wasFound = true;
-                result = 1;
-                }
-                (void)Unlock(expectedData->lock);
-            }
+			else
+			{
+				const char* data = NULL;
+				size_t size;
+				IOTHUBMESSAGE_CONTENT_TYPE content_type = IoTHubMessage_GetContentType(message);
+				
+				if (content_type == IOTHUBMESSAGE_STRING)
+				{
+					if ((data = IoTHubMessage_GetString(message)) == NULL)
+					{
+						printf("Sample failed to get the string representation of the message received.\r\n");
+					}
+					else
+					{
+						size = strlen(data);
+					}
+				}
+				else if (content_type == IOTHUBMESSAGE_BYTEARRAY &&
+						 IoTHubMessage_GetByteArray(message, (const unsigned char**)&data, &size) != IOTHUB_CLIENT_OK)
+				{
+					printf("Sample failed to get the binary representation of the message received.\r\n");
+				}
+
+				if (data != NULL)
+				{
+					if ((strlen(expectedData->expectedString) == size) &&
+						(memcmp(expectedData->expectedString, data, size) == 0))
+					{
+						expectedData->wasFound = true;
+						result = 1;
+					}
+
+					(void)Unlock(expectedData->lock);
+				}
+			}
         }
         return result;
     }
@@ -322,6 +350,13 @@ BEGIN_TEST_SUITE(iothubclient_amqp_e2etests)
             msgHandle = IoTHubMessage_CreateFromByteArray((const unsigned char*)sendData->expectedString, strlen(sendData->expectedString));
             ASSERT_IS_NOT_NULL(msgHandle);
 
+			IOTHUB_MESSAGE_RESULT msg_result;
+			msg_result = IoTHubMessage_SetMessageId(msgHandle, DEFAULT_MESSAGE_ID);
+			ASSERT_ARE_EQUAL(int, IOTHUB_MESSAGE_OK, msg_result);
+
+			msg_result = IoTHubMessage_SetCorrelationId(msgHandle, DEFAULT_CORRELATION_ID);
+			ASSERT_ARE_EQUAL(int, IOTHUB_MESSAGE_OK, msg_result);
+
             // act
             result = IoTHubClient_SendEventAsync(iotHubClientHandle, msgHandle, ReceiveConfirmationCallback, sendData);
             ASSERT_ARE_EQUAL(int, IOTHUB_CLIENT_OK, result);
@@ -365,7 +400,7 @@ BEGIN_TEST_SUITE(iothubclient_amqp_e2etests)
         {
             IOTHUB_TEST_HANDLE iotHubTestHandle = IoTHubTest_Initialize(IoTHubAccount_GetEventHubConnectionString(g_iothubAcctInfo), IoTHubAccount_GetIoTHubConnString(g_iothubAcctInfo), IoTHubAccount_GetDeviceId(g_iothubAcctInfo), IoTHubAccount_GetDeviceKey(g_iothubAcctInfo), IoTHubAccount_GetEventhubListenName(g_iothubAcctInfo), IoTHubAccount_GetEventhubAccessKey(g_iothubAcctInfo), IoTHubAccount_GetSharedAccessSignature(g_iothubAcctInfo), IoTHubAccount_GetEventhubConsumerGroup(g_iothubAcctInfo) );
             ASSERT_IS_NOT_NULL(iotHubTestHandle);
-
+			
             IOTHUB_TEST_CLIENT_RESULT result = IoTHubTest_ListenForEventForMaxDrainTime(iotHubTestHandle, IoTHubCallback, IoTHubAccount_GetIoTHubPartitionCount(g_iothubAcctInfo), sendData);
             ASSERT_ARE_EQUAL(IOTHUB_TEST_CLIENT_RESULT, IOTHUB_TEST_CLIENT_OK, result);
 

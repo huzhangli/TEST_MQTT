@@ -15,22 +15,22 @@
 #include <limits.h>
 #include "azure_c_shared_utility/urlencode.h"
 #include "azure_c_shared_utility/crt_abstractions.h"
-
 #include "azure_c_shared_utility/threadapi.h"
 #include "azure_c_shared_utility/strings.h"
-#include "iothubtest.h"
 #include "azure_c_shared_utility/xlogging.h"
 #include "azure_c_shared_utility/consolelogger.h"
+#include "azure_c_shared_utility/tlsio.h"
+#include "azure_c_shared_utility/platform.h"
 #include "azure_uamqp_c/connection.h"
 #include "azure_uamqp_c/message_receiver.h"
 #include "azure_uamqp_c/message_sender.h"
 #include "azure_uamqp_c/messaging.h"
-#include "azure_c_shared_utility/tlsio.h"
-#include "azure_c_shared_utility/platform.h"
 #include "azure_uamqp_c/sasl_mechanism.h"
 #include "azure_uamqp_c/saslclientio.h"
 #include "azure_uamqp_c/sasl_plain.h"
 #include "azure_uamqp_c/cbs.h"
+#include "iothubtest.h"
+#include "uamqp_integration.h"
 
 const char* AMQP_RECV_ADDRESS_FMT = "%s/ConsumerGroups/%s/Partitions/%u";
 const char* AMQP_ADDRESS_PATH_FMT = "/devices/%s/messages/deviceBound";
@@ -526,18 +526,21 @@ static char* CreateSendAuthCid(IOTHUB_VALIDATION_INFO* devhubValInfo)
 static AMQP_VALUE on_message_received(const void* context, MESSAGE_HANDLE message)
 {
     MESSAGE_RECEIVER_CONTEXT* msg_received_context = (MESSAGE_RECEIVER_CONTEXT*)context;
-    BINARY_DATA binary_data;
 
-    if (message_get_body_amqp_data(message, 0, &binary_data) == 0)
-    {
-        if (msg_received_context->msgCallback != NULL)
-        {
-            if (msg_received_context->msgCallback(msg_received_context->context, (const char*)binary_data.bytes, binary_data.length) != 0)
-            {
-                msg_received_context->message_received = true;
-            }
-        }
-    }
+	if (msg_received_context->msgCallback != NULL)
+	{
+		IOTHUB_MESSAGE_HANDLE iothub_message;
+		int api_call_result;
+
+		if ((api_call_result = IoTHubMessage_CreateFromUamqpMessage(message, &iothub_message)) != RESULT_OK)
+		{
+			LogError("IoTHubTest failed creating an IOTHUB_MESSAGE_HANDLE instance for the incoming message (error=%d).", api_call_result);
+		}
+		else if(msg_received_context->msgCallback(msg_received_context->context, iothub_message) != 0)
+		{
+			msg_received_context->message_received = true;
+		}
+	}
 
     return messaging_delivery_accepted();
 }

@@ -12,6 +12,7 @@ extern "C"
 #include <stddef.h>
 #endif
 
+#include "iothub_message.h"
 #include "azure_c_shared_utility/macro_utils.h"
 #include "azure_c_shared_utility/buffer_.h"
 
@@ -23,7 +24,7 @@ typedef void* IOTHUB_TEST_HANDLE;
 
 DEFINE_ENUM(IOTHUB_TEST_CLIENT_RESULT, IOTHUB_TEST_CLIENT_RESULT_VALUES);
 
-typedef int (*pfIoTHubMessageCallback)(void* context, const char* data, size_t size);
+typedef int (*pfIoTHubMessageCallback)(void* context, const IOTHUB_MESSAGE_HANDLE message);
 
 extern IOTHUB_TEST_HANDLE IoTHubTest_Initialize(const char* eventhubConnString, const char* iothubConnString, const char* deviceId, const char* deviceKey, const char* eventhubName, const char* eventhubAccessKey, const char* sharedSignature, const char* consumerGroup);
 extern void IoTHubTest_Deinit(IOTHUB_TEST_HANDLE devhubHandle);
