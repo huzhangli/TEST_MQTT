@@ -107,7 +107,7 @@ This function will close connection established through AMQP API, as well as des
 
 **SRS_IOTHUBTRANSPORTAMQP_09_191: [**IoTHubTransportAMQP_Destroy shall unregister each device in transport_state->registered_devices.**]**
 
-**SRS_IOTHUBTRANSPORTAMQP_09_192: [**IoTHubTransportAMQP_Destroy shall destroy transport_state->registered_devices by calling VECTOR_destroy().**]**
+**SRS_IOTHUBTRANSPORTAMQP_09_192: [**IoTHubTransportAMQP_Destroy shall destroy transport_state->registered_devices.**]**
 
 **SRS_IOTHUBTRANSPORTAMQP_09_030: [**IoTHubTransportAMQP_Destroy shall destroy the AMQP session.**]**
 
@@ -119,7 +119,7 @@ This function will close connection established through AMQP API, as well as des
 
 **SRS_IOTHUBTRANSPORTAMQP_09_034: [**IoTHubTransportAMQP_Destroy shall destroy the AMQP TLS I/O transport.**]**
 
-**SRS_IOTHUBTRANSPORTAMQP_09_193: [**IoTHubTransportAMQP_Destroy shall destroy transport_state->iotHubHostFqdn using STRING_delete().**]**
+**SRS_IOTHUBTRANSPORTAMQP_09_193: [**IoTHubTransportAMQP_Destroy shall destroy transport_state->iotHubHostFqdn.**]**
 
 **SRS_IOTHUBTRANSPORTAMQP_09_150: [**IoTHubTransportAMQP_Destroy shall destroy the transport instance**]**
   
@@ -438,7 +438,7 @@ Reading the AMQP message content, notifying the message reception:
 </br>
 ###IoTHubTransportAMQP_Register
 
-<p class='description'>This function registers a device with the transport.  The AMQP transport only supports a single device established on create, so this function will prevent multiple devices from being registered.</p>
+<p class='description'>This function registers a device with the transport.</p>
 
 **SRS_IOTHUBTRANSPORTAMQP_17_001: [**IoTHubTransportAMQP_Register shall return NULL if device, or waitingToSend are NULL.**]**
 
