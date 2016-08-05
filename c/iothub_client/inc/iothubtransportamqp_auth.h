@@ -6,18 +6,21 @@
 
 #include "azure-uamqp-c/cbs.h"
 #include "azure_c_shared_utility/strings.h"
+#include "iothub_transport_ll.h"
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-	typedef enum CBS_STATE_TAG
+	typedef enum AUTHENTICATION_STATUS_TAG
 	{
-		CBS_STATE_IDLE,
-		CBS_STATE_AUTH_IN_PROGRESS,
-		CBS_STATE_AUTHENTICATED
-	} CBS_STATE;
+		AUTHENTICATION_STATUS_IDLE,
+		AUTHENTICATION_STATUS_IN_PROGRESS,
+		AUTHENTICATION_STATUS_TIMEOUT,
+		AUTHENTICATION_STATUS_FAILURE,
+		AUTHENTICATION_STATUS_OK
+	} AUTHENTICATION_STATUS;
 
 	typedef enum AMQP_TRANSPORT_CREDENTIAL_TYPE_TAG
 	{
@@ -63,66 +66,73 @@ extern "C"
 		// @brief Time when the current SAS token was created, in seconds since epoch.
 		double current_sas_token_create_time;
 
-		// @brief Constains the device id, key and/or SAS token.
-		IOTHUB_DEVICE_CONFIG device_config;
-
 		// @brief A component of the SAS token. Currently this must be an empty string.
 		STRING_HANDLE sasTokenKeyName;
-
-		// @brief Current state of the CBS connection.
-		CBS_STATE cbs_state;
 
 		// @brief Connection instance with the Azure IoT CBS.
 		CBS_HANDLE cbs;
 	} CBS_AUTHENTICATION_STATE;
 
+	typedef struct AUTHENTICATION_STATE_TAG
+	{
+		// @brief Constains the device id.
+		const char* device_id;
+		// @brief The credentials to be used for authentication.
+		AMQP_TRANSPORT_CREDENTIAL credentials;
+		// @brief The state of the cbs authentication, if cbs-based authentication is used.
+		CBS_AUTHENTICATION_STATE cbs_state;
+		// @brief Handle to the transport being authenticated.
+		TRANSPORT_LL_HANDLE transport;
+		// @brief A flag indicating the current status of the authentication.
+		AUTHENTICATION_STATUS status;
+	} AUTHENTICATION_STATE;
+
 	typedef AUTHENTICATION_STATE_HANDLE void*;
 
-	/** @brief 
+	/** @brief Creates a state holder for all authentication-related information and connections.
 	*
-	*	@details 
-	*
-	*   @returns 
+	*   @returns an instance of the AUTHENTICATION_STATE_HANDLE if succeeds, NULL if any failure occurs.
 	*/
-	extern AUTHENTICATION_STATE_HANDLE authentication_create(void);
+	extern AUTHENTICATION_STATE_HANDLE authentication_create(const char* deviceId, AMQP_TRANSPORT_CREDENTIAL* credentials, TRANSPORT_LL_HANDLE transport);
 
-	/** @brief
+	/** @brief Establishes the first authentication for the device in the transport it is registered to.
 	*
-	*	@details
+	*	@details If SAS token or key are used, creates a cbs instance for the transport if it does not have one, 
+	*            and puts a SAS token in (creates one if key is used, or applies the SAS token if provided by user).
+	*            If certificates are used, they are set on the tls_io instance of the transport.
 	*
-	*   @returns
+	*   @returns 0 if it succeeds, non-zero if it fails.
 	*/
 	extern int authentication_authenticate(AUTHENTICATION_STATE_HANDLE authentication_state);
 
-	/** @brief
+	/** @brief Indicates if the device is authenticated successfuly, if authentication is in progress or completed with failure.
 	*
-	*	@details
-	*
-	*   @returns
+	*   @returns A flag indicating the current authentication status of the device.
 	*/
-	extern int authentication_get_status(AUTHENTICATION_STATE_HANDLE authentication_state, );
+	extern AUTHENTICATION_STATUS authentication_get_status(AUTHENTICATION_STATE_HANDLE authentication_state);
 
-	/** @brief
+	/** @brief Refreshes the authentication if needed.
 	*
-	*	@details
+	*	@details If SAS key is used, a new token is generated and put to cbs if the previous generated token is expired.
 	*
-	*   @returns
+	*   @returns 0 if it succeeds, non-zero if it fails.
 	*/
 	extern int authentication_refresh(AUTHENTICATION_STATE_HANDLE authentication_state);
 
-	/** @brief
+	/** @brief Sets the common options related to certificates and cbs.
 	*
-	*	@details
+	*	@details The new options are only applied effectively to the transport on the next call to authenticate() or refresh().
 	*
-	*   @returns
+	*   @returns 0 if it succeeds, non-zero if it fails.
 	*/
 	extern int authentication_set_option(AUTHENTICATION_STATE_HANDLE authentication_state, const char* name, const void* value);
 
-	/** @brief
+	/** @brief De-authenticates the device and destroy the state instance.
 	*
-	*	@details
+	*	@details Closes the subscription to cbs if in use, destroys the cbs instance if it is the last device registered.
+	*            No action is taken if certificate-based authentication if used.
 	*
-	*   @returns
+	*   @returns 0 if it succeeds, non-zero if it fails.
 	*/
 	extern int authentication_destroy(AUTHENTICATION_STATE_HANDLE authentication_state);
 
