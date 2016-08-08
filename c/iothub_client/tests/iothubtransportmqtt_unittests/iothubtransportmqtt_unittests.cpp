@@ -2011,7 +2011,7 @@ TEST_FUNCTION(IoTHubTransportMqtt_DoWork_all_parameters_NULL_fail)
 
 }
 
-/* Tests_SRS_IOTHUB_MQTT_TRANSPORT_07_027: [IoTHubTransportMqtt_DoWork shall inspect the “waitingToSend” DLIST passed in config structure.] */
+/* Tests_SRS_IOTHUB_MQTT_TRANSPORT_07_027: [IoTHubTransportMqtt_DoWork shall inspect the ï¿½waitingToSendï¿½ DLIST passed in config structure.] */
 TEST_FUNCTION(IoTHubTransportMqtt_DoWork_mqtt_client_connect_fail)
 {
     // arrange
@@ -2046,7 +2046,7 @@ TEST_FUNCTION(IoTHubTransportMqtt_DoWork_mqtt_client_connect_fail)
     IoTHubTransportMqtt_Destroy(handle);
 }
 
-/* Tests_SRS_IOTHUB_MQTT_TRANSPORT_07_027: [IoTHubTransportMqtt_DoWork shall inspect the “waitingToSend” DLIST passed in config structure.] */
+/* Tests_SRS_IOTHUB_MQTT_TRANSPORT_07_027: [IoTHubTransportMqtt_DoWork shall inspect the ï¿½waitingToSendï¿½ DLIST passed in config structure.] */
 TEST_FUNCTION(IoTHubTransportMqtt_DoWork_no_messages_succeed)
 {
     // arrange
@@ -2138,7 +2138,7 @@ TEST_FUNCTION(IoTHubTransportMqtt_DoWork_x509_succeed)
     IoTHubTransportMqtt_Destroy(handle);
 }
 
-/* Tests_SRS_IOTHUB_MQTT_TRANSPORT_07_027: [IoTHubTransportMqtt_DoWork shall inspect the “waitingToSend” DLIST passed in config structure.] */
+/* Tests_SRS_IOTHUB_MQTT_TRANSPORT_07_027: [IoTHubTransportMqtt_DoWork shall inspect the ï¿½waitingToSendï¿½ DLIST passed in config structure.] */
 TEST_FUNCTION(IoTHubTransportMqtt_DoWork_with_1_event_item_succeeds)
 {
     // arrange
@@ -2440,7 +2440,7 @@ TEST_FUNCTION(IoTHubTransportMqtt_DoWork_no_subscribe_succeeds)
     IoTHubTransportMqtt_Destroy(handle);
 }
 
-/* Tests_SRS_IOTHUB_MQTT_TRANSPORT_07_027: [IoTHubTransportMqtt_DoWork shall inspect the “waitingToSend” DLIST passed in config structure.] */
+/* Tests_SRS_IOTHUB_MQTT_TRANSPORT_07_027: [IoTHubTransportMqtt_DoWork shall inspect the ï¿½waitingToSendï¿½ DLIST passed in config structure.] */
 /* Tests_SRS_IOTHUB_MQTT_TRANSPORT_07_029: [IoTHubTransportMqtt_DoWork shall create a MQTT_MESSAGE_HANDLE and pass this to a call to mqtt_client_publish.] */
 /* Tests_SRS_IOTHUB_MQTT_TRANSPORT_07_030: [IoTHubTransportMqtt_DoWork shall call mqtt_client_dowork everytime it is called if it is connected.] */
 TEST_FUNCTION(IoTHubTransportMqtt_DoWork_with_1_event_item_STRING_type_succeeds)
@@ -2977,7 +2977,7 @@ TEST_FUNCTION(IoTHubTransportMqtt_GetSendStatus_waitingToSend_not_empty_success)
     IoTHubMessage_Destroy(eventMessageHandle);
 }
 
-/* Tests_SRS_IOTHUB_MQTT_TRANSPORT_07_022: [This function shall return a pointer to a structure of type TRANSPORT_PROVIDER having the following values for it’s fields: IoTHubTransport_Create = IoTHubTransportMqtt_Create
+/* Tests_SRS_IOTHUB_MQTT_TRANSPORT_07_022: [This function shall return a pointer to a structure of type TRANSPORT_PROVIDER having the following values for itï¿½s fields: IoTHubTransport_Create = IoTHubTransportMqtt_Create
 IoTHubTransport_Destroy = IoTHubTransportMqtt_Destroy
 IoTHubTransport_Subscribe = IoTHubTransportMqtt_Subscribe
 IoTHubTransport_Unsubscribe = IoTHubTransportMqtt_Unsubscribe
@@ -3956,6 +3956,7 @@ TEST_FUNCTION(IoTHubTransportMqtt_GetHostname_with_NULL_handle_fails)
     ///cleanup
 }
 
+/*Tests_SRS_IOTHUB_MQTT_TRANSPORT_07_008: [If the upperConfig contains a valid protocolGatewayHostName value the this shall be used for the hostname, otherwise the hostname shall be constructed using the iothubname and iothubSuffix.]*/
 TEST_FUNCTION(IoTHubTransportMqtt_GetHostname_with_non_NULL_handle_succeeds)
 {
     ///arrange
@@ -3977,6 +3978,7 @@ TEST_FUNCTION(IoTHubTransportMqtt_GetHostname_with_non_NULL_handle_succeeds)
     IoTHubTransportMqtt_Destroy(handle);
 }
 
+/*Tests_SRS_IOTHUB_MQTT_TRANSPORT_07_008: [If the upperConfig contains a valid protocolGatewayHostName value the this shall be used for the hostname, otherwise the hostname shall be constructed using the iothubname and iothubSuffix.]*/
 TEST_FUNCTION(IoTHubTransportMqtt_GetHostname_with_GatewayHostName_and_non_NULL_handle_succeeds)
 {
     ///arrange

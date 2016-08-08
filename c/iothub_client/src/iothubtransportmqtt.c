@@ -914,7 +914,7 @@ static PMQTTTRANSPORT_HANDLE_DATA InitializeTransportHandleData(const IOTHUB_CLI
             }
             else
             {
-                /* Codes_SRS_IOTHUB_MQTT_TRANSPORT_07_008: [The hostname shall be constructed using the iothubname and iothubSuffix.] */
+                /* Codes_SRS_IOTHUB_MQTT_TRANSPORT_07_008: [If the upperConfig contains a valid protocolGatewayHostName value the this shall be used for the hostname, otherwise the hostname shall be constructed using the iothubname and iothubSuffix.] */
                 char tempAddress[DEFAULT_TEMP_STRING_LEN];
                 if (upperConfig->protocolGatewayHostName == NULL)
                 {
@@ -1231,14 +1231,14 @@ static void IoTHubTransportMqtt_DoWork(TRANSPORT_LL_HANDLE handle, IOTHUB_CLIENT
                 }
 
                 currentListEntry = transportState->waitingToSend->Flink;
-                /* Codes_SRS_IOTHUB_MQTT_TRANSPORT_07_027: [IoTHubTransportMqtt_DoWork shall inspect the “waitingToSend” DLIST passed in config structure.] */
+                /* Codes_SRS_IOTHUB_MQTT_TRANSPORT_07_027: [IoTHubTransportMqtt_DoWork shall inspect the ï¿½waitingToSendï¿½ DLIST passed in config structure.] */
                 while (currentListEntry != transportState->waitingToSend)
                 {
                     IOTHUB_MESSAGE_LIST* iothubMsgList = containingRecord(currentListEntry, IOTHUB_MESSAGE_LIST, entry);
                     DLIST_ENTRY savedFromCurrentListEntry;
                     savedFromCurrentListEntry.Flink = currentListEntry->Flink;
 
-                    /* Codes_SRS_IOTHUB_MQTT_TRANSPORT_07_027: [IoTHubTransportMqtt_DoWork shall inspect the “waitingToSend” DLIST passed in config structure.] */
+                    /* Codes_SRS_IOTHUB_MQTT_TRANSPORT_07_027: [IoTHubTransportMqtt_DoWork shall inspect the ï¿½waitingToSendï¿½ DLIST passed in config structure.] */
                     size_t messageLength;
                     const unsigned char* messagePayload = RetrieveMessagePayload(iothubMsgList->messageHandle, &messageLength);
                     if (messageLength == 0 || messagePayload == NULL)
@@ -1483,7 +1483,7 @@ static TRANSPORT_PROVIDER myfunc = {
     IoTHubTransportMqtt_GetSendStatus
 };
 
-/* Codes_SRS_IOTHUB_MQTT_TRANSPORT_07_022: [This function shall return a pointer to a structure of type TRANSPORT_PROVIDER having the following values for it’s fields: IoTHubTransport_Create = IoTHubTransportMqtt_Create
+/* Codes_SRS_IOTHUB_MQTT_TRANSPORT_07_022: [This function shall return a pointer to a structure of type TRANSPORT_PROVIDER having the following values for itï¿½s fields: IoTHubTransport_Create = IoTHubTransportMqtt_Create
 IoTHubTransport_Destroy = IoTHubTransportMqtt_Destroy
 IoTHubTransport_Subscribe = IoTHubTransportMqtt_Subscribe
 IoTHubTransport_Unsubscribe = IoTHubTransportMqtt_Unsubscribe

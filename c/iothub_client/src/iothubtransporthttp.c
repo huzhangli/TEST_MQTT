@@ -668,25 +668,26 @@ static void IoTHubTransportHttp_Unregister(IOTHUB_DEVICE_HANDLE deviceHandle)
     return;
 }
 
-
-/*Codes_SRS_TRANSPORTMULTITHTTP_17_005: [Otherwise, IoTHubTransportHttp_Create shall create an immutable string (further called hostname) containing config->upperConfig->iotHubName + config->upperConfig->iotHubSuffix.]*/
+/*Codes_SRS_TRANSPORTMULTITHTTP_17_005: [If config->upperConfig->protocolGatewayHostName is NULL, `IoTHubTransportHttp_Create` shall create an immutable string (further called hostname) containing `config->transportConfig->iotHubName + config->transportConfig->iotHubSuffix`.]  */ 
+/*Codes_SRS_TRANSPORTMULTITHTTP_20_001: [If config->upperConfig->protocolGatewayHostName is not NULL, IoTHubTransportHttp_Create shall use it as hostname] */
 static void destroy_hostName(HTTPTRANSPORT_HANDLE_DATA* handleData)
 {
     STRING_delete(handleData->hostName);
     handleData->hostName = NULL;
 }
 
-/*Codes_SRS_TRANSPORTMULTITHTTP_17_005: [Otherwise, IoTHubTransportHttp_Create shall create an immutable string (further called hostname) containing config->upperConfig->iotHubName + config->upperConfig->iotHubSuffix.]*/
 static bool create_hostName(HTTPTRANSPORT_HANDLE_DATA* handleData, const IOTHUBTRANSPORT_CONFIG* config)
 {
     bool result;
     if (config->upperConfig->protocolGatewayHostName != NULL)
     {
+        /*Codes_SRS_TRANSPORTMULTITHTTP_20_001: [If config->upperConfig->protocolGatewayHostName is not NULL, IoTHubTransportHttp_Create shall use it as hostname] */
         handleData->hostName = STRING_construct(config->upperConfig->protocolGatewayHostName);
         result = (handleData->hostName != NULL);
     }
     else
     {
+        /*Codes_SRS_TRANSPORTMULTITHTTP_17_005: [If config->upperConfig->protocolGatewayHostName is NULL, `IoTHubTransportHttp_Create` shall create an immutable string (further called hostname) containing `config->transportConfig->iotHubName + config->transportConfig->iotHubSuffix`.]  */ 
         handleData->hostName = STRING_construct(config->upperConfig->iotHubName);
 
         if (handleData->hostName == NULL)
