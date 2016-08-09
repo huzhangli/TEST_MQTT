@@ -5,6 +5,7 @@
 #ifdef _CRTDBG_MAP_ALLOC
 #include <crtdbg.h>
 #endif
+#define DONT_USE_UPLOADTOBLOB
 
 #include <cstdbool>
 #include <cstddef>

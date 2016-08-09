@@ -20,6 +20,7 @@
 *			 often not desired.
 */
 
+#define DONT_USE_UPLOADTOBLOB
 #ifndef DONT_USE_UPLOADTOBLOB
 
 #ifndef IOTHUB_CLIENT_LL_UPLOADTOBLOB_H

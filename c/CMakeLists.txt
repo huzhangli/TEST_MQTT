@@ -42,7 +42,7 @@ option(compileOption_C "passes a string to the command line of the C compiler" O
 option(compileOption_CXX "passes a string to the command line of the C++ compiler" OFF)
 option(build_python "builds the Python native iothub_client module" OFF)
 option(build_javawrapper "builds the native iothub_client library for java C wrapper" OFF)
-option(dont_use_uploadtoblob "set dont_use_uploadtoblob to ON if the functionality of upload to blob is to be excluded, OFF otherwise. It requires HTTP" OFF)
+option(dont_use_uploadtoblob "set dont_use_uploadtoblob to ON if the functionality of upload to blob is to be excluded, OFF otherwise. It requires HTTP" ON)
 
 #check for conflicting options
 if(NOT ${dont_use_uploadtoblob} AND NOT ${use_http})
@@ -50,7 +50,7 @@ if(NOT ${dont_use_uploadtoblob} AND NOT ${use_http})
 endif()
 
 if(${dont_use_uploadtoblob})
-    add_definitions(-DDONT_USE_UPLOADTOBLOB)
+#    add_definitions(-DDONT_USE_UPLOADTOBLOB)
 endif()
 
 #Use solution folders. 
@@ -212,8 +212,6 @@ else()
     set(LOCK_C_FILE ${SHARED_UTIL_ADAPTER_FOLDER}/lock_pthreads.c)
     set(THREAD_C_FILE ${SHARED_UTIL_ADAPTER_FOLDER}/threadapi_pthreads.c)
 endif()
-
-add_subdirectory(iothub_service_client)
 
 if(${run_e2e_tests} OR ${run_longhaul_tests})
     add_subdirectory(testtools)

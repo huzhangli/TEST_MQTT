@@ -14,7 +14,6 @@
 
 #ifndef IOTHUB_CLIENT_H
 #define IOTHUB_CLIENT_H
-
 typedef struct IOTHUB_CLIENT_INSTANCE_TAG* IOTHUB_CLIENT_HANDLE;
 
 #include "iothub_client_ll.h"

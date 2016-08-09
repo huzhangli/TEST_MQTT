@@ -23,6 +23,7 @@
 #ifndef IOTHUB_CLIENT_LL_H
 #define IOTHUB_CLIENT_LL_H
 
+#define DONT_USE_UPLOADTOBLOB
 #include "azure_c_shared_utility/macro_utils.h"
 
 #define IOTHUB_CLIENT_RESULT_VALUES       \
