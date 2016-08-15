@@ -1,6 +1,18 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+#if PCL
+
+namespace System.Net.Sockets
+{
+    public class SocketException
+    {
+        public SocketException() {}
+    }
+}
+
+#endif
+
 namespace Microsoft.Azure.Devices.Client.Transport
 {
     using System;

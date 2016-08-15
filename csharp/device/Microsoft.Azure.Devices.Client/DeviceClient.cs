@@ -76,12 +76,11 @@ namespace Microsoft.Azure.Devices.Client
 
         internal IDelegatingHandler InnerHandler { get; set; }
 
-#if !PCL
         DeviceClient(IotHubConnectionString iotHubConnectionString, ITransportSettings[] transportSettings)
         {
             this.iotHubConnectionString = iotHubConnectionString;
 
-#if !WINDOWS_UWP
+#if !WINDOWS_UWP && !PCL
             var innerHandler = new RetryDelegatingHandler(
                 new ErrorDelegatingHandler(
                     () => new RoutingDelegatingHandler(this.CreateTransportHandler, iotHubConnectionString, transportSettings)));
@@ -103,7 +102,7 @@ namespace Microsoft.Azure.Devices.Client
                     return new AmqpTransportHandler(iotHubConnectionString, transportSetting as AmqpTransportSettings);
                 case TransportType.Http1:
                     return new HttpTransportHandler(iotHubConnectionString, transportSetting as Http1TransportSettings);
-#if !WINDOWS_UWP && !NETMF
+#if !WINDOWS_UWP && !NETMF && !PCL
                 case TransportType.Mqtt:
                     return new MqttTransportHandler(iotHubConnectionString, transportSetting as MqttTransportSettings);
 #endif
@@ -111,14 +110,6 @@ namespace Microsoft.Azure.Devices.Client
                     throw new InvalidOperationException("Unsupported Transport Setting {0}".FormatInvariant(transportSetting));
             }
         }
-
-#else
-        DeviceClient(IotHubConnectionString iotHubConnectionString)
-        {
-            this.InnerHandler = new GateKeeperDelegatingHandler(
-                new ErrorDelegatingHandler(() => new HttpTransportHandler(iotHubConnectionString)));
-        }
-#endif
 
         /// <summary>
         /// Create an Amqp DeviceClient from individual parameters
@@ -216,7 +207,7 @@ namespace Microsoft.Azure.Devices.Client
         /// <returns>DeviceClient</returns>
         public static DeviceClient CreateFromConnectionString(string connectionString)
         {
-#if WINDOWS_UWP || PCL
+#if WINDOWS_UWP
             return CreateFromConnectionString(connectionString, TransportType.Http1);
 #else
             return CreateFromConnectionString(connectionString, TransportType.Amqp);
@@ -232,7 +223,7 @@ namespace Microsoft.Azure.Devices.Client
         /// <returns>DeviceClient</returns>
         public static DeviceClient CreateFromConnectionString(string connectionString, string deviceId)
         {
-#if WINDOWS_UWP || PCL
+#if WINDOWS_UWP
             return CreateFromConnectionString(connectionString, deviceId, TransportType.Http1);    
 #else
             return CreateFromConnectionString(connectionString, deviceId, TransportType.Amqp);
@@ -260,15 +251,11 @@ namespace Microsoft.Azure.Devices.Client
             switch (transportType)
             {
                 case TransportType.Amqp:
-#if PCL
-                    throw new NotImplementedException("Amqp protocol is not supported");
-#else
                     return CreateFromConnectionString(connectionString, new ITransportSettings[]
                     {
                         new AmqpTransportSettings(TransportType.Amqp_Tcp_Only),
                         new AmqpTransportSettings(TransportType.Amqp_WebSocket_Only)
                     });
-#endif
                 case TransportType.Mqtt:
 #if WINDOWS_UWP || PCL
                     throw new NotImplementedException("Mqtt protocol is not supported");
@@ -283,12 +270,7 @@ namespace Microsoft.Azure.Devices.Client
                     return CreateFromConnectionString(connectionString, new ITransportSettings[] { new AmqpTransportSettings(transportType) });
 #endif
                 case TransportType.Http1:
-#if PCL
-                    IotHubConnectionString iotHubConnectionString = IotHubConnectionString.Parse(connectionString);
-                    return new DeviceClient(iotHubConnectionString);
-#else
-                    return CreateFromConnectionString(connectionString, new ITransportSettings[] { new Http1TransportSettings() });
-#endif
+                    return new DeviceClient(IotHubConnectionString.Parse(connectionString), new ITransportSettings[] { new Http1TransportSettings() });
                 default:
 #if !PCL
                     throw new InvalidOperationException("Unsupported Transport Type {0}".FormatInvariant(transportType));
@@ -325,7 +307,6 @@ namespace Microsoft.Azure.Devices.Client
             return CreateFromConnectionString(connectionString + ";" + DeviceId + "=" + deviceId, transportType);
         }
 
-#if !PCL
         /// <summary>
         /// Create DeviceClient from the specified connection string using a prioritized list of transports
         /// </summary>
@@ -368,7 +349,7 @@ namespace Microsoft.Azure.Devices.Client
                             throw new InvalidOperationException("Unknown implementation of ITransportSettings type");
                         }
                         break;
-#if !WINDOWS_UWP
+#if !WINDOWS_UWP && !PCL
                     case TransportType.Mqtt:
                         if (!(transportSetting is MqttTransportSettings))
                         {
@@ -414,7 +395,6 @@ namespace Microsoft.Azure.Devices.Client
 
             return CreateFromConnectionString(connectionString + ";" + DeviceId + "=" + deviceId, transportSettings);
         }
-#endif
 
             /// <summary>
             /// Explicitly open the DeviceClient instance.

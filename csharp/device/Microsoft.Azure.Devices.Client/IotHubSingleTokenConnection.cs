@@ -56,7 +56,7 @@ namespace Microsoft.Azure.Devices.Client
 
             AmqpSession amqpSession = await base.CreateSessionAsync(timeoutHelper.RemainingTime());
 
-#if !WINDOWS_UWP
+#if !WINDOWS_UWP && !PCL
             if (this.AmqpTransportSettings.ClientCertificate == null)
             {
 #endif
@@ -68,7 +68,7 @@ namespace Microsoft.Azure.Devices.Client
 
                 // Send Cbs token for new connection first
                 await this.iotHubTokenRefresher.SendCbsTokenAsync(timeoutHelper.RemainingTime());
-#if !WINDOWS_UWP
+#if !WINDOWS_UWP && !PCL
             }
 #endif
 

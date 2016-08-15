@@ -7,7 +7,7 @@ namespace Microsoft.Azure.Devices.Client
     using System.Text;
     using System.Net;
 
-#if !NETMF && !PCL
+#if !NETMF
     using Microsoft.Azure.Amqp;
 #endif
 
@@ -18,7 +18,7 @@ namespace Microsoft.Azure.Devices.Client
     using Microsoft.Azure.Devices.Client.Extensions;
 
     sealed class IotHubConnectionString : IAuthorizationHeaderProvider
-#if !NETMF && !PCL
+#if !NETMF
         , ICbsTokenProvider
 #endif
     {
@@ -50,7 +50,7 @@ namespace Microsoft.Azure.Devices.Client
             this.HttpsEndpoint = new Uri("https://" + builder.HostName);
 #endif
 
-#if !NETMF && !PCL
+#if !NETMF
             this.AmqpEndpoint = new UriBuilder(CommonConstants.AmqpsScheme, builder.HostName, AmqpConstants.DefaultSecurePort).Uri;
 #endif
         }
@@ -79,7 +79,7 @@ namespace Microsoft.Azure.Devices.Client
             private set;
         }
 
-#if !NETMF && !PCL
+#if !NETMF
         public Uri AmqpEndpoint
         {
             get;
@@ -130,7 +130,7 @@ namespace Microsoft.Azure.Devices.Client
             return this.GetPassword();
         }
 
-#if !NETMF && !PCL
+#if !NETMF
         Task<CbsToken> ICbsTokenProvider.GetTokenAsync(Uri namespaceAddress, string appliesTo, string[] requiredClaims)
         {
             string tokenValue;
@@ -152,7 +152,7 @@ namespace Microsoft.Azure.Devices.Client
 #endif
         public Uri BuildLinkAddress(string path)
         {
-#if NETMF || PCL
+#if NETMF
             throw new NotImplementedException();
 #else
             var builder = new UriBuilder(this.AmqpEndpoint)
