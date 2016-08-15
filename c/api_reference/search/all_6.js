@@ -56,6 +56,5 @@ var searchData=
   ['iothubmessage_5fsetmessageid',['IoTHubMessage_SetMessageId',['../iothub__message_8h.html#a3d5f3d8a6da59b259f170de613c61cc0',1,'iothub_message.h']]],
   ['iothubname',['iotHubName',['../struct_i_o_t_h_u_b___c_l_i_e_n_t___c_o_n_f_i_g___t_a_g.html#a6b559edc71ff3b0e8d9f9840cb36b27c',1,'IOTHUB_CLIENT_CONFIG_TAG']]],
   ['iothubsuffix',['iotHubSuffix',['../struct_i_o_t_h_u_b___c_l_i_e_n_t___c_o_n_f_i_g___t_a_g.html#ae54e74d8db92b20f796df76f01d5dd68',1,'IOTHUB_CLIENT_CONFIG_TAG']]],
-  ['iothubtransport_5fconfig',['IOTHUBTRANSPORT_CONFIG',['../iothub__client__ll_8h.html#a0596fc5cfafe84c6b2a64c338973adb4',1,'iothub_client_ll.h']]],
   ['iothubtransport_5fconfig_5ftag',['IOTHUBTRANSPORT_CONFIG_TAG',['../struct_i_o_t_h_u_b_t_r_a_n_s_p_o_r_t___c_o_n_f_i_g___t_a_g.html',1,'']]]
 ];
