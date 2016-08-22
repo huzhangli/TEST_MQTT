@@ -28,6 +28,7 @@ using System.Runtime.InteropServices;
 #else
 [assembly: InternalsVisibleTo("Microsoft.Azure.Devices.Client.Test")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
+[assembly: InternalsVisibleTo("Microsoft.Azure.Devices.Tests.LoadTest.Console")]
 #endif
 
 // Version information for an assembly follows semantic versioning 1.0.0 (because

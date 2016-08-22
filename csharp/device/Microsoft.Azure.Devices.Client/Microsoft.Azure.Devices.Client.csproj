@@ -212,6 +212,7 @@
     <Compile Include="Transport\FileUploadRequest.cs" />
     <Compile Include="Transport\FileUploadResponse.cs" />
     <Compile Include="Transport\FileUploadNotificationResponse.cs" />
+    <Compile Include="Transport\LatencyCounters.cs" />
     <Compile Include="Transport\Mqtt\TransientErrorIgnoreStrategy.cs" />
     <Compile Include="Transport\RetryDelegatingHandler.cs" />
     <Compile Include="Transport\RoutingDelegatingHandler.cs" />

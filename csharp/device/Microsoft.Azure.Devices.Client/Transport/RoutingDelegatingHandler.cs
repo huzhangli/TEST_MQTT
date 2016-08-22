@@ -49,7 +49,7 @@ namespace Microsoft.Azure.Devices.Client.Transport
                     this.InnerHandler = this.transportHandlerFactory(this.iotHubConnectionString, transportSetting);
 
                     // Try to open a connection with this transport
-                    await base.OpenAsync(explicitOpen);
+                    await LatencyCounters.RunAndMeasureLatencyAsync(this.stopwatch, base.OpenAsync(explicitOpen), LatencyCounters.OpenLatencyInMsCounters);
                 }
                 catch (Exception exception)
                 {
@@ -98,10 +98,17 @@ namespace Microsoft.Azure.Devices.Client.Transport
         //Everything below just for test purposese and won't go to public
         internal static readonly int[] Latencies = new int[1000 * 60 * 10];
         internal static SpinLock SpinLock = new SpinLock();
-        
+
+        readonly Stopwatch stopwatch = new Stopwatch();
+
         public RoutingDelegatingHandler()
         {
-            
+
+        }
+
+        public override async Task SendEventAsync(Message message)
+        {
+            await LatencyCounters.RunAndMeasureLatencyAsync(this.stopwatch, base.SendEventAsync(message), LatencyCounters.SendLatencyInMsCounters);
         }
     }
 }

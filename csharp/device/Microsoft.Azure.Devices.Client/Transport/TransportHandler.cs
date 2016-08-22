@@ -3,6 +3,7 @@
 
 namespace Microsoft.Azure.Devices.Client.Transport
 {
+    using System.Diagnostics;
     using System.Threading.Tasks;
 
     abstract class TransportHandler : DefaultDelegatingHandler
