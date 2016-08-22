@@ -534,6 +534,10 @@ namespace Microsoft.Azure.Devices.Client
                 this.bodyStream.Seek(position, SeekOrigin.Begin);
                 Interlocked.Exchange(ref this.getBodyCalled, 0);
 #if !PCL && !NETMF
+                if (this.serializedAmqpMessage != null)
+                {
+                    this.serializedAmqpMessage.Dispose();
+                }
                 this.serializedAmqpMessage = null;
 #endif
                 return true;
@@ -641,20 +645,14 @@ namespace Microsoft.Azure.Devices.Client
 #if !WINDOWS_UWP && !PCL && !NETMF
                     if (this.serializedAmqpMessage != null)
                     {
-                        // in the receive scenario, this.bodyStream is a reference
-                        // to serializedAmqpMessage.BodyStream, and we assume disposing
-                        // the amqpMessage will dispose the body stream so we don't
-                        // need to dispose bodyStream twice.
                         this.serializedAmqpMessage.Dispose();
-                        this.bodyStream = null;
                     }
-                    else
 #endif
-                    if (this.bodyStream != null && this.ownsBodyStream)
+                    if (this.ownsBodyStream)
                     {
-                        this.bodyStream.Dispose();
-                        this.bodyStream = null;
+                        this.bodyStream?.Dispose();
                     }
+                    this.bodyStream = null;
                 }
 
                 this.disposed = true;
