@@ -166,6 +166,8 @@ typedef struct AMQP_TRANSPORT_STATE_TAG
 	VECTOR_HANDLE registered_devices;
     // Turns logging on and off
     bool is_trace_on;
+	// Used to generate unique AMQP link names
+	int link_count;
 
     /*here are the options from the xio layer if any is saved*/
     OPTIONHANDLER_HANDLE xioOptions;
@@ -192,12 +194,16 @@ typedef struct AMQP_TRANSPORT_DEVICE_STATE_TAG
 	LINK_HANDLE sender_link;
 	// uAMQP event sender.
 	MESSAGE_SENDER_HANDLE message_sender;
+	// State of the message sender.
+	MESSAGE_SENDER_STATE message_sender_state;
 	// Internal flag that controls if messages should be received or not.
 	bool receive_messages;
 	// AMQP link used by the message receiver.
 	LINK_HANDLE receiver_link;
 	// uAMQP message receiver.
 	MESSAGE_RECEIVER_HANDLE message_receiver;
+	// Message receiver state.
+	MESSAGE_RECEIVER_STATE message_receiver_state;
 	// List with events still pending to be sent. It is provided by the upper layer.
 	PDLIST_ENTRY waitingToSend;
 	// Internal list with the items currently being processed/sent through uAMQP.
@@ -250,6 +256,22 @@ static int getSecondsSinceEpoch(size_t* seconds)
 	}
 	
 	return result;
+}
+
+static char* create_link_name(const char* deviceId, const char* tag, int index)
+{
+	char* link_name = NULL;
+
+	if ((link_name = (char*)malloc(sizeof(char) * 1024)) == NULL)
+	{
+		LogError("Failed creating link name: malloc() failed (deviceId: %s, tag: %s; index: %i)", deviceId, tag, index);
+	}
+	else if (sprintf_s(link_name, 1024, "link-%s-%s-%i", deviceId, tag, index) == 0)
+	{
+		LogError("Failed creating link name: sprintf_s() failed (deviceId: %s, tag: %s; index: %i)", deviceId, tag, index);
+	}
+
+	return link_name;
 }
 
 // Auxiliary function to be used on VECTOR_find_if()
@@ -343,10 +365,10 @@ static void on_message_send_complete(void* context, MESSAGE_SEND_RESULT send_res
     }
 
     // Codes_SRS_IOTHUBTRANSPORTAMQP_09_151: [The callback 'on_message_send_complete' shall destroy the message handle (IOTHUB_MESSAGE_HANDLE) using IoTHubMessage_Destroy()]
-    IoTHubMessage_Destroy(message->messageHandle);
+    //IoTHubMessage_Destroy(message->messageHandle);
 
     // Codes_SRS_IOTHUBTRANSPORTAMQP_09_152: [The callback 'on_message_send_complete' shall destroy the IOTHUB_MESSAGE_LIST instance]
-    free(message);
+    //free(message);
 }
 
 static void on_put_token_complete(void* context, CBS_OPERATION_RESULT operation_result, unsigned int status_code, const char* status_description)
@@ -866,6 +888,8 @@ void on_event_sender_state_changed(void* context, MESSAGE_SENDER_STATE new_state
             LogInfo("Event sender state changed [%d->%d]", previous_state, new_state);
         }
 
+		device_state->message_sender_state = new_state;
+
         // Codes_SRS_IOTHUBTRANSPORTAMQP_09_192: [If a message sender instance changes its state to MESSAGE_SENDER_STATE_ERROR (first transition only) the connection retry logic shall be triggered]
         if (new_state != previous_state && new_state == MESSAGE_SENDER_STATE_ERROR)
         {
@@ -880,11 +904,21 @@ static int createEventSender(AMQP_TRANSPORT_DEVICE_STATE* device_state)
 
     if (device_state->message_sender == NULL)
     {
+		char* link_name = NULL;
+		char* source_name = NULL;
         AMQP_VALUE source = NULL;
         AMQP_VALUE target = NULL;
 
+		if ((link_name = create_link_name(STRING_c_str(device_state->deviceId), "sender", device_state->transport_state->link_count++)) == NULL)
+		{
+			LogError("Failed creating a name for the AMQP message sender link.");
+		}
+		else if ((source_name = create_link_name(STRING_c_str(device_state->deviceId), "source", device_state->transport_state->link_count++)) == NULL)
+		{
+			LogError("Failed creating a name for the AMQP message sender source.");
+		}
         // Codes_SRS_IOTHUBTRANSPORTAMQP_09_068: [IoTHubTransportAMQP_DoWork shall create the AMQP link for sending messages using 'source' as "ingress", target as the IoT hub FQDN, link name as "sender-link" and role as 'role_sender'] 
-        if ((source = messaging_create_source(MESSAGE_SENDER_SOURCE_ADDRESS)) == NULL)
+        else if ((source = messaging_create_source(source_name)) == NULL)
         {
             LogError("Failed creating AMQP messaging source attribute.");
         }
@@ -892,7 +926,7 @@ static int createEventSender(AMQP_TRANSPORT_DEVICE_STATE* device_state)
         {
             LogError("Failed creating AMQP messaging target attribute.");
         }
-        else if ((device_state->sender_link = link_create(device_state->transport_state->session, MESSAGE_SENDER_LINK_NAME, role_sender, source, target)) == NULL)
+        else if ((device_state->sender_link = link_create(device_state->transport_state->session, link_name, role_sender, source, target)) == NULL)
         {
             // Codes_SRS_IOTHUBTRANSPORTAMQP_09_069: [If IoTHubTransportAMQP_DoWork fails to create the AMQP link for sending messages, the function shall fail and return immediately, flagging the connection to be re-stablished] 
             LogError("Failed creating AMQP link for message sender.");
@@ -929,6 +963,10 @@ static int createEventSender(AMQP_TRANSPORT_DEVICE_STATE* device_state)
             }
         }
 
+		if (link_name != NULL)
+			free(link_name);
+		if (source_name != NULL)
+			free(source_name);
         if (source != NULL)
             amqpvalue_destroy(source);
         if (target != NULL)
@@ -974,6 +1012,8 @@ void on_message_receiver_state_changed(const void* context, MESSAGE_RECEIVER_STA
             LogInfo("Message receiver state changed [%d->%d]", previous_state, new_state);
         }
 
+		device_state->message_receiver_state = new_state;
+
         // Codes_SRS_IOTHUBTRANSPORTAMQP_09_190: [If a message_receiver instance changes its state to MESSAGE_RECEIVER_STATE_ERROR (first transition only) the connection retry logic shall be triggered]
         if (new_state != previous_state && new_state == MESSAGE_RECEIVER_STATE_ERROR)
         {
@@ -988,19 +1028,29 @@ static int createMessageReceiver(AMQP_TRANSPORT_DEVICE_STATE* device_state)
 
     if (device_state->message_receiver == NULL)
     {
+		char* link_name = NULL;
+		char* target_name = NULL;
         AMQP_VALUE source = NULL;
         AMQP_VALUE target = NULL;
 
+		if ((link_name = create_link_name(STRING_c_str(device_state->deviceId), "receiver", device_state->transport_state->link_count++)) == NULL)
+		{
+			LogError("Failed creating a name for the AMQP message receiver link.");
+		}
+		else if ((target_name = create_link_name(STRING_c_str(device_state->deviceId), "target", device_state->transport_state->link_count++)) == NULL)
+		{
+			LogError("Failed creating a name for the AMQP message receiver target.");
+		}
         // Codes_SRS_IOTHUBTRANSPORTAMQP_09_074: [IoTHubTransportAMQP_DoWork shall create the AMQP link for receiving messages using 'source' as messageReceiveAddress, target as the "ingress-rx", link name as "receiver-link" and role as 'role_receiver'] 
-        if ((source = messaging_create_source(STRING_c_str(device_state->messageReceiveAddress))) == NULL)
+        else if ((source = messaging_create_source(STRING_c_str(device_state->messageReceiveAddress))) == NULL)
         {
             LogError("Failed creating AMQP message receiver source attribute.");
         }
-        else if ((target = messaging_create_target(MESSAGE_RECEIVER_TARGET_ADDRESS)) == NULL)
+        else if ((target = messaging_create_target(target_name)) == NULL)
         {
             LogError("Failed creating AMQP message receiver target attribute.");
         }
-        else if ((device_state->receiver_link = link_create(device_state->transport_state->session, MESSAGE_RECEIVER_LINK_NAME, role_receiver, source, target)) == NULL)
+        else if ((device_state->receiver_link = link_create(device_state->transport_state->session, link_name, role_receiver, source, target)) == NULL)
         {
             // Codes_SRS_IOTHUBTRANSPORTAMQP_09_075: [If IoTHubTransportAMQP_DoWork fails to create the AMQP link for receiving messages, the function shall fail and return immediately, flagging the connection to be re-stablished] 
             LogError("Failed creating AMQP link for message receiver.");
@@ -1044,6 +1094,10 @@ static int createMessageReceiver(AMQP_TRANSPORT_DEVICE_STATE* device_state)
             }
         }
 
+		if (link_name != NULL)
+			free(link_name);
+		if (target_name != NULL)
+			free(target_name);
         if (source != NULL)
             amqpvalue_destroy(source);
         if (target != NULL)
@@ -1357,7 +1411,7 @@ static TRANSPORT_LL_HANDLE IoTHubTransportAMQP_Create(const IOTHUBTRANSPORT_CONF
 			transport_state->preferred_credential_type = CREDENTIAL_NOT_BUILD;
 
             transport_state->xioOptions = NULL; 
-
+			transport_state->link_count = 0;
 
             // Codes_SRS_IOTHUBTRANSPORTAMQP_09_010: [IoTHubTransportAMQP_Create shall create an immutable string, referred to as iotHubHostFqdn, from the following pieces: config->iotHubName + "." + config->iotHubSuffix.] 
             if ((transport_state->iotHubHostFqdn = concat3Params(config->upperConfig->iotHubName, ".", config->upperConfig->iotHubSuffix)) == NULL)
@@ -1437,7 +1491,8 @@ static RESULT device_DoWork(AMQP_TRANSPORT_DEVICE_STATE* device_state)
 					LogError("Failed creating AMQP transport event sender.");
 					result = RESULT_CRITICAL_ERROR;
 				}
-				else if (sendPendingEvents(device_state) != RESULT_OK)
+				else if (device_state->message_sender_state == MESSAGE_SENDER_STATE_OPEN &&
+						sendPendingEvents(device_state) != RESULT_OK)
 				{
 					LogError("AMQP transport failed sending events.");
 					result = RESULT_CRITICAL_ERROR;

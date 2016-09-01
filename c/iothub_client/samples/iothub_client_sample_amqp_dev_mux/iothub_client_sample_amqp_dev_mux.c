@@ -23,7 +23,7 @@ static const char* deviceKey1 = "[device key 1]";
 static const char* deviceKey2 = "[device key 2]";
 
 
-static int callbackCounter;
+//static int callbackCounter;
 static bool g_continueRunning;
 static char msgText[1024];
 static char propText[1024];
@@ -34,6 +34,7 @@ static char propText[1024];
 typedef struct EVENT_INSTANCE_TAG
 {
     IOTHUB_MESSAGE_HANDLE messageHandle;
+	const char* deviceId;
     size_t messageTrackingId;  // For tracking the messages within the user callback.
 } EVENT_INSTANCE;
 
@@ -124,10 +125,62 @@ static IOTHUBMESSAGE_DISPOSITION_RESULT ReceiveMessageCallback(IOTHUB_MESSAGE_HA
 static void SendConfirmationCallback(IOTHUB_CLIENT_CONFIRMATION_RESULT result, void* userContextCallback)
 {
     EVENT_INSTANCE* eventInstance = (EVENT_INSTANCE*)userContextCallback;
-    (void)printf("Confirmation[%d] received for message tracking id = %zu with result = %s\r\n", callbackCounter, eventInstance->messageTrackingId, ENUM_TO_STRING(IOTHUB_CLIENT_CONFIRMATION_RESULT, result));
+	//(void)printf("Confirmation[%d] received for message tracking id = %zu with result = %s\r\n", callbackCounter, eventInstance->messageTrackingId, ENUM_TO_STRING(IOTHUB_CLIENT_CONFIRMATION_RESULT, result));
+	(void)printf("Confirmation received for message %zu from device %s with result = %s\r\n", eventInstance->messageTrackingId, eventInstance->deviceId, ENUM_TO_STRING(IOTHUB_CLIENT_CONFIRMATION_RESULT, result));
     /* Some device specific action code goes here... */
-    callbackCounter++;
-    IoTHubMessage_Destroy(eventInstance->messageHandle);
+    //callbackCounter++;
+    //IoTHubMessage_Destroy(eventInstance->messageHandle);
+}
+
+static int create_events(EVENT_INSTANCE* events, const char* deviceId)
+{
+	int result = 0;
+
+	srand((unsigned int)time(NULL));
+	double avgWindSpeed = 10.0;
+
+	int i;
+	for (i = 0; i < MESSAGE_COUNT; i++)
+	{
+		if (sprintf_s(msgText, sizeof(msgText), "{\"deviceId\":\"%s\",\"windSpeed\":%.2f}", deviceId, avgWindSpeed + (rand() % 4 + 2)) == 0)
+		{
+			(void)printf("ERROR: failed creating event message for device %s\r\n", deviceId);
+			result = __LINE__;
+		}
+		else if ((events[i].messageHandle = IoTHubMessage_CreateFromByteArray((const unsigned char*)msgText, strlen(msgText))) == NULL)
+		{
+			(void)printf("ERROR: failed creating the IOTHUB_MESSAGE_HANDLE for device %s\r\n", deviceId);
+			result = __LINE__;
+		}
+		else
+		{
+			MAP_HANDLE propMap;
+
+			if ((propMap = IoTHubMessage_Properties(events[i].messageHandle)) == NULL) 
+			{
+				(void)printf("ERROR: failed getting device %s's message property map\r\n", deviceId);
+				result = __LINE__;
+			}
+			else if (sprintf_s(propText, sizeof(propText), "PropMsg_%zu", i) == 0) 
+			{
+				(void)printf("ERROR: sprintf_s failed for device %s's message property\r\n", deviceId);
+				result = __LINE__;
+			}
+			else if (Map_AddOrUpdate(propMap, "PropName", propText) != MAP_OK)
+			{
+				(void)printf("ERROR: Map_AddOrUpdate failed for device %s\r\n", deviceId);
+				result = __LINE__;
+			}
+			else
+			{
+				events[i].deviceId = deviceId;
+				events[i].messageTrackingId = i;
+				result = 0;
+			}
+		}
+	}
+
+	return result;
 }
 
 void iothub_client_sample_amqp_run(void)
@@ -136,14 +189,14 @@ void iothub_client_sample_amqp_run(void)
 	IOTHUB_CLIENT_LL_HANDLE iotHubClientHandle1;
 	IOTHUB_CLIENT_LL_HANDLE iotHubClientHandle2;
 
-    EVENT_INSTANCE messages[MESSAGE_COUNT];
+	EVENT_INSTANCE messages_device1[MESSAGE_COUNT];
+	EVENT_INSTANCE messages_device2[MESSAGE_COUNT];
 
     g_continueRunning = true;
-    srand((unsigned int)time(NULL));
-    double avgWindSpeed = 10.0;
 
-    callbackCounter = 0;
-    int receiveContext = 0;
+    //callbackCounter = 0;
+	int receiveContext1 = 0;
+	int receiveContext2 = 0;
 
     (void)printf("Starting the IoTHub client sample AMQP...\r\n");
 
@@ -192,12 +245,16 @@ void iothub_client_sample_amqp_run(void)
             }
 #endif // MBED_BUILD_TIMESTAMP
 
+			if (create_events(messages_device1, config1.deviceId) != 0 || create_events(messages_device2, config2.deviceId) != 0)
+			{
+				(void)printf("ERROR: failed creating events for the devices..........FAILED!\r\n");
+			}
             /* Setting Message call back, so we can receive Commands. */
-            if (IoTHubClient_LL_SetMessageCallback(iotHubClientHandle1, ReceiveMessageCallback, &receiveContext) != IOTHUB_CLIENT_OK)
+            else if (IoTHubClient_LL_SetMessageCallback(iotHubClientHandle1, ReceiveMessageCallback, &receiveContext1) != IOTHUB_CLIENT_OK)
             {
                 (void)printf("ERROR: IoTHubClient_SetMessageCallback for device 1..........FAILED!\r\n");
             }
-			else if (IoTHubClient_LL_SetMessageCallback(iotHubClientHandle2, ReceiveMessageCallback, &receiveContext) != IOTHUB_CLIENT_OK)
+			else if (IoTHubClient_LL_SetMessageCallback(iotHubClientHandle2, ReceiveMessageCallback, &receiveContext2) != IOTHUB_CLIENT_OK)
 			{
 				(void)printf("ERROR: IoTHubClient_SetMessageCallback for device 2..........FAILED!\r\n");
 			}
@@ -211,37 +268,22 @@ void iothub_client_sample_amqp_run(void)
                 {
                     if (iterator < MESSAGE_COUNT)
                     {
-                        sprintf_s(msgText, sizeof(msgText), "{\"deviceId\":\"myFirstDevice\",\"windSpeed\":%.2f}", avgWindSpeed + (rand() % 4 + 2));
-                        if ((messages[iterator].messageHandle = IoTHubMessage_CreateFromByteArray((const unsigned char*)msgText, strlen(msgText))) == NULL)
+                        if (IoTHubClient_LL_SendEventAsync(iotHubClientHandle1, messages_device1[iterator].messageHandle, SendConfirmationCallback, &messages_device1[iterator]) != IOTHUB_CLIENT_OK)
                         {
-                            (void)printf("ERROR: iotHubMessageHandle is NULL!\r\n");
+                            (void)printf("ERROR: IoTHubClient_SendEventAsync for device 1..........FAILED!\r\n");
                         }
+						else if (IoTHubClient_LL_SendEventAsync(iotHubClientHandle2, messages_device2[iterator].messageHandle, SendConfirmationCallback, &messages_device2[iterator]) != IOTHUB_CLIENT_OK)
+						{
+							(void)printf("ERROR: IoTHubClient_SendEventAsync for device 2..........FAILED!\r\n");
+						}
                         else
                         {
-                            messages[iterator].messageTrackingId = iterator;
-
-                            MAP_HANDLE propMap = IoTHubMessage_Properties(messages[iterator].messageHandle);
-                            (void)sprintf_s(propText, sizeof(propText), "PropMsg_%zu", iterator);
-                            if (Map_AddOrUpdate(propMap, "PropName", propText) != MAP_OK)
-                            {
-                                (void)printf("ERROR: Map_AddOrUpdate Failed!\r\n");
-                            }
-
-                            if (IoTHubClient_LL_SendEventAsync(iotHubClientHandle1, messages[iterator].messageHandle, SendConfirmationCallback, &messages[iterator]) != IOTHUB_CLIENT_OK)
-                            {
-                                (void)printf("ERROR: IoTHubClient_SendEventAsync for device 1..........FAILED!\r\n");
-                            }
-							else if (IoTHubClient_LL_SendEventAsync(iotHubClientHandle2, messages[iterator].messageHandle, SendConfirmationCallback, &messages[iterator]) != IOTHUB_CLIENT_OK)
-							{
-								(void)printf("ERROR: IoTHubClient_SendEventAsync for device 2..........FAILED!\r\n");
-							}
-                            else
-                            {
-                                (void)printf("IoTHubClient_SendEventAsync accepted data for transmission to IoT Hub.\r\n");
-                            }
+                            (void)printf("IoTHubClient_SendEventAsync accepted data for transmission to IoT Hub.\r\n");
                         }
                     }
+
 					IoTHubClient_LL_DoWork(iotHubClientHandle1);
+					IoTHubClient_LL_DoWork(iotHubClientHandle2);
                     ThreadAPI_Sleep(1);
 
                     iterator++;
