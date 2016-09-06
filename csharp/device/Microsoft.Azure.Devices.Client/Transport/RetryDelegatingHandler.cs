@@ -13,11 +13,10 @@ namespace Microsoft.Azure.Devices.Client.Transport
 
     class RetryDelegatingHandler : DefaultDelegatingHandler
     {
-        const int DefaultRetryCount = 15;
+        const int DefaultRetryCount = 75;
+        const int OpenRetryCount = 75;
         const int UndeterminedPosition = -1;
         const string StopRetrying = "StopRetrying";
-
-        internal static int RetryCount = DefaultRetryCount;
 
         class SendMessageState
         {
@@ -45,11 +44,46 @@ namespace Microsoft.Azure.Devices.Client.Transport
             }
         }
 
+        class SmartRetryStrategy : RetryStrategy
+        {
+            readonly ShouldRetry defaultRetryStrategy;
+            readonly ShouldRetry throttlingRetryStrategy;
+
+            public SmartRetryStrategy(int retryCount)
+                : base(null, false)
+            {
+                this.defaultRetryStrategy = new ExponentialBackoff(retryCount, TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(10), TimeSpan.FromMilliseconds(100)).GetShouldRetry();
+                this.throttlingRetryStrategy = new ExponentialBackoff(retryCount, TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(60), TimeSpan.FromSeconds(5)).GetShouldRetry();
+            }
+
+            public override ShouldRetry GetShouldRetry()
+            {
+                return this.ShouldRetry;
+            }
+            bool ShouldRetry(int currentRetryCount, Exception lastException, out TimeSpan retryInterval)
+            {
+                if (IsThrottling(lastException))
+                {
+                    return this.throttlingRetryStrategy(currentRetryCount, lastException, out retryInterval);
+                }
+                return this.defaultRetryStrategy(currentRetryCount, lastException, out retryInterval);
+            }
+
+            static bool IsThrottling(Exception lastException)
+            {
+                //hack - should be fixed in one of next releases - we should rely on exception type only
+                return ErrorDelegatingHandler.IsThrottling(lastException);
+            }
+        }
+
         readonly RetryPolicy retryPolicy;
+        readonly RetryPolicy openRetryPolicy;
+
         public RetryDelegatingHandler(IDelegatingHandler innerHandler)
             :base(innerHandler)
         {
-            this.retryPolicy = new RetryPolicy(new IotHubTransientErrorIgnoreStrategy(), RetryCount, TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(10), TimeSpan.FromMilliseconds(100));
+            this.retryPolicy = new RetryPolicy(new IotHubTransientErrorIgnoreStrategy(), new SmartRetryStrategy(DefaultRetryCount));
+            this.openRetryPolicy = new RetryPolicy(new IotHubTransientErrorIgnoreStrategy(), new SmartRetryStrategy(OpenRetryCount));
         }
 
         public override async Task SendEventAsync(Message message)

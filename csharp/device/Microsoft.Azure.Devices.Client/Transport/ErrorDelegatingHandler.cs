@@ -9,6 +9,7 @@ namespace Microsoft.Azure.Devices.Client.Transport
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using Microsoft.Azure.Devices.Client.Errors;
 #if !PCL && !WINDOWS_UWP
 #endif
     using Microsoft.Azure.Devices.Client.Exceptions;
@@ -37,6 +38,7 @@ namespace Microsoft.Azure.Devices.Client.Transport
 
         internal static readonly HashSet<Type> TransportTransientExceptions = new HashSet<Type>
         {
+            typeof(IotHubThrottledException),
             typeof(IotHubClientTransientException),
             typeof(ServerBusyException),
             typeof(OperationCanceledException),
@@ -180,7 +182,30 @@ namespace Microsoft.Azure.Devices.Client.Transport
 
         static bool IsTransportHandlerStillUsable(Exception exception)
         {
-            return exception.Unwind(true).Any(e => TransportTransientExceptions.Contains(e.GetType()));
+            return exception.Unwind(true).Any(e => TransportTransientExceptions.Contains(e.GetType())) || IsThrottling(exception);
+        }
+
+        internal static bool IsThrottling(Exception exception)
+        {
+            //hack - should be fixed in one of next releases - we should rely on exception type only
+            if (exception is IotHubClientTransientException)
+            {
+                if (exception.InnerException == null)
+                {
+                    return false;
+                }
+                exception = exception.InnerException;
+            }
+            var iotHubException = exception as IotHubException;
+            if (exception is IotHubThrottledException)
+            {
+                return true;
+            }
+            if (iotHubException == null)
+            {
+                return false;
+            }
+            return iotHubException.Message.Contains("throttl"); //...e/...ing/...ed;
         }
 
         static bool IsTransient(Exception exception)
