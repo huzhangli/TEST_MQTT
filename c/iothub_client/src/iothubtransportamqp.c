@@ -50,11 +50,11 @@
 #define DEFAULT_CONTAINER_ID "default_container_id"
 #define DEFAULT_INCOMING_WINDOW_SIZE UINT_MAX
 #define DEFAULT_OUTGOING_WINDOW_SIZE 100
-#define MESSAGE_RECEIVER_LINK_NAME "receiver-link"
-#define MESSAGE_RECEIVER_TARGET_ADDRESS "ingress-rx"
+#define MESSAGE_RECEIVER_LINK_NAME_TAG "receiver"
+#define MESSAGE_RECEIVER_TARGET_ADDRESS "target"
 #define MESSAGE_RECEIVER_MAX_LINK_SIZE 65536
-#define MESSAGE_SENDER_LINK_NAME "sender-link"
-#define MESSAGE_SENDER_SOURCE_ADDRESS "ingress"
+#define MESSAGE_SENDER_LINK_NAME_TAG "sender"
+#define MESSAGE_SENDER_SOURCE_NAME_TAG "source"
 #define MESSAGE_SENDER_MAX_LINK_SIZE UINT64_MAX
 
 typedef enum RESULT_TAG
@@ -269,6 +269,22 @@ static char* create_link_name(const char* deviceId, const char* tag, int index)
 	else if (sprintf_s(link_name, 1024, "link-%s-%s-%i", deviceId, tag, index) == 0)
 	{
 		LogError("Failed creating link name: sprintf_s() failed (deviceId: %s, tag: %s; index: %i)", deviceId, tag, index);
+	}
+
+	return link_name;
+}
+
+static char* create_link_source_name(const char* link_name)
+{
+	char* link_source_name = NULL;
+
+	if ((link_source_name = (char*)malloc(sizeof(char) * 1024)) == NULL)
+	{
+		LogError("Failed creating link source name: malloc() failed (link name: %s)", link_name);
+	}
+	else if (sprintf_s(link_source_name, 1024, "%s-source", link_name) == 0)
+	{
+		LogError("Failed creating link source name: sprintf_s() failed (link name: %s)", link_name);
 	}
 
 	return link_name;
@@ -909,11 +925,11 @@ static int createEventSender(AMQP_TRANSPORT_DEVICE_STATE* device_state)
         AMQP_VALUE source = NULL;
         AMQP_VALUE target = NULL;
 
-		if ((link_name = create_link_name(STRING_c_str(device_state->deviceId), "sender", device_state->transport_state->link_count++)) == NULL)
+		if ((link_name = create_link_name(STRING_c_str(device_state->deviceId), MESSAGE_SENDER_LINK_NAME_TAG, device_state->transport_state->link_count++)) == NULL)
 		{
 			LogError("Failed creating a name for the AMQP message sender link.");
 		}
-		else if ((source_name = create_link_name(STRING_c_str(device_state->deviceId), "source", device_state->transport_state->link_count++)) == NULL)
+		else if ((source_name = create_link_name(STRING_c_str(device_state->deviceId), MESSAGE_SENDER_SOURCE_NAME_TAG, device_state->transport_state->link_count++)) == NULL)
 		{
 			LogError("Failed creating a name for the AMQP message sender source.");
 		}
@@ -1033,11 +1049,11 @@ static int createMessageReceiver(AMQP_TRANSPORT_DEVICE_STATE* device_state)
         AMQP_VALUE source = NULL;
         AMQP_VALUE target = NULL;
 
-		if ((link_name = create_link_name(STRING_c_str(device_state->deviceId), "receiver", device_state->transport_state->link_count++)) == NULL)
+		if ((link_name = create_link_name(STRING_c_str(device_state->deviceId), MESSAGE_RECEIVER_LINK_NAME_TAG, device_state->transport_state->link_count++)) == NULL)
 		{
 			LogError("Failed creating a name for the AMQP message receiver link.");
 		}
-		else if ((target_name = create_link_name(STRING_c_str(device_state->deviceId), "target", device_state->transport_state->link_count++)) == NULL)
+		else if ((target_name = create_link_name(STRING_c_str(device_state->deviceId), MESSAGE_RECEIVER_TARGET_ADDRESS, device_state->transport_state->link_count++)) == NULL)
 		{
 			LogError("Failed creating a name for the AMQP message receiver target.");
 		}
