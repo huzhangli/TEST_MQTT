@@ -201,7 +201,12 @@
     <Compile Include="Common\TaskConstants.cs" />
     <Compile Include="Common\TaskUtils.cs" />
     <Compile Include="DeviceAuthenticationWithX509Certificate.cs" />
+    <Compile Include="DeviceClientPipelineBuilder.cs" />
+    <Compile Include="IContinuationProvider.cs" />
+    <Compile Include="IDeviceClientPipelineBuilder.cs" />
     <Compile Include="IotHubClientWebSocket.cs" />
+    <Compile Include="IPipelineContext.cs" />
+    <Compile Include="PipelineContext.cs" />
     <Compile Include="Transport\DefaultDelegatingHandler.cs" />
     <Compile Include="IDelegatingHandler.cs" />
     <Compile Include="IotHubDeviceScopeConnectionPool.cs" />
@@ -215,7 +220,7 @@
     <Compile Include="Transport\LatencyCounters.cs" />
     <Compile Include="Transport\Mqtt\TransientErrorIgnoreStrategy.cs" />
     <Compile Include="Transport\RetryDelegatingHandler.cs" />
-    <Compile Include="Transport\RoutingDelegatingHandler.cs" />
+    <Compile Include="Transport\ProtocolRoutingDelegatingHandler.cs" />
     <Compile Include="Transport\TransportHandler.cs" />
     <Compile Include="Transport\AmqpClientHelper.cs" />
     <Compile Include="Common\UrlEncodedDictionarySerializer.cs" />

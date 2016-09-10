@@ -6,11 +6,12 @@ namespace Microsoft.Azure.Devices.Client.Transport
     using System.Diagnostics;
     using System.Threading.Tasks;
 
-    abstract class TransportHandler : DefaultDelegatingHandler
+    public abstract class TransportHandler : DefaultDelegatingHandler
     {
         readonly ITransportSettings transportSettings;
 
-        protected TransportHandler(ITransportSettings transportSettings)
+        protected TransportHandler(IPipelineContext context, ITransportSettings transportSettings)
+            : base(context)
         {
             this.transportSettings = transportSettings;
         }

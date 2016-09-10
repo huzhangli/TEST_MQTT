@@ -8,20 +8,31 @@ namespace Microsoft.Azure.Devices.Client.Transport
     using System.Threading.Tasks;
     using Microsoft.Azure.Devices.Client.Common;
 
-    abstract class DefaultDelegatingHandler : IDelegatingHandler
+    public abstract class DefaultDelegatingHandler : IDelegatingHandler
     {
         static readonly Task<Message> DummyResultObject = Task.FromResult((Message)null);
 
-        public IDelegatingHandler InnerHandler { get; protected set; }
+        IDelegatingHandler innerHandler;
 
-        protected DefaultDelegatingHandler()
-            : this(null)
+        protected DefaultDelegatingHandler(IPipelineContext context)
         {
+            this.Context = context;
         }
 
-        protected DefaultDelegatingHandler(IDelegatingHandler innerHandler)
+        public IPipelineContext Context { get; protected set; }
+
+        public Func<IPipelineContext, IDelegatingHandler> ContinuationFactory { get; set; }
+
+        public IDelegatingHandler InnerHandler
         {
-            this.InnerHandler = innerHandler;
+            get
+            {
+                return this.innerHandler ?? (this.innerHandler = this.ContinuationFactory?.Invoke(Context));
+            }
+            protected set
+            {
+                this.innerHandler = value;
+            }
         }
 
         public virtual Task OpenAsync(bool explicitOpen)
@@ -80,7 +91,7 @@ namespace Microsoft.Azure.Devices.Client.Transport
 
         protected virtual void Dispose(bool disposing)
         {
-            this.InnerHandler?.Dispose();
+            this.innerHandler?.Dispose();
         }
 
         public void Dispose()

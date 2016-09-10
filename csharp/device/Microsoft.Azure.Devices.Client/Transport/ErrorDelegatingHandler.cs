@@ -9,7 +9,6 @@ namespace Microsoft.Azure.Devices.Client.Transport
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using Microsoft.Azure.Devices.Client.Errors;
 #if !PCL && !WINDOWS_UWP
 #endif
     using Microsoft.Azure.Devices.Client.Exceptions;
@@ -18,7 +17,7 @@ namespace Microsoft.Azure.Devices.Client.Transport
     // Copyright (c) Microsoft. All rights reserved.
     // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-    sealed class ErrorDelegatingHandler : DefaultDelegatingHandler
+    public sealed class ErrorDelegatingHandler : DefaultDelegatingHandler
     {
 
         internal static readonly HashSet<Type> TransientExceptions = new HashSet<Type>
@@ -45,13 +44,11 @@ namespace Microsoft.Azure.Devices.Client.Transport
             typeof(TaskCanceledException),
         };
 
-        readonly Func<IDelegatingHandler> handlerFactory;
-
         volatile TaskCompletionSource<int> openCompletion;
 
-        public ErrorDelegatingHandler(Func<IDelegatingHandler> handlerFactory)
+        public ErrorDelegatingHandler(IPipelineContext context)
+            : base(context)
         {
-            this.handlerFactory = handlerFactory;
         }
 
         public override async Task OpenAsync(bool explicitOpen)
@@ -67,7 +64,8 @@ namespace Microsoft.Azure.Devices.Client.Transport
                 if ((currentOpenPromise = Interlocked.CompareExchange(ref this.openCompletion, openCompletionBeforeOperationStarted, null)) == null)
 #pragma warning restore 420
                 {
-                    this.InnerHandler = this.handlerFactory();
+                    this.InnerHandler = this.ContinuationFactory(Context);
+
                     try
                     {
                         await this.ExecuteWithErrorHandlingAsync(() => base.OpenAsync(explicitOpen), false);

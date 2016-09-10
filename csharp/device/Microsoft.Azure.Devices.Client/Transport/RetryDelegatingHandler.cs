@@ -11,7 +11,7 @@ namespace Microsoft.Azure.Devices.Client.Transport
     using Microsoft.Azure.Devices.Client.Exceptions;
     using Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling;
 
-    class RetryDelegatingHandler : DefaultDelegatingHandler
+    public class RetryDelegatingHandler : DefaultDelegatingHandler
     {
         const int DefaultRetryCount = 75;
         const int OpenRetryCount = 75;
@@ -77,13 +77,11 @@ namespace Microsoft.Azure.Devices.Client.Transport
         }
 
         readonly RetryPolicy retryPolicy;
-        readonly RetryPolicy openRetryPolicy;
 
-        public RetryDelegatingHandler(IDelegatingHandler innerHandler)
-            :base(innerHandler)
+        public RetryDelegatingHandler(IPipelineContext context)
+            : base(context)
         {
             this.retryPolicy = new RetryPolicy(new IotHubTransientErrorIgnoreStrategy(), new SmartRetryStrategy(DefaultRetryCount));
-            this.openRetryPolicy = new RetryPolicy(new IotHubTransientErrorIgnoreStrategy(), new SmartRetryStrategy(OpenRetryCount));
         }
 
         public override async Task SendEventAsync(Message message)

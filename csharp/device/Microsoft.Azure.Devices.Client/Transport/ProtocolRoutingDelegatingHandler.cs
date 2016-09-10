@@ -15,22 +15,17 @@ namespace Microsoft.Azure.Devices.Client.Transport
 
     /// <summary>
     /// Transport handler router. 
-    /// Tries to open open transport in the order it was set. 
+    /// Tries to open open connection in the protocol order it was set. 
     /// If fails tries to open the next one, etc.
     /// </summary>
-    class RoutingDelegatingHandler : DefaultDelegatingHandler
+    public class ProtocolRoutingDelegatingHandler : DefaultDelegatingHandler
     {
         internal delegate IDelegatingHandler TransportHandlerFactory(IotHubConnectionString iotHubConnectionString, ITransportSettings transportSettings);
 
-        readonly TransportHandlerFactory transportHandlerFactory;
-        readonly IotHubConnectionString iotHubConnectionString;
-        readonly ITransportSettings[] transportSettings;
-
-        public RoutingDelegatingHandler(TransportHandlerFactory transportHandlerFactory, IotHubConnectionString iotHubConnectionString, ITransportSettings[] transportSettings)
+        public ProtocolRoutingDelegatingHandler(IPipelineContext context):
+            base(context)
         {
-            this.transportHandlerFactory = transportHandlerFactory;
-            this.iotHubConnectionString = iotHubConnectionString;
-            this.transportSettings = transportSettings;
+            
         }
 
         public override async Task OpenAsync(bool explicitOpen)
@@ -42,14 +37,15 @@ namespace Microsoft.Azure.Devices.Client.Transport
         {
             Exception lastException = null;
             // Concrete Device Client creation was deferred. Use prioritized list of transports.
-            foreach (ITransportSettings transportSetting in this.transportSettings)
+            foreach (ITransportSettings transportSetting in this.Context.Get<ITransportSettings[]>())
             {
                 try
                 {
-                    this.InnerHandler = this.transportHandlerFactory(this.iotHubConnectionString, transportSetting);
+                    this.Context.Set(transportSetting);
+                    this.InnerHandler = this.ContinuationFactory(this.Context);
 
                     // Try to open a connection with this transport
-                    await LatencyCounters.RunAndMeasureLatencyAsync(this.totalStopwatch, base.OpenAsync(explicitOpen), LatencyCounters.OpenLatencyInMsCounters);
+                    await base.OpenAsync(explicitOpen);
                 }
                 catch (Exception exception)
                 {
@@ -93,26 +89,6 @@ namespace Microsoft.Azure.Devices.Client.Transport
             {
                 throw new IotHubCommunicationException("Unable to open transport", lastException);
             }
-        }
-
-        //Everything below just for test purposese and won't go to public
-        internal static readonly int[] Latencies = new int[1000 * 60 * 10];
-        internal static SpinLock SpinLock = new SpinLock();
-
-        readonly Stopwatch totalStopwatch = new Stopwatch();
-        readonly Stopwatch successStopwatch = new Stopwatch();
-
-        public RoutingDelegatingHandler()
-        {
-
-        }
-
-        public override async Task SendEventAsync(Message message)
-        {
-            await LatencyCounters.RunAndMeasureLatencyAsync(
-                    this.totalStopwatch, 
-                    LatencyCounters.RunAndMeasureLatencyAsync(this.successStopwatch, base.SendEventAsync(message), LatencyCounters.SendLatencySuccessInMsCounters, true), 
-                    LatencyCounters.SendLatencyTotalInMsCounters);
         }
     }
 }
