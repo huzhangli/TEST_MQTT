@@ -31,7 +31,7 @@ XIO_HANDLE getWebSocketsIOTransport(const char* fqdn, int port)
         if (tlsio == NULL)
         {
             (void)printf("Error creating tlsio.");
-            result = __LINE__;
+            result = NULL;
         }
         else
         {
