@@ -12,14 +12,37 @@
 XIO_HANDLE getWebSocketsIOTransport(const char* fqdn, int port)
 {
 	WSIO_CONFIG ws_io_config;
-	ws_io_config.host = fqdn;
-	ws_io_config.port = port;
-	ws_io_config.protocol_name = DEFAULT_WS_PROTOCOL_NAME;
-	ws_io_config.relative_path = DEFAULT_WS_RELATIVE_PATH;
-	ws_io_config.use_ssl = true;
-	ws_io_config.trusted_ca = NULL;
+    XIO_HANDLE result;
 
-	return xio_create(wsio_get_interface_description(), &ws_io_config);
+    const IO_INTERFACE_DESCRIPTION* tlsio_interface = platform_get_default_tlsio();
+    if (tlsio_interface == NULL)
+    {
+        (void)printf("Error getting tlsio interface description.");
+        result = NULL;
+    }
+    else
+    {
+        TLSIO_CONFIG tlsio_config;
+        XIO_HANDLE tlsio;
+
+        tlsio_config.hostname = "iot-sdks-test.azure-devices.net";
+        tlsio_config.port = port;
+        tlsio = xio_create(tlsio_interface, &tlsio_config);
+        if (tlsio == NULL)
+        {
+            (void)printf("Error creating tlsio.");
+            result = __LINE__;
+        }
+        else
+        {
+            ws_io_config.hostname = fqdn;
+            ws_io_config.underlying_io = tlsio;
+
+            result = xio_create(wsio_get_interface_description(), &ws_io_config);
+        }
+    }
+
+    return result;
 }
 static TRANSPORT_LL_HANDLE IoTHubTransportAMQP_Create_WebSocketsOverTls(const IOTHUBTRANSPORT_CONFIG* config)
 {
